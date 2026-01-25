@@ -183,6 +183,27 @@ function HomeScreen({
         </p>
       </button>
 
+      {/* Did You Know Card - Sage background */}
+      <button
+        onClick={handleNewFact}
+        className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-sm text-left transition-transform active:scale-[0.98]"
+      >
+        <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
+          💡 Did You Know?
+        </p>
+        <p className="text-[16px] font-semibold text-white leading-relaxed text-center">
+          {fact?.text || "Your milk changes composition throughout the day — morning milk is different from evening milk."}
+        </p>
+        {fact?.source && (
+          <p className="text-[11px] text-white/60 text-center mt-3 italic">
+            Source: {fact.source}
+          </p>
+        )}
+        <p className="text-[12px] text-white/70 text-center mt-3">
+          Tap for another fact
+        </p>
+      </button>
+
       {/* Daily Check-In Card */}
       <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30">
         <div className="flex items-start gap-3">
@@ -208,10 +229,10 @@ function HomeScreen({
       </div>
 
       {/* Quick Actions Grid */}
-      <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3">
+      <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 mt-2">
         Quick Actions
       </p>
-      <div className="grid grid-cols-2 gap-3 mb-5">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         <button
           onClick={() => setActiveTab("symptoms")}
           className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
@@ -245,22 +266,6 @@ function HomeScreen({
           <p className="text-[11px] text-[#9B9299]">History</p>
         </button>
       </div>
-
-      {/* Did You Know Card */}
-      <button
-        onClick={handleNewFact}
-        className="w-full bg-white rounded-[16px] p-5 mb-5 border-l-4 border-l-[#C4887A] border-y border-r border-[#E5E5E5] text-left"
-      >
-        <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-2">
-          💡 Did You Know?
-        </p>
-        <p className="text-[15px] text-[#4A3F4B] leading-relaxed">
-          {fact?.text || "Your milk changes composition throughout the day — morning milk is different from evening milk."}
-        </p>
-        <p className="text-[13px] text-[#C4887A] mt-3 font-medium">
-          Tap for another →
-        </p>
-      </button>
 
       {/* Weekly Progress Tracker */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4">
@@ -1066,7 +1071,7 @@ function CalmScreen() {
 // ============================================
 // PROFILE SCREEN
 // ============================================
-type ProfileView = 'main' | 'edit' | 'disclaimer' | 'help' | 'contact' | 'terms' | 'privacy' | 'affirmationTime';
+type ProfileView = 'main' | 'edit' | 'disclaimer' | 'help' | 'contact' | 'terms' | 'privacy' | 'affirmationTime' | 'insights';
 
 function ProfileScreen() {
   const [currentView, setCurrentView] = useState<ProfileView>('main');
@@ -1089,6 +1094,7 @@ function ProfileScreen() {
   if (currentView === 'terms') return <TermsScreen onBack={() => setCurrentView('main')} />;
   if (currentView === 'privacy') return <PrivacyScreen onBack={() => setCurrentView('main')} />;
   if (currentView === 'affirmationTime') return <AffirmationTimeScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'insights') return <InsightsScreen onBack={() => setCurrentView('main')} />;
 
   return (
     <div className="px-5 pt-8 pb-32">
@@ -1109,6 +1115,26 @@ function ProfileScreen() {
           </button>
         )}
       </div>
+
+      {/* My Insights Card */}
+      <button
+        onClick={() => setCurrentView('insights')}
+        className="w-full bg-gradient-to-br from-[#8BA888]/20 to-[#B8D4B5]/20 rounded-[16px] p-5 mb-6 border border-[#8BA888]/30 text-left hover:border-[#8BA888]/50 transition-colors"
+      >
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-xl">📊</span>
+          <span className="text-[16px] font-semibold text-[#4A3F4B]">My Insights</span>
+        </div>
+        <p className="text-[13px] text-[#4A3F4B]/70 mb-3">
+          View your check-in history and wellness trends
+        </p>
+        <div className="flex items-center gap-2 text-[#8BA888] font-medium text-[14px]">
+          View Insights
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </div>
+      </button>
 
       {/* Auth Buttons (if not logged in) */}
       {!isLoggedIn && (
@@ -1731,6 +1757,534 @@ function AffirmationTimeScreen({ onBack }: { onBack: () => void }) {
           {saved ? 'Saved ✓' : 'Save Preference'}
         </button>
       </div>
+    </div>
+  );
+}
+
+// ============================================
+// INSIGHTS SCREEN
+// ============================================
+interface CheckInData {
+  date: string;
+  feeds: { count: number; lastBreast: string | null };
+  babyOutput: { wetDiapers: number; dirtyDiapers: number };
+  momNourishment: { ateProtein: boolean | null; ate3Plus: boolean | null; feelingSick: boolean | null };
+  hydration: boolean | null;
+  sleep: number;
+  stress: number;
+  completedAt: string;
+}
+
+function InsightsScreen({ onBack }: { onBack: () => void }) {
+  const [checkIns, setCheckIns] = useState<Record<string, CheckInData>>({});
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    // Load check-ins from localStorage
+    const history = JSON.parse(localStorage.getItem('trackerHistory') || '[]');
+    const checkInMap: Record<string, CheckInData> = {};
+    history.forEach((checkIn: CheckInData) => {
+      checkInMap[checkIn.date] = checkIn;
+    });
+    setCheckIns(checkInMap);
+  }, []);
+
+  // Calculate day score
+  const calculateDayScore = (checkIn: CheckInData): number => {
+    let score = 0;
+    let maxScore = 0;
+
+    // Feeds (0-20 points)
+    maxScore += 20;
+    if (checkIn.feeds.count >= 8) score += 20;
+    else if (checkIn.feeds.count >= 6) score += 15;
+    else if (checkIn.feeds.count >= 4) score += 10;
+    else score += 5;
+
+    // Wet diapers (0-15 points)
+    maxScore += 15;
+    if (checkIn.babyOutput.wetDiapers >= 6) score += 15;
+    else if (checkIn.babyOutput.wetDiapers >= 4) score += 10;
+    else score += 5;
+
+    // Dirty diapers (0-10 points)
+    maxScore += 10;
+    if (checkIn.babyOutput.dirtyDiapers >= 2) score += 10;
+    else if (checkIn.babyOutput.dirtyDiapers >= 1) score += 7;
+    else score += 3;
+
+    // Nourishment (0-15 points)
+    maxScore += 15;
+    if (checkIn.momNourishment.ateProtein) score += 5;
+    if (checkIn.momNourishment.ate3Plus) score += 5;
+    if (!checkIn.momNourishment.feelingSick) score += 5;
+
+    // Hydration (0-10 points)
+    maxScore += 10;
+    if (checkIn.hydration) score += 10;
+
+    // Sleep (0-15 points)
+    maxScore += 15;
+    score += (checkIn.sleep / 5) * 15;
+
+    // Stress (0-15 points, inverted)
+    maxScore += 15;
+    score += ((6 - checkIn.stress) / 5) * 15;
+
+    return Math.round((score / maxScore) * 100);
+  };
+
+  // Get day status
+  const getDayStatus = (date: Date): 'great' | 'okay' | 'needs' | 'none' | 'today' => {
+    const dateKey = date.toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
+    const checkIn = checkIns[dateKey];
+
+    if (!checkIn) {
+      if (dateKey === today) return 'today';
+      return 'none';
+    }
+
+    const score = calculateDayScore(checkIn);
+    if (score >= 75) return 'great';
+    if (score >= 50) return 'okay';
+    return 'needs';
+  };
+
+  // Generate calendar days
+  const generateCalendarDays = (): Date[] => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startPadding = firstDay.getDay();
+
+    const days: Date[] = [];
+
+    // Add padding days from previous month
+    for (let i = startPadding - 1; i >= 0; i--) {
+      const d = new Date(year, month, -i);
+      days.push(d);
+    }
+
+    // Add days of current month
+    for (let i = 1; i <= lastDay.getDate(); i++) {
+      days.push(new Date(year, month, i));
+    }
+
+    // Add padding days from next month
+    const endPadding = 42 - days.length;
+    for (let i = 1; i <= endPadding; i++) {
+      days.push(new Date(year, month + 1, i));
+    }
+
+    return days;
+  };
+
+  // Get last N days of check-in data
+  const getLastNDaysData = (n: number): CheckInData[] => {
+    const data: CheckInData[] = [];
+    for (let i = 0; i < n; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateKey = d.toISOString().split('T')[0];
+      if (checkIns[dateKey]) {
+        data.push(checkIns[dateKey]);
+      }
+    }
+    return data;
+  };
+
+  // Calculate wellness score
+  const calculateWellnessScore = (): number | null => {
+    const lastWeekData = getLastNDaysData(7);
+    if (lastWeekData.length === 0) return null;
+
+    const totalScore = lastWeekData.reduce((sum, checkIn) => sum + calculateDayScore(checkIn), 0);
+    return Math.round(totalScore / lastWeekData.length);
+  };
+
+  // Generate insights
+  const generateInsights = () => {
+    const lastWeekData = getLastNDaysData(7);
+    if (lastWeekData.length === 0) return [];
+
+    const insights: Array<{ type: 'positive' | 'warning'; icon: string; title: string; message: string; tip?: string }> = [];
+
+    // Check sleep
+    const avgSleep = lastWeekData.reduce((sum, d) => sum + d.sleep, 0) / lastWeekData.length;
+    if (avgSleep < 3) {
+      insights.push({
+        type: 'warning',
+        icon: '💤',
+        title: 'Your sleep has been low',
+        message: 'Sleep directly impacts milk supply. Even short rests help your body recover.',
+        tip: 'Try: Rest when baby rests, even if just 20 minutes.'
+      });
+    }
+
+    // Check stress
+    const avgStress = lastWeekData.reduce((sum, d) => sum + d.stress, 0) / lastWeekData.length;
+    if (avgStress > 3.5) {
+      insights.push({
+        type: 'warning',
+        icon: '🧘',
+        title: 'Your stress levels are elevated',
+        message: 'Stress blocks oxytocin, which is needed for milk letdown.',
+        tip: 'Try: 5 deep breaths before each feed, or visit the Calm Zone.'
+      });
+    }
+
+    // Check hydration
+    const hydratedDays = lastWeekData.filter(d => d.hydration).length;
+    if (hydratedDays >= 5) {
+      insights.push({
+        type: 'positive',
+        icon: '💧',
+        title: 'Great job staying hydrated!',
+        message: 'Your milk is 87% water — hydration is crucial. Keep it up!'
+      });
+    } else if (hydratedDays < 4) {
+      insights.push({
+        type: 'warning',
+        icon: '💧',
+        title: 'Remember to hydrate',
+        message: 'Breast milk is 87% water. Low hydration can affect supply.',
+        tip: 'Try: Keep a water bottle nearby during every feed.'
+      });
+    }
+
+    // Check protein
+    const proteinDays = lastWeekData.filter(d => d.momNourishment.ateProtein).length;
+    if (proteinDays >= 5) {
+      insights.push({
+        type: 'positive',
+        icon: '🍳',
+        title: "You're fueling your body well!",
+        message: 'Protein supports milk production and your recovery.'
+      });
+    }
+
+    // Check feeds
+    const avgFeeds = lastWeekData.reduce((sum, d) => sum + d.feeds.count, 0) / lastWeekData.length;
+    if (avgFeeds >= 8) {
+      insights.push({
+        type: 'positive',
+        icon: '🍼',
+        title: 'Feeding frequency looks great!',
+        message: 'Frequent feeds signal your body to keep making milk.'
+      });
+    }
+
+    return insights;
+  };
+
+  const wellnessScore = calculateWellnessScore();
+  const insights = generateInsights();
+  const lastWeekData = getLastNDaysData(7);
+  const calendarDays = generateCalendarDays();
+
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  const navigateMonth = (direction: number) => {
+    const newMonth = new Date(currentMonth);
+    newMonth.setMonth(newMonth.getMonth() + direction);
+    setCurrentMonth(newMonth);
+  };
+
+  // Get score message
+  const getScoreMessage = (score: number) => {
+    if (score >= 80) return { emoji: '🌟', message: "You're thriving!", color: '#8BA888' };
+    if (score >= 65) return { emoji: '💛', message: "You're doing well!", color: '#8BA888' };
+    if (score >= 50) return { emoji: '🌱', message: "Room to grow — you've got this.", color: '#C4887A' };
+    return { emoji: '💜', message: "Be gentle with yourself.", color: '#C4887A' };
+  };
+
+  return (
+    <div className="px-5 pt-6 pb-32">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] hover:text-[#4A3F4B]">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          <span className="text-sm font-medium">Back</span>
+        </button>
+        <h1 className="text-lg font-semibold text-[#4A3F4B]">My Insights</h1>
+        <div className="w-16" />
+      </div>
+
+      {/* Calendar */}
+      <div className="bg-white rounded-[20px] p-5 border border-[#F5E6DC] mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <button onClick={() => navigateMonth(-1)} className="w-9 h-9 rounded-full bg-[#F5E6DC] flex items-center justify-center text-[#4A3F4B]">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <h3 className="text-[16px] font-semibold text-[#4A3F4B]">
+            📅 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+          </h3>
+          <button onClick={() => navigateMonth(1)} className="w-9 h-9 rounded-full bg-[#F5E6DC] flex items-center justify-center text-[#4A3F4B]">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-7 gap-1 mb-2">
+          {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
+            <div key={i} className="text-center text-[11px] font-semibold text-[#9B9299] py-2">
+              {day}
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-7 gap-1">
+          {calendarDays.map((day, index) => {
+            const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
+            const status = getDayStatus(day);
+            const dateKey = day.toISOString().split('T')[0];
+            const isToday = dateKey === new Date().toISOString().split('T')[0];
+
+            return (
+              <button
+                key={index}
+                onClick={() => checkIns[dateKey] && setSelectedDate(day)}
+                className={`flex flex-col items-center justify-center py-2 rounded-lg transition-colors ${
+                  !isCurrentMonth ? 'opacity-30' : ''
+                } ${checkIns[dateKey] ? 'cursor-pointer hover:bg-[#F5E6DC]/50' : ''}`}
+              >
+                <span className={`text-[12px] mb-1 ${isToday ? 'font-bold text-[#C4887A]' : 'text-[#4A3F4B]'}`}>
+                  {day.getDate()}
+                </span>
+                <span className="text-[10px]">
+                  {status === 'great' && '🟢'}
+                  {status === 'okay' && '🟡'}
+                  {status === 'needs' && '🔴'}
+                  {status === 'today' && '○'}
+                  {status === 'none' && !isToday && '·'}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-[#F5E6DC] text-[11px] text-[#9B9299]">
+          <span>🟢 Great</span>
+          <span>🟡 Okay</span>
+          <span>🔴 Needs care</span>
+          <span>○ Today</span>
+          <span>· No data</span>
+        </div>
+      </div>
+
+      {/* Wellness Score */}
+      <div className="bg-white rounded-[20px] p-6 border border-[#F5E6DC] mb-4 text-center">
+        <h3 className="text-[14px] font-semibold text-[#4A3F4B] mb-4">Your Wellness Score</h3>
+
+        {wellnessScore !== null ? (
+          <>
+            <div className="mb-4">
+              <span className="text-[48px] font-bold text-[#4A3F4B]">{wellnessScore}</span>
+              <span className="text-[24px] text-[#9B9299]">/100</span>
+            </div>
+
+            <div className="h-3 bg-[#E5E5E5] rounded-full overflow-hidden mb-4">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${wellnessScore}%`,
+                  backgroundColor: getScoreMessage(wellnessScore).color
+                }}
+              />
+            </div>
+
+            <p className="text-[16px] font-semibold text-[#4A3F4B]">
+              {getScoreMessage(wellnessScore).emoji} {getScoreMessage(wellnessScore).message}
+            </p>
+            <p className="text-[13px] text-[#9B9299] mt-2">Based on your last 7 days</p>
+          </>
+        ) : (
+          <p className="text-[14px] text-[#9B9299]">Complete a few check-ins to see your score</p>
+        )}
+      </div>
+
+      {/* Weekly Breakdown */}
+      {lastWeekData.length > 0 && (
+        <div className="bg-white rounded-[20px] p-5 border border-[#F5E6DC] mb-4">
+          <h3 className="text-[14px] font-semibold text-[#4A3F4B] mb-4">📊 This Week&apos;s Breakdown</h3>
+
+          <div className="space-y-3">
+            {[
+              {
+                label: 'Feeds',
+                value: Math.round(lastWeekData.reduce((sum, d) => sum + d.feeds.count, 0) / lastWeekData.length),
+                max: 12,
+                status: (v: number) => v >= 8 ? 'Great' : v >= 6 ? 'Good' : 'Improve'
+              },
+              {
+                label: 'Wet Diapers',
+                value: Math.round(lastWeekData.reduce((sum, d) => sum + d.babyOutput.wetDiapers, 0) / lastWeekData.length),
+                max: 10,
+                status: (v: number) => v >= 6 ? 'Great' : v >= 4 ? 'Good' : 'Low'
+              },
+              {
+                label: 'Nourishment',
+                value: Math.round((lastWeekData.filter(d => d.momNourishment.ateProtein).length / lastWeekData.length) * 100),
+                max: 100,
+                isPercent: true,
+                status: (v: number) => v >= 80 ? 'Great' : v >= 60 ? 'Good' : 'Improve'
+              },
+              {
+                label: 'Hydration',
+                value: Math.round((lastWeekData.filter(d => d.hydration).length / lastWeekData.length) * 100),
+                max: 100,
+                isPercent: true,
+                status: (v: number) => v >= 80 ? 'Great' : v >= 60 ? 'Good' : 'Improve'
+              },
+              {
+                label: 'Sleep',
+                value: Math.round((lastWeekData.reduce((sum, d) => sum + d.sleep, 0) / lastWeekData.length) * 20),
+                max: 100,
+                isPercent: true,
+                status: (v: number) => v >= 80 ? 'Great' : v >= 60 ? 'Okay' : 'Low'
+              },
+              {
+                label: 'Stress',
+                value: Math.round(((5 - lastWeekData.reduce((sum, d) => sum + d.stress, 0) / lastWeekData.length) / 5) * 100),
+                max: 100,
+                isPercent: true,
+                status: (v: number) => v >= 60 ? 'Low' : v >= 40 ? 'Moderate' : 'High'
+              },
+            ].map((metric, i) => (
+              <div key={i} className="grid grid-cols-[90px_1fr_60px] items-center gap-3">
+                <span className="text-[13px] text-[#4A3F4B]">{metric.label}</span>
+                <div className="h-2 bg-[#E5E5E5] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-[#C4887A] to-[#8BA888] rounded-full"
+                    style={{ width: `${metric.isPercent ? metric.value : (metric.value / metric.max) * 100}%` }}
+                  />
+                </div>
+                <span className={`text-[11px] font-semibold text-right ${
+                  metric.status(metric.value) === 'Great' || metric.status(metric.value) === 'Good' || metric.status(metric.value) === 'Low' && metric.label === 'Stress'
+                    ? 'text-[#8BA888]'
+                    : 'text-[#C4887A]'
+                }`}>
+                  {metric.status(metric.value)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Insights & Suggestions */}
+      {insights.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-[14px] font-semibold text-[#4A3F4B] mb-3">💡 Insights & Suggestions</h3>
+
+          <div className="space-y-3">
+            {insights.map((insight, i) => (
+              <div
+                key={i}
+                className={`p-4 rounded-[16px] border-l-4 ${
+                  insight.type === 'positive'
+                    ? 'bg-[#8BA888]/10 border-l-[#8BA888]'
+                    : 'bg-[#C4887A]/10 border-l-[#C4887A]'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xl">{insight.icon}</span>
+                  <span className="text-[14px] font-semibold text-[#4A3F4B]">{insight.title}</span>
+                </div>
+                <p className="text-[13px] text-[#4A3F4B]/80 mb-2">{insight.message}</p>
+                {insight.tip && (
+                  <p className="text-[13px] font-medium text-[#4A3F4B] bg-white/50 rounded-lg p-2">
+                    {insight.tip}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {lastWeekData.length === 0 && (
+        <div className="bg-[#F5E6DC]/50 rounded-[16px] p-6 text-center">
+          <span className="text-4xl block mb-3">📝</span>
+          <p className="text-[15px] font-semibold text-[#4A3F4B] mb-2">No check-ins yet</p>
+          <p className="text-[13px] text-[#9B9299]">
+            Start tracking with Daily Check-In to see your insights and wellness patterns.
+          </p>
+        </div>
+      )}
+
+      {/* Day Detail Modal */}
+      {selectedDate && checkIns[selectedDate.toISOString().split('T')[0]] && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center">
+          <div className="bg-white rounded-t-[24px] w-full max-w-md p-6 pb-10 animate-slide-up">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[16px] font-semibold text-[#4A3F4B]">
+                {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+              </h3>
+              <button onClick={() => setSelectedDate(null)} className="text-[#9B9299] text-xl">✕</button>
+            </div>
+
+            {(() => {
+              const dateKey = selectedDate.toISOString().split('T')[0];
+              const checkIn = checkIns[dateKey];
+              const score = calculateDayScore(checkIn);
+
+              return (
+                <>
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    <span className={`px-3 py-1 rounded-full text-[12px] font-semibold text-white ${
+                      score >= 75 ? 'bg-[#8BA888]' : score >= 50 ? 'bg-[#C4887A]' : 'bg-[#9B9299]'
+                    }`}>
+                      {score >= 75 ? '🟢 Great Day' : score >= 50 ? '🟡 Okay Day' : '🔴 Tough Day'}
+                    </span>
+                    <span className="text-[14px] text-[#9B9299]">{score}/100</span>
+                  </div>
+
+                  <div className="space-y-2 text-[14px]">
+                    <div className="flex justify-between py-2 border-b border-[#F5E6DC]">
+                      <span className="text-[#9B9299]">🍼 Feeds</span>
+                      <span className="text-[#4A3F4B]">{checkIn.feeds.count} ({checkIn.feeds.lastBreast || 'N/A'})</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-[#F5E6DC]">
+                      <span className="text-[#9B9299]">👶 Wet Diapers</span>
+                      <span className="text-[#4A3F4B]">{checkIn.babyOutput.wetDiapers}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-[#F5E6DC]">
+                      <span className="text-[#9B9299]">👶 Dirty Diapers</span>
+                      <span className="text-[#4A3F4B]">{checkIn.babyOutput.dirtyDiapers}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-[#F5E6DC]">
+                      <span className="text-[#9B9299]">🍽️ Ate Protein</span>
+                      <span className="text-[#4A3F4B]">{checkIn.momNourishment.ateProtein ? '✓ Yes' : '✗ No'}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-[#F5E6DC]">
+                      <span className="text-[#9B9299]">💧 Hydrated</span>
+                      <span className="text-[#4A3F4B]">{checkIn.hydration ? '✓ Yes' : '✗ No'}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-[#F5E6DC]">
+                      <span className="text-[#9B9299]">😴 Sleep</span>
+                      <span className="text-[#4A3F4B]">{'★'.repeat(checkIn.sleep)}{'☆'.repeat(5 - checkIn.sleep)}</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span className="text-[#9B9299]">🧘 Stress</span>
+                      <span className="text-[#4A3F4B]">{checkIn.stress <= 2 ? 'Low' : checkIn.stress <= 3 ? 'Moderate' : 'High'}</span>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
