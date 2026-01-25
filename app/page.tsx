@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   symptoms,
   searchSymptoms,
   commonSearches,
   courses,
   getDailyAffirmation,
+  getRandomAffirmation,
   getDailyFact,
+  getRandomFact,
   type Symptom,
   type Course,
   type Affirmation,
@@ -83,133 +85,209 @@ function Navigation({
 // ============================================
 function HomeScreen({
   setActiveTab,
+  setShowTracker,
 }: {
   setActiveTab: (tab: string) => void;
+  setShowTracker: (show: boolean) => void;
 }) {
   const [affirmation, setAffirmation] = useState<Affirmation | null>(null);
   const [fact, setFact] = useState<Fact | null>(null);
-  const [selectedMood, setSelectedMood] = useState<string | null>(null);
+  const [isAffirmationAnimating, setIsAffirmationAnimating] = useState(false);
+  const [checkIns, setCheckIns] = useState<string[]>([]);
 
   useEffect(() => {
     setAffirmation(getDailyAffirmation());
     setFact(getDailyFact());
+    // Load check-ins from localStorage
+    const saved = localStorage.getItem('weeklyCheckIns');
+    if (saved) setCheckIns(JSON.parse(saved));
   }, []);
 
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12
       ? "Good morning"
-      : currentHour < 18
+      : currentHour < 17
       ? "Good afternoon"
       : "Good evening";
 
-  const moods = [
-    { emoji: "😴", label: "Tired" },
-    { emoji: "😊", label: "Good" },
-    { emoji: "😔", label: "Sad" },
-    { emoji: "💪", label: "Strong" },
-    { emoji: "😰", label: "Anxious" },
-  ];
+  const today = new Date();
+  const dateString = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  const handleNewAffirmation = () => {
+    setIsAffirmationAnimating(true);
+    setTimeout(() => {
+      setAffirmation(getRandomAffirmation());
+      setIsAffirmationAnimating(false);
+    }, 150);
+  };
+
+  const handleNewFact = () => {
+    setFact(getRandomFact());
+  };
+
+  // Get week days for progress tracker
+  const getWeekDays = () => {
+    const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+
+    return days.map((day, i) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() + mondayOffset + i);
+      const dateStr = date.toISOString().split('T')[0];
+      const isToday = date.toDateString() === today.toDateString();
+      const isFuture = date > today;
+      const isCompleted = checkIns.includes(dateStr);
+
+      return { day, isToday, isFuture, isCompleted };
+    });
+  };
+
+  const weekDays = getWeekDays();
+  const completedCount = weekDays.filter(d => d.isCompleted).length;
 
   return (
     <div className="px-5 pt-8 pb-32">
-      {/* Header */}
-      <div className="mb-8">
-        <p className="text-sm text-[#9B9299] mb-1 font-medium">{greeting}</p>
+      {/* Personalized Greeting */}
+      <div className="mb-6 animate-fade-in">
         <h1 className="text-[28px] font-semibold text-[#4A3F4B] tracking-tight">
-          Mama <span className="text-2xl">💛</span>
+          {greeting}, Mama <span className="text-2xl">☀️</span>
         </h1>
+        <p className="text-[14px] text-[#9B9299] mt-1">{dateString}</p>
       </div>
 
-      {/* Daily Affirmation Card */}
-      <div className="bg-gradient-to-br from-[#E8B4A6] to-[#F5E6DC] rounded-[20px] p-6 mb-5 relative overflow-hidden shadow-sm">
-        <div className="absolute -top-8 -right-8 text-[100px] opacity-10 select-none">
-          🌸
-        </div>
-        <p className="text-[11px] uppercase tracking-[0.15em] text-[#4A3F4B]/60 font-semibold mb-3">
-          Today&apos;s Reminder
+      {/* Today's Affirmation Card */}
+      <button
+        onClick={handleNewAffirmation}
+        className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-sm text-left transition-transform active:scale-[0.98]"
+      >
+        <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-3">
+          💛 Today&apos;s Affirmation
         </p>
-        <p className="text-lg font-medium text-[#4A3F4B] leading-relaxed mb-2 relative z-10">
-          {affirmation?.text || "Your body knows exactly what your baby needs."}
+        <p className={`text-[18px] font-semibold text-[#4A3F4B] leading-relaxed text-center transition-opacity duration-150 ${isAffirmationAnimating ? 'opacity-0' : 'opacity-100'}`}>
+          &ldquo;{affirmation?.text || "Your body knows exactly what your baby needs."}&rdquo;
         </p>
         {affirmation?.subtext && (
-          <p className="text-sm text-[#4A3F4B]/70 leading-relaxed relative z-10">
+          <p className={`text-[13px] text-[#4A3F4B]/60 leading-relaxed text-center mt-2 transition-opacity duration-150 ${isAffirmationAnimating ? 'opacity-0' : 'opacity-100'}`}>
             {affirmation.subtext}
           </p>
         )}
+        <p className="text-[12px] text-[#9B9299] text-center mt-4">
+          Tap for a new one
+        </p>
+      </button>
+
+      {/* Daily Check-In Card */}
+      <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30">
+        <div className="flex items-start gap-3">
+          <div className="text-2xl">📝</div>
+          <div className="flex-1">
+            <p className="text-[18px] font-semibold text-[#4A3F4B] mb-1">
+              Daily Check-In
+            </p>
+            <p className="text-[14px] text-[#4A3F4B]/70 mb-4">
+              How are you feeling today?
+            </p>
+            <button
+              onClick={() => setShowTracker(true)}
+              className="bg-[#C4887A] text-white px-5 py-2.5 rounded-xl font-semibold text-[14px] hover:bg-[#b37a6d] transition-colors"
+            >
+              Start Check-In →
+            </button>
+            <p className="text-[12px] text-[#9B9299] mt-3">
+              Takes only 30 seconds 🕐
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Actions Grid */}
+      <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3">
+        Quick Actions
+      </p>
       <div className="grid grid-cols-2 gap-3 mb-5">
         <button
           onClick={() => setActiveTab("symptoms")}
-          className="bg-white rounded-[16px] p-5 text-left border border-[#F5E6DC] hover:shadow-md hover:border-[#E8B4A6] transition-all duration-200 group"
+          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
         >
-          <div className="w-11 h-11 rounded-full bg-[#F5E6DC] flex items-center justify-center mb-3 group-hover:bg-[#E8B4A6]/30 transition-colors">
-            <svg className="w-5 h-5 stroke-[#C4887A]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-          </div>
-          <p className="text-[15px] font-semibold text-[#4A3F4B] mb-0.5">
-            Is this normal?
-          </p>
-          <p className="text-xs text-[#9B9299]">Search 50+ symptoms</p>
+          <span className="text-2xl block mb-2">🔍</span>
+          <p className="text-[14px] font-semibold text-[#4A3F4B]">Search</p>
+          <p className="text-[11px] text-[#9B9299]">Symptoms</p>
+        </button>
+        <button
+          onClick={() => setActiveTab("learn")}
+          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
+        >
+          <span className="text-2xl block mb-2">📚</span>
+          <p className="text-[14px] font-semibold text-[#4A3F4B]">Learn</p>
+          <p className="text-[11px] text-[#9B9299]">Courses</p>
         </button>
         <button
           onClick={() => setActiveTab("calm")}
-          className="bg-gradient-to-br from-[#B8D4B5] to-[#8BA888]/40 rounded-[16px] p-5 text-left hover:shadow-md transition-all duration-200 group"
+          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
         >
-          <div className="w-11 h-11 rounded-full bg-white/50 flex items-center justify-center mb-3 group-hover:bg-white/70 transition-colors">
-            <svg className="w-5 h-5 stroke-[#8BA888]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-            </svg>
-          </div>
-          <p className="text-[15px] font-semibold text-[#4A3F4B] mb-0.5">
-            Need a moment?
-          </p>
-          <p className="text-xs text-[#4A3F4B]/60">Breathing & calm</p>
+          <span className="text-2xl block mb-2">🍃</span>
+          <p className="text-[14px] font-semibold text-[#4A3F4B]">Calm</p>
+          <p className="text-[11px] text-[#9B9299]">Zone</p>
+        </button>
+        <button
+          onClick={() => setShowTracker(true)}
+          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
+        >
+          <span className="text-2xl block mb-2">📊</span>
+          <p className="text-[14px] font-semibold text-[#4A3F4B]">Tracker</p>
+          <p className="text-[11px] text-[#9B9299]">History</p>
         </button>
       </div>
 
-      {/* Did You Know */}
-      <div className="bg-[#FFFBF7] rounded-[16px] p-5 mb-5 border border-[#F5E6DC]">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-sm">✨</span>
-          <p className="text-xs font-semibold text-[#C4887A] uppercase tracking-wide">
-            Did you know?
-          </p>
-        </div>
-        <p className="text-[14px] text-[#4A3F4B] leading-relaxed">
+      {/* Did You Know Card */}
+      <button
+        onClick={handleNewFact}
+        className="w-full bg-white rounded-[16px] p-5 mb-5 border-l-4 border-l-[#C4887A] border-y border-r border-[#E5E5E5] text-left"
+      >
+        <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-2">
+          💡 Did You Know?
+        </p>
+        <p className="text-[15px] text-[#4A3F4B] leading-relaxed">
           {fact?.text || "Your milk changes composition throughout the day — morning milk is different from evening milk."}
         </p>
-      </div>
+        <p className="text-[13px] text-[#C4887A] mt-3 font-medium">
+          Tap for another →
+        </p>
+      </button>
 
-      {/* Mood Check */}
-      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC]">
-        <div className="flex justify-between items-center mb-4">
-          <p className="text-[15px] font-semibold text-[#4A3F4B]">
-            How are you feeling?
-          </p>
-          <span className="text-[11px] text-[#9B9299] font-medium">Optional</span>
-        </div>
-        <div className="flex gap-2">
-          {moods.map((mood) => (
-            <button
-              key={mood.label}
-              onClick={() => setSelectedMood(mood.label)}
-              className={`flex-1 py-3 rounded-xl text-center transition-all duration-200 ${
-                selectedMood === mood.label
-                  ? "bg-[#F5E6DC] ring-2 ring-[#C4887A]/30"
-                  : "bg-[#FFFBF7] hover:bg-[#F5E6DC]/50"
-              }`}
-            >
-              <span className="text-xl block mb-1">{mood.emoji}</span>
-              <span className="text-[10px] text-[#9B9299] font-medium">
-                {mood.label}
-              </span>
-            </button>
+      {/* Weekly Progress Tracker */}
+      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4">
+        <p className="text-[14px] font-semibold text-[#4A3F4B] mb-3">
+          Your Week So Far
+        </p>
+        <div className="flex justify-between mb-3">
+          {weekDays.map((d, i) => (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <span className="text-[11px] text-[#9B9299] font-medium">{d.day}</span>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${
+                d.isCompleted
+                  ? 'bg-[#8BA888] text-white'
+                  : d.isToday
+                    ? 'border-2 border-[#C4887A] text-[#C4887A]'
+                    : d.isFuture
+                      ? 'bg-[#E5E5E5]/50 text-[#9B9299]'
+                      : 'bg-[#E5E5E5] text-[#9B9299]'
+              }`}>
+                {d.isCompleted ? '✓' : d.isToday ? '○' : '·'}
+              </div>
+            </div>
           ))}
         </div>
+        <p className="text-[14px] text-[#4A3F4B]">
+          {completedCount} check-in{completedCount !== 1 ? 's' : ''} this week 🌱
+        </p>
       </div>
     </div>
   );
@@ -719,7 +797,23 @@ function CalmScreen() {
   const [breathingActive, setBreathingActive] = useState(false);
   const [breathPhase, setBreathPhase] = useState("Ready");
   const [breathScale, setBreathScale] = useState(1);
-  const [selectedSound, setSelectedSound] = useState<string | null>(null);
+  const [activeSound, setActiveSound] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.7);
+  const [completedBoosters, setCompletedBoosters] = useState<string[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Load completed boosters from localStorage
+    const saved = localStorage.getItem('todayBoosters');
+    const today = new Date().toISOString().split('T')[0];
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.date === today) {
+        setCompletedBoosters(data.completed);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!breathingActive) {
@@ -753,22 +847,75 @@ function CalmScreen() {
     };
   }, [breathingActive]);
 
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
   const sounds = [
-    { name: "Rain", icon: "🌧️" },
-    { name: "Ocean", icon: "🌊" },
-    { name: "Forest", icon: "🌲" },
-    { name: "White Noise", icon: "〰️" },
+    { id: 'rain', name: "Rain", icon: "🌧️", file: "/sounds/rain.mp3" },
+    { id: 'ocean', name: "Ocean", icon: "🌊", file: "/sounds/ocean.mp3" },
+    { id: 'forest', name: "Forest", icon: "🌲", file: "/sounds/forest.mp3" },
+    { id: 'whitenoise', name: "White Noise", icon: "☁️", file: "/sounds/whitenoise.mp3" },
   ];
 
   const boosters = [
-    { title: "Skin-to-skin contact", icon: "👶", desc: "Boosts oxytocin naturally" },
-    { title: "Warm compress", icon: "🫖", desc: "Relaxes let-down reflex" },
-    { title: "Dim lighting", icon: "🕯️", desc: "Signals safety to your body" },
-    { title: "Gentle music", icon: "🎵", desc: "Lowers cortisol levels" },
+    { id: 'skin-to-skin', title: "Skin-to-Skin Contact", icon: "👶", desc: "Hold baby against your bare chest for 10-20 minutes", duration: "10-20 min", benefit: "Triggers oxytocin release for both you and baby" },
+    { id: 'warm-compress', title: "Warm Compress", icon: "🧣", desc: "Apply a warm towel to your breasts before nursing", duration: "5 min", benefit: "Relaxes tissue and encourages letdown" },
+    { id: 'dim-lighting', title: "Dim the Lights", icon: "🕯️", desc: "Create a calm, dim environment for nursing", duration: "During feeds", benefit: "Reduces stimulation and promotes relaxation" },
+    { id: 'gentle-music', title: "Gentle Music", icon: "🎵", desc: "Play soft, calming music while nursing", duration: "During feeds", benefit: "Lowers cortisol, raises oxytocin" },
+    { id: 'deep-breathing', title: "Deep Breathing", icon: "🌬️", desc: "Take 5 slow, deep breaths before latching", duration: "1 min", benefit: "Activates parasympathetic nervous system" },
+    { id: 'smell-baby', title: "Smell Your Baby", icon: "👃", desc: "Inhale your baby's scent from the top of their head", duration: "A few breaths", benefit: "Powerful oxytocin trigger hardwired in your brain" },
+    { id: 'gaze-at-baby', title: "Gaze at Baby", icon: "👁️", desc: "Make eye contact with your baby while nursing", duration: "During feeds", benefit: "Mutual gaze releases oxytocin for both of you" },
+    { id: 'warm-drink', title: "Drink Something Warm", icon: "☕", desc: "Sip warm water, tea, or broth while nursing", duration: "During feeds", benefit: "Warmth promotes relaxation and letdown" },
   ];
+
+  const playSound = (sound: typeof sounds[0]) => {
+    if (activeSound === sound.id && isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    } else {
+      if (audioRef.current) {
+        audioRef.current.src = sound.file;
+        audioRef.current.loop = true;
+        audioRef.current.volume = volume;
+        audioRef.current.play().catch(() => {
+          // Handle autoplay restrictions gracefully
+        });
+      }
+      setActiveSound(sound.id);
+      setIsPlaying(true);
+    }
+  };
+
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
+  };
+
+  const toggleBooster = (id: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    const newCompleted = completedBoosters.includes(id)
+      ? completedBoosters.filter(b => b !== id)
+      : [...completedBoosters, id];
+
+    setCompletedBoosters(newCompleted);
+    localStorage.setItem('todayBoosters', JSON.stringify({ date: today, completed: newCompleted }));
+  };
+
+  const completedCount = completedBoosters.length;
+  const totalCount = boosters.length;
 
   return (
     <div className="px-5 pt-8 pb-32">
+      <audio ref={audioRef} />
+
       <h1 className="text-[24px] font-semibold text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
@@ -799,51 +946,112 @@ function CalmScreen() {
 
       {/* Soothing Sounds */}
       <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold mb-3">
-        Soothing Sounds
+        Calming Sounds
       </p>
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         {sounds.map((sound) => (
           <button
-            key={sound.name}
-            onClick={() =>
-              setSelectedSound(selectedSound === sound.name ? null : sound.name)
-            }
-            className={`rounded-[16px] p-4 text-center border transition-all ${
-              selectedSound === sound.name
-                ? "bg-[#B8D4B5]/30 border-[#8BA888]"
-                : "bg-white border-[#F5E6DC] hover:border-[#E8B4A6]"
+            key={sound.id}
+            onClick={() => playSound(sound)}
+            className={`rounded-[16px] p-5 text-center border-2 transition-all relative ${
+              activeSound === sound.id && isPlaying
+                ? "bg-[#8BA888] border-[#8BA888] text-white"
+                : "bg-white border-[#E5E5E5] hover:border-[#8BA888]"
             }`}
           >
-            <span className="text-2xl block mb-1">{sound.icon}</span>
-            <span className="text-[10px] text-[#4A3F4B] font-medium">
+            {activeSound === sound.id && isPlaying && (
+              <span className="absolute top-2 right-2 text-xs animate-pulse">▶</span>
+            )}
+            <span className="text-3xl block mb-2">{sound.icon}</span>
+            <span className={`text-[14px] font-medium ${activeSound === sound.id && isPlaying ? 'text-white' : 'text-[#4A3F4B]'}`}>
               {sound.name}
             </span>
           </button>
         ))}
       </div>
 
+      {activeSound && isPlaying && (
+        <div className="bg-[#F5E6DC] rounded-[12px] p-4 mb-4 flex items-center gap-3">
+          <span>🔈</span>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={volume}
+            onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+            className="flex-1 h-2 rounded-full appearance-none bg-[#C4887A]/30 cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#C4887A]"
+          />
+          <span>🔊</span>
+          <button
+            onClick={() => { audioRef.current?.pause(); setIsPlaying(false); }}
+            className="ml-2 text-[13px] text-[#C4887A] font-medium"
+          >
+            Stop ⏹
+          </button>
+        </div>
+      )}
+
       {/* Oxytocin Boosters */}
-      <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold mb-3">
-        Oxytocin Boosters
-      </p>
-      <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
-        {boosters.map((item, i) => (
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold">
+            💛 Oxytocin Boosters
+          </p>
+          <span className="text-[12px] text-[#9B9299]">{completedCount} of {totalCount}</span>
+        </div>
+        <p className="text-[13px] text-[#9B9299] mb-3">
+          Small actions that support your milk flow
+        </p>
+        <div className="bg-[#E5E5E5] rounded-full h-2 mb-4 overflow-hidden">
           <div
-            key={item.title}
-            className={`flex items-center p-4 ${
-              i < boosters.length - 1 ? "border-b border-[#F5E6DC]" : ""
+            className="h-full bg-gradient-to-r from-[#8BA888] to-[#C4887A] rounded-full transition-all duration-300"
+            style={{ width: `${(completedCount / totalCount) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-3 mb-4">
+        {boosters.map((booster) => (
+          <button
+            key={booster.id}
+            onClick={() => toggleBooster(booster.id)}
+            className={`w-full flex gap-3 p-4 rounded-[16px] border-2 text-left transition-all ${
+              completedBoosters.includes(booster.id)
+                ? 'bg-[#F5E6DC] border-[#8BA888]'
+                : 'bg-white border-[#E5E5E5] hover:border-[#8BA888]'
             }`}
           >
-            <span className="text-2xl mr-4">{item.icon}</span>
-            <div>
-              <p className="text-[14px] font-medium text-[#4A3F4B]">
-                {item.title}
-              </p>
-              <p className="text-xs text-[#9B9299]">{item.desc}</p>
+            <div className={`w-7 h-7 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+              completedBoosters.includes(booster.id)
+                ? 'bg-[#8BA888] border-[#8BA888] text-white'
+                : 'border-[#C4887A]'
+            }`}>
+              {completedBoosters.includes(booster.id) ? '✓' : ''}
             </div>
-          </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xl">{booster.icon}</span>
+                <span className="text-[14px] font-semibold text-[#4A3F4B]">{booster.title}</span>
+                <span className="text-[11px] text-[#9B9299] ml-auto">{booster.duration}</span>
+              </div>
+              <p className="text-[13px] text-[#4A3F4B]/70 mb-1">{booster.desc}</p>
+              <p className="text-[12px] text-[#8BA888] italic">✨ {booster.benefit}</p>
+            </div>
+          </button>
         ))}
       </div>
+
+      {completedCount > 0 && (
+        <div className="bg-[#8BA888] rounded-[12px] p-4 text-center text-white font-medium">
+          {completedCount >= 5
+            ? "Amazing! You're taking wonderful care of yourself. 💛"
+            : completedCount >= 3
+            ? "You're doing great! Every little bit helps. 🌱"
+            : "Good start! Even one booster makes a difference. 🌸"
+          }
+        </div>
+      )}
 
       {/* Quote */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center">
@@ -858,8 +1066,10 @@ function CalmScreen() {
 // ============================================
 // PROFILE SCREEN
 // ============================================
+type ProfileView = 'main' | 'edit' | 'disclaimer' | 'help' | 'contact' | 'terms' | 'privacy' | 'affirmationTime';
+
 function ProfileScreen() {
-  const [currentView, setCurrentView] = useState<'main' | 'edit' | 'disclaimer'>('main');
+  const [currentView, setCurrentView] = useState<ProfileView>('main');
 
   // Placeholder user state (will be replaced with Supabase auth in Phase 2)
   const [isLoggedIn] = useState(false);
@@ -872,13 +1082,13 @@ function ProfileScreen() {
     nextBilling: null as Date | null,
   });
 
-  if (currentView === 'edit') {
-    return <EditProfileScreen onBack={() => setCurrentView('main')} />;
-  }
-
-  if (currentView === 'disclaimer') {
-    return <DisclaimerScreen onBack={() => setCurrentView('main')} />;
-  }
+  if (currentView === 'edit') return <EditProfileScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'disclaimer') return <DisclaimerScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'help') return <HelpFAQScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'contact') return <ContactScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'terms') return <TermsScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'privacy') return <PrivacyScreen onBack={() => setCurrentView('main')} />;
+  if (currentView === 'affirmationTime') return <AffirmationTimeScreen onBack={() => setCurrentView('main')} />;
 
   return (
     <div className="px-5 pt-8 pb-32">
@@ -888,19 +1098,13 @@ function ProfileScreen() {
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6">
-        {/* Avatar */}
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
         </div>
         <h2 className="text-xl font-semibold text-[#4A3F4B]">{user.name}</h2>
-        {user.email && (
-          <p className="text-sm text-[#9B9299]">{user.email}</p>
-        )}
+        {user.email && <p className="text-sm text-[#9B9299]">{user.email}</p>}
         {isLoggedIn && (
-          <button
-            onClick={() => setCurrentView('edit')}
-            className="mt-2 text-sm text-[#C4887A] font-medium hover:underline"
-          >
+          <button onClick={() => setCurrentView('edit')} className="mt-2 text-sm text-[#C4887A] font-medium hover:underline">
             Edit Profile
           </button>
         )}
@@ -930,19 +1134,9 @@ function ProfileScreen() {
             <span className="text-lg">✨</span>
             <span className="font-semibold text-[#4A3F4B]">Pro Member</span>
           </div>
-          <p className="text-sm text-[#4A3F4B]/80 mb-4">
-            Thank you for supporting MilkWise!
-          </p>
-          {user.memberSince && (
-            <p className="text-xs text-[#9B9299] mb-1">
-              Member since: {user.memberSince.toLocaleDateString()}
-            </p>
-          )}
-          {user.nextBilling && (
-            <p className="text-xs text-[#9B9299] mb-4">
-              Next billing: {user.nextBilling.toLocaleDateString()}
-            </p>
-          )}
+          <p className="text-sm text-[#4A3F4B]/80 mb-4">Thank you for supporting MilkWise!</p>
+          {user.memberSince && <p className="text-xs text-[#9B9299] mb-1">Member since: {user.memberSince.toLocaleDateString()}</p>}
+          {user.nextBilling && <p className="text-xs text-[#9B9299] mb-4">Next billing: {user.nextBilling.toLocaleDateString()}</p>}
           <button className="w-full py-2.5 rounded-xl border border-[#C4887A] text-[#C4887A] font-medium text-sm hover:bg-[#C4887A]/10 transition-colors">
             Manage Subscription
           </button>
@@ -953,18 +1147,9 @@ function ProfileScreen() {
             <span className="text-lg">🌱</span>
             <span className="font-semibold text-[#4A3F4B]">Free Plan</span>
           </div>
-          <p className="text-sm text-[#4A3F4B]/80 mb-4">
-            Upgrade to Pro to unlock:
-          </p>
+          <p className="text-sm text-[#4A3F4B]/80 mb-4">Upgrade to Pro to unlock:</p>
           <ul className="space-y-2 mb-5">
-            {[
-              "Complete Education Courses",
-              "Smart Tracker & Weekly Insights",
-              "Full Calm Zone Experience",
-              "Nutrition Hub",
-              "Weaning Guide",
-              "Resources Directory",
-            ].map((feature) => (
+            {["Complete Education Courses", "Smart Tracker & Weekly Insights", "Full Calm Zone Experience", "Nutrition Hub", "Weaning Guide", "Resources Directory"].map((feature) => (
               <li key={feature} className="flex items-center gap-2 text-sm text-[#4A3F4B]/80">
                 <svg className="w-4 h-4 text-[#8BA888]" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
@@ -976,19 +1161,14 @@ function ProfileScreen() {
           <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold mb-2">
             Upgrade to Pro — $8.99/mo
           </button>
-          <p className="text-center text-xs text-[#9B9299]">
-            or $69.99/year (save 35%)
-          </p>
+          <p className="text-center text-xs text-[#9B9299]">or $69.99/year (save 35%)</p>
         </div>
       )}
 
       {/* Settings Menu */}
       <div className="space-y-6">
-        {/* Account Section */}
         <div>
-          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
-            Account
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">Account</p>
           <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
             <SettingsItem label="Edit Profile" onClick={() => setCurrentView('edit')} />
             <SettingsItem label="Change Email" onClick={() => {}} />
@@ -996,47 +1176,35 @@ function ProfileScreen() {
           </div>
         </div>
 
-        {/* Preferences Section */}
         <div>
-          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
-            Preferences
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">Preferences</p>
           <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
             <SettingsItem label="Notifications" onClick={() => {}} hasToggle />
-            <SettingsItem label="Daily Affirmation Time" onClick={() => {}} value="9:00 AM" isLast />
+            <SettingsItem label="Daily Affirmation Time" onClick={() => setCurrentView('affirmationTime')} value="9:00 AM" isLast />
           </div>
         </div>
 
-        {/* Support Section */}
         <div>
-          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
-            Support
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">Support</p>
           <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
-            <SettingsItem label="Help & FAQ" onClick={() => {}} />
-            <SettingsItem label="Contact Us" onClick={() => {}} />
-            <SettingsItem label="Report a Problem" onClick={() => {}} isLast />
+            <SettingsItem label="Help & FAQ" onClick={() => setCurrentView('help')} />
+            <SettingsItem label="Contact Us" onClick={() => setCurrentView('contact')} />
+            <SettingsItem label="Report a Problem" onClick={() => setCurrentView('contact')} isLast />
           </div>
         </div>
 
-        {/* Legal Section */}
         <div>
-          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
-            Legal
-          </p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">Legal</p>
           <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
-            <SettingsItem label="Terms of Service" onClick={() => {}} />
-            <SettingsItem label="Privacy Policy" onClick={() => {}} />
+            <SettingsItem label="Terms of Service" onClick={() => setCurrentView('terms')} />
+            <SettingsItem label="Privacy Policy" onClick={() => setCurrentView('privacy')} />
             <SettingsItem label="Medical Disclaimer" onClick={() => setCurrentView('disclaimer')} isLast />
           </div>
         </div>
 
-        {/* Account Actions */}
         {isLoggedIn && (
           <div>
-            <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
-              Account Actions
-            </p>
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">Account Actions</p>
             <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
               <SettingsItem label="Log Out" onClick={() => {}} textColor="text-[#C4887A]" />
               <SettingsItem label="Delete Account" onClick={() => {}} textColor="text-red-500" isLast />
@@ -1045,12 +1213,9 @@ function ProfileScreen() {
         )}
       </div>
 
-      {/* App Info Footer */}
       <div className="mt-10 text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
-        <p className="text-xs text-[#9B9299] mt-1">
-          Made with 🤍 for breastfeeding mothers
-        </p>
+        <p className="text-xs text-[#9B9299] mt-1">Made with 🤍 for breastfeeding mothers</p>
       </div>
     </div>
   );
@@ -1239,59 +1404,605 @@ function EditProfileScreen({ onBack }: { onBack: () => void }) {
 function DisclaimerScreen({ onBack }: { onBack: () => void }) {
   return (
     <div className="px-5 pt-6 pb-32">
-      {/* Header */}
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B] transition-colors"
-      >
+      <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B]">
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
         <span className="text-sm font-medium">Back</span>
       </button>
 
-      {/* Content */}
       <div className="bg-white rounded-[20px] p-6 border border-[#F5E6DC]">
-        <h1 className="text-xl font-semibold text-[#4A3F4B] mb-6">
-          Medical Disclaimer
-        </h1>
+        <h1 className="text-xl font-semibold text-[#4A3F4B] mb-4">Medical Disclaimer</h1>
 
-        <div className="space-y-4 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
-          <p>
-            MilkWise provides educational information about breastfeeding and lactation.
-            This app is not a substitute for professional medical advice, diagnosis, or treatment.
-          </p>
-
-          <p>
-            Always seek the advice of your physician, lactation consultant (IBCLC), or other
-            qualified health provider with any questions you may have regarding breastfeeding
-            or a medical condition.
-          </p>
-
-          <p>
-            Never disregard professional medical advice or delay in seeking it because of
-            something you have read in this app.
-          </p>
-
-          <p className="font-medium text-[#C4887A]">
-            If you think you may have a medical emergency, call your doctor or emergency
-            services immediately.
-          </p>
-
-          <p>
-            The information provided in this app is for educational purposes only and is
-            not intended to be a substitute for professional medical advice, diagnosis,
-            or treatment.
-          </p>
+        <div className="bg-[#C4887A]/10 rounded-xl p-4 mb-6">
+          <p className="text-[15px] font-semibold text-[#C4887A]">⚠️ Important Notice</p>
+          <p className="text-[14px] text-[#4A3F4B] mt-1">MilkWise is an educational resource, not a medical service.</p>
         </div>
 
-        <button
-          onClick={onBack}
-          className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold"
-        >
+        <div className="space-y-5 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
+          <div>
+            <p className="font-semibold text-[#4A3F4B] mb-2">For Educational Purposes Only</p>
+            <p>The information provided in MilkWise — including content about lactation, symptoms, nutrition, and breastfeeding practices — is for educational purposes only and is not intended to be a substitute for professional medical advice, diagnosis, or treatment.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-[#4A3F4B] mb-2">Always Consult a Professional</p>
+            <p>Always seek the advice of your physician, lactation consultant (IBCLC), or other qualified health provider with any questions about your breastfeeding journey, your baby&apos;s health, any symptoms you experience, or medications while breastfeeding.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-[#4A3F4B] mb-2">Don&apos;t Delay Seeking Care</p>
+            <p>Never disregard professional medical advice or delay in seeking it because of something you have read in this App.</p>
+          </div>
+          <div className="bg-[#C4887A]/10 rounded-xl p-4">
+            <p className="font-semibold text-[#C4887A]">Emergency Situations</p>
+            <p className="text-[#4A3F4B] mt-1">If you think you or your baby may have a medical emergency, call your doctor, go to the emergency room, or call emergency services immediately.</p>
+          </div>
+          <div>
+            <p className="font-semibold text-[#4A3F4B] mb-2">Red Flags in the App</p>
+            <p>When you search for symptoms, you may see &quot;Red Flags&quot; — these are signs that you should seek professional support. Please take these seriously and reach out to a healthcare provider.</p>
+          </div>
+        </div>
+
+        <button onClick={onBack} className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold">
           I Understand
         </button>
       </div>
+    </div>
+  );
+}
+
+// ============================================
+// HELP & FAQ SCREEN
+// ============================================
+function HelpFAQScreen({ onBack }: { onBack: () => void }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs = [
+    { q: "How do I use the Daily Check-In?", a: "Tap 'Daily Check-In' on the Home screen. Answer the quick questions about feeds, diapers, your nourishment, and how you're feeling. It takes about 30 seconds and helps you notice patterns that affect your milk supply." },
+    { q: "What is the Symptom Search?", a: "The Symptom Search helps you understand what you're experiencing. Type any symptom (like 'nipple pain' or 'feeling anxious') and get clear explanations of what's happening, why, what helps, and when to seek support." },
+    { q: "How does the Calm Zone work?", a: "The Calm Zone offers breathing exercises and calming sounds to help you relax. Stress blocks oxytocin (the hormone that helps milk flow), so these tools directly support your breastfeeding journey." },
+    { q: "Is my data private?", a: "Yes. Your check-in data stays on your device (and your private account if logged in). We never sell your data or share it with third parties. See our Privacy Policy for full details." },
+    { q: "How do I upgrade to Pro?", a: "Go to Profile → tap the upgrade card or 'Manage Subscription'. Pro unlocks all education courses, the full tracker with weekly insights, the Calm Zone, and more." },
+    { q: "Can I cancel my Pro subscription?", a: "Yes, anytime. Go to Profile → Manage Subscription → Cancel. You'll keep Pro access until the end of your billing period." },
+    { q: "The app says I should see a doctor. What do I do?", a: "Our Symptom Search includes 'red flags' — signs that you should consult a healthcare provider or lactation consultant (IBCLC). We're an education resource, not a replacement for medical care. When in doubt, reach out to a professional." },
+    { q: "How do I reset my daily check-in?", a: "Each day starts fresh automatically. If you need to edit today's check-in, go to Home → Daily Check-In and update your entries." },
+  ];
+
+  return (
+    <div className="px-5 pt-6 pb-32">
+      <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B]">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
+      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-6">Help & FAQ</h1>
+
+      <div className="space-y-3 mb-8">
+        {faqs.map((faq, i) => (
+          <div key={i} className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
+            <button
+              onClick={() => setOpenIndex(openIndex === i ? null : i)}
+              className="w-full flex items-center justify-between p-4 text-left"
+            >
+              <span className="text-[14px] font-medium text-[#4A3F4B] pr-4">{faq.q}</span>
+              <span className="text-[#9B9299] flex-shrink-0">{openIndex === i ? '−' : '+'}</span>
+            </button>
+            {openIndex === i && (
+              <div className="px-4 pb-4 pt-0">
+                <p className="text-[14px] text-[#4A3F4B]/80 leading-relaxed">{faq.a}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-2">Still need help?</p>
+        <p className="text-[14px] text-[#9B9299] mb-4">We&apos;re here for you.</p>
+        <a href="mailto:support@milkwise.app" className="block w-full py-3 rounded-xl bg-[#C4887A] text-white font-semibold text-center">
+          Email Us: support@milkwise.app
+        </a>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// CONTACT SCREEN
+// ============================================
+function ContactScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="px-5 pt-6 pb-32">
+      <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B]">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
+      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-2">Contact Us</h1>
+      <p className="text-[14px] text-[#9B9299] mb-6">Have a question, suggestion, or just want to share your story? We&apos;d love to hear from you.</p>
+
+      <div className="space-y-4">
+        <a href="mailto:support@milkwise.app" className="block bg-white rounded-[16px] p-5 border border-[#F5E6DC] hover:border-[#C4887A] transition-colors">
+          <span className="text-2xl block mb-2">📧</span>
+          <p className="text-[15px] font-semibold text-[#4A3F4B]">Email</p>
+          <p className="text-[13px] text-[#9B9299] mb-2">For general questions and support</p>
+          <p className="text-[14px] text-[#C4887A]">support@milkwise.app</p>
+        </a>
+
+        <a href="mailto:ideas@milkwise.app" className="block bg-white rounded-[16px] p-5 border border-[#F5E6DC] hover:border-[#C4887A] transition-colors">
+          <span className="text-2xl block mb-2">💡</span>
+          <p className="text-[15px] font-semibold text-[#4A3F4B]">Feature Requests</p>
+          <p className="text-[13px] text-[#9B9299] mb-2">Have an idea to make the app better?</p>
+          <p className="text-[14px] text-[#C4887A]">ideas@milkwise.app</p>
+        </a>
+
+        <a href="mailto:bugs@milkwise.app" className="block bg-white rounded-[16px] p-5 border border-[#F5E6DC] hover:border-[#C4887A] transition-colors">
+          <span className="text-2xl block mb-2">🐛</span>
+          <p className="text-[15px] font-semibold text-[#4A3F4B]">Report a Bug</p>
+          <p className="text-[13px] text-[#9B9299] mb-2">Something not working right?</p>
+          <p className="text-[14px] text-[#C4887A]">bugs@milkwise.app</p>
+        </a>
+      </div>
+
+      <p className="text-center text-[14px] text-[#9B9299] mt-6">We typically respond within 24-48 hours. 💛</p>
+    </div>
+  );
+}
+
+// ============================================
+// TERMS OF SERVICE SCREEN
+// ============================================
+function TermsScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="px-5 pt-6 pb-32">
+      <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B]">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
+      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-2">Terms of Service</h1>
+      <p className="text-[12px] text-[#9B9299] mb-6">Last updated: January 2025</p>
+
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] space-y-5 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">1. Acceptance of Terms</p>
+          <p>By accessing or using MilkWise (&quot;the App&quot;), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the App.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">2. Description of Service</p>
+          <p>MilkWise is an educational resource for breastfeeding mothers. The App provides information about lactation, symptoms, nutrition, and self-care practices. The App is not a medical service and does not provide medical advice, diagnosis, or treatment.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">3. User Accounts</p>
+          <p>To access certain features, you may need to create an account. You are responsible for maintaining the confidentiality of your account information and for all activities under your account.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">4. Subscription & Billing</p>
+          <p>MilkWise offers free and paid (Pro) subscription tiers. Pro subscriptions are billed monthly ($8.99/month) or annually ($69.99/year). Subscriptions auto-renew unless cancelled at least 24 hours before the renewal date.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">5. Refund Policy</p>
+          <p>We want you to be satisfied with MilkWise. If you&apos;re not happy with your Pro subscription, contact us within 7 days of purchase for a full refund. After 7 days, refunds are provided at our discretion.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">6. Intellectual Property</p>
+          <p>All content in MilkWise — including text, graphics, logos, and software — is owned by MilkWise or its licensors and is protected by copyright and other intellectual property laws.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">7. Disclaimer of Warranties</p>
+          <p>The App is provided &quot;as is&quot; without warranties of any kind. We do not guarantee that the App will be error-free, uninterrupted, or meet your specific needs.</p>
+        </div>
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">8. Contact</p>
+          <p>Questions about these Terms? Contact us at legal@milkwise.app.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// PRIVACY POLICY SCREEN
+// ============================================
+function PrivacyScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="px-5 pt-6 pb-32">
+      <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B]">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
+      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-2">Privacy Policy</h1>
+      <p className="text-[12px] text-[#9B9299] mb-6">Last updated: January 2025</p>
+
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] space-y-5 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
+        <div className="bg-[#8BA888]/10 rounded-xl p-4">
+          <p className="font-semibold text-[#8BA888]">Our Commitment</p>
+          <p className="text-[#4A3F4B] mt-1">Your privacy matters deeply to us. MilkWise is built by mothers, for mothers. We understand you&apos;re sharing sensitive information about your body and your baby, and we treat that data with the utmost care and respect.</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">Information We Collect</p>
+          <p className="mb-2"><strong>Account Information:</strong> Email, name (optional), password (encrypted)</p>
+          <p className="mb-2"><strong>Health & Tracking Data:</strong> Feeding logs, diaper counts, nourishment responses, sleep and stress levels. <span className="text-[#8BA888] font-medium">This data is private to you.</span></p>
+          <p><strong>Usage Data:</strong> Anonymous data about which features you use, time spent in the App, and crash reports.</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">What We Never Do</p>
+          <ul className="space-y-1">
+            <li>❌ Sell your personal data</li>
+            <li>❌ Share your health data with third parties</li>
+            <li>❌ Use your data for advertising</li>
+            <li>❌ Access your data without your consent</li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">Your Rights</p>
+          <p>You have the right to access, correct, delete, and export your personal data. You can also withdraw consent at any time. Contact privacy@milkwise.app to exercise these rights.</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">Data Retention</p>
+          <p>We retain your data for as long as your account is active. If you delete your account, we delete your data within 30 days, except where required by law.</p>
+        </div>
+
+        <div>
+          <p className="font-semibold text-[#4A3F4B] mb-2">Contact</p>
+          <p>Questions about privacy? Contact us at privacy@milkwise.app.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// AFFIRMATION TIME SETTING SCREEN
+// ============================================
+function AffirmationTimeScreen({ onBack }: { onBack: () => void }) {
+  const [time, setTime] = useState('08:00');
+  const [enabled, setEnabled] = useState(true);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    const savedTime = localStorage.getItem('affirmationTime');
+    const savedEnabled = localStorage.getItem('affirmationEnabled');
+    if (savedTime) setTime(savedTime);
+    if (savedEnabled !== null) setEnabled(savedEnabled === 'true');
+  }, []);
+
+  const handleSave = () => {
+    localStorage.setItem('affirmationTime', time);
+    localStorage.setItem('affirmationEnabled', enabled.toString());
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  return (
+    <div className="px-5 pt-6 pb-32">
+      <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B]">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC]">
+        <h1 className="text-[18px] font-semibold text-[#4A3F4B] mb-1">Daily Affirmation</h1>
+        <p className="text-[14px] text-[#9B9299] mb-5">Start your day with encouragement</p>
+
+        <div className="flex items-center justify-between py-4 border-b border-[#F5E6DC]">
+          <span className="text-[15px] text-[#4A3F4B]">Enable daily reminder</span>
+          <button
+            onClick={() => setEnabled(!enabled)}
+            className={`w-12 h-7 rounded-full p-1 transition-colors ${enabled ? 'bg-[#8BA888]' : 'bg-[#E5E5E5]'}`}
+          >
+            <div className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${enabled ? 'translate-x-5' : 'translate-x-0'}`} />
+          </button>
+        </div>
+
+        {enabled && (
+          <div className="py-4">
+            <label className="text-[14px] font-medium text-[#4A3F4B] block mb-3">Reminder time</label>
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border-2 border-[#F5E6DC] text-[18px] text-[#4A3F4B] focus:outline-none focus:border-[#8BA888]"
+            />
+            <p className="text-[13px] text-[#9B9299] mt-2">We&apos;ll send you a gentle reminder with your daily affirmation</p>
+          </div>
+        )}
+
+        <button
+          onClick={handleSave}
+          className={`w-full mt-4 py-3.5 rounded-xl font-semibold transition-all ${
+            saved ? 'bg-[#8BA888] text-white' : 'bg-[#C4887A] text-white hover:bg-[#b37a6d]'
+          }`}
+        >
+          {saved ? 'Saved ✓' : 'Save Preference'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// TRACKER SCREEN
+// ============================================
+function TrackerScreen({ onBack, onSave }: { onBack: () => void; onSave: () => void }) {
+  const [feeds, setFeeds] = useState(0);
+  const [lastBreast, setLastBreast] = useState<string | null>(null);
+  const [wetDiapers, setWetDiapers] = useState(0);
+  const [dirtyDiapers, setDirtyDiapers] = useState(0);
+  const [ateProtein, setAteProtein] = useState<boolean | null>(null);
+  const [ate3Plus, setAte3Plus] = useState<boolean | null>(null);
+  const [feelingSick, setFeelingSick] = useState<boolean | null>(null);
+  const [hydration, setHydration] = useState<boolean | null>(null);
+  const [sleep, setSleep] = useState(3);
+  const [stress, setStress] = useState(3);
+  const [showOptional, setShowOptional] = useState(false);
+  const [pumpingSessions, setPumpingSessions] = useState(0);
+  const [babyWeight, setBabyWeight] = useState('');
+  const [saved, setSaved] = useState(false);
+
+  const today = new Date().toLocaleDateString('en-US', {
+    weekday: 'short', month: 'short', day: 'numeric'
+  });
+
+  const handleSave = () => {
+    const checkIn = {
+      date: new Date().toISOString().split('T')[0],
+      feeds: { count: feeds, lastBreast },
+      babyOutput: { wetDiapers, dirtyDiapers },
+      momNourishment: { ateProtein, ate3Plus, feelingSick },
+      hydration,
+      sleep,
+      stress,
+      optional: { pumpingSessions, babyWeight: babyWeight ? parseFloat(babyWeight) : undefined },
+      completedAt: new Date().toISOString()
+    };
+
+    // Save to localStorage
+    const existing = JSON.parse(localStorage.getItem('trackerHistory') || '[]');
+    existing.push(checkIn);
+    localStorage.setItem('trackerHistory', JSON.stringify(existing));
+
+    // Update weekly check-ins
+    const weeklyCheckIns = JSON.parse(localStorage.getItem('weeklyCheckIns') || '[]');
+    if (!weeklyCheckIns.includes(checkIn.date)) {
+      weeklyCheckIns.push(checkIn.date);
+      localStorage.setItem('weeklyCheckIns', JSON.stringify(weeklyCheckIns));
+    }
+
+    setSaved(true);
+    setTimeout(() => {
+      onSave();
+    }, 1500);
+  };
+
+  const encouragingMessages = [
+    "Check-in saved! You're doing great. 💛",
+    "Logged! Remember: tracking helps you, not judges you.",
+    "Done! Your body is working hard. Be gentle with yourself."
+  ];
+
+  if (saved) {
+    return (
+      <div className="px-5 pt-20 pb-32 flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="w-20 h-20 bg-[#8BA888] rounded-full flex items-center justify-center mb-6 animate-scale-in">
+          <span className="text-4xl text-white">✓</span>
+        </div>
+        <p className="text-[18px] font-semibold text-[#4A3F4B] text-center mb-2">
+          {encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-5 pt-6 pb-32">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <button onClick={onBack} className="flex items-center gap-2 text-[#9B9299] hover:text-[#4A3F4B]">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          <span className="text-sm font-medium">Back</span>
+        </button>
+        <h1 className="text-lg font-semibold text-[#4A3F4B]">Daily Check-In</h1>
+        <div className="w-16" />
+      </div>
+
+      <p className="text-center text-[14px] text-[#9B9299] mb-6">{today}</p>
+
+      {/* Feeds Section */}
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-4">🍼 Feeds Today</p>
+
+        <div className="mb-4">
+          <p className="text-[13px] text-[#4A3F4B]/70 mb-3">How many feeds so far?</p>
+          <div className="flex items-center justify-center gap-6">
+            <button
+              onClick={() => setFeeds(Math.max(0, feeds - 1))}
+              className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299] hover:border-[#C4887A] hover:text-[#C4887A] transition-colors"
+            >−</button>
+            <span className="text-[32px] font-bold text-[#4A3F4B] w-12 text-center">{feeds}</span>
+            <button
+              onClick={() => setFeeds(Math.min(20, feeds + 1))}
+              className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299] hover:border-[#8BA888] hover:text-[#8BA888] transition-colors"
+            >+</button>
+          </div>
+        </div>
+
+        <div>
+          <p className="text-[13px] text-[#4A3F4B]/70 mb-3">Which breast last?</p>
+          <div className="flex gap-2">
+            {['Left', 'Right', 'Both'].map(option => (
+              <button
+                key={option}
+                onClick={() => setLastBreast(option)}
+                className={`flex-1 py-2.5 rounded-full text-[14px] font-medium transition-all ${
+                  lastBreast === option
+                    ? 'bg-[#8BA888] text-white'
+                    : 'bg-[#F5E6DC]/50 text-[#4A3F4B] hover:bg-[#F5E6DC]'
+                }`}
+              >{option}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Baby Output Section */}
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-4">👶 Baby&apos;s Output</p>
+
+        <div className="mb-4">
+          <p className="text-[13px] text-[#4A3F4B]/70 mb-3">Wet diapers today</p>
+          <div className="flex items-center justify-center gap-6">
+            <button onClick={() => setWetDiapers(Math.max(0, wetDiapers - 1))} className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299] hover:border-[#C4887A]">−</button>
+            <span className="text-[32px] font-bold text-[#4A3F4B] w-12 text-center">{wetDiapers}</span>
+            <button onClick={() => setWetDiapers(Math.min(20, wetDiapers + 1))} className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299] hover:border-[#8BA888]">+</button>
+          </div>
+        </div>
+
+        <div>
+          <p className="text-[13px] text-[#4A3F4B]/70 mb-3">Dirty diapers today</p>
+          <div className="flex items-center justify-center gap-6">
+            <button onClick={() => setDirtyDiapers(Math.max(0, dirtyDiapers - 1))} className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299] hover:border-[#C4887A]">−</button>
+            <span className="text-[32px] font-bold text-[#4A3F4B] w-12 text-center">{dirtyDiapers}</span>
+            <button onClick={() => setDirtyDiapers(Math.min(20, dirtyDiapers + 1))} className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299] hover:border-[#8BA888]">+</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mom Nourishment Section */}
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-4">🍽️ Your Nourishment</p>
+
+        {[
+          { label: 'Ate protein today?', value: ateProtein, setter: setAteProtein },
+          { label: 'Ate 3+ times today?', value: ate3Plus, setter: setAte3Plus },
+          { label: 'Feeling sick?', value: feelingSick, setter: setFeelingSick },
+        ].map((item, i) => (
+          <div key={i} className={i < 2 ? 'mb-4' : ''}>
+            <p className="text-[13px] text-[#4A3F4B]/70 mb-2">{item.label}</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => item.setter(true)}
+                className={`flex-1 py-2.5 rounded-full text-[14px] font-medium transition-all ${
+                  item.value === true ? 'bg-[#8BA888] text-white' : 'bg-[#F5E6DC]/50 text-[#4A3F4B]'
+                }`}
+              >Yes</button>
+              <button
+                onClick={() => item.setter(false)}
+                className={`flex-1 py-2.5 rounded-full text-[14px] font-medium transition-all ${
+                  item.value === false ? 'bg-[#C4887A] text-white' : 'bg-[#F5E6DC]/50 text-[#4A3F4B]'
+                }`}
+              >No</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Hydration Section */}
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-2">💧 Hydration</p>
+        <p className="text-[13px] text-[#4A3F4B]/70 mb-3">Had mineral-rich fluids? (water, coconut water, herbal tea, broth)</p>
+        <div className="flex gap-2">
+          <button onClick={() => setHydration(true)} className={`flex-1 py-2.5 rounded-full text-[14px] font-medium transition-all ${hydration === true ? 'bg-[#8BA888] text-white' : 'bg-[#F5E6DC]/50 text-[#4A3F4B]'}`}>Yes</button>
+          <button onClick={() => setHydration(false)} className={`flex-1 py-2.5 rounded-full text-[14px] font-medium transition-all ${hydration === false ? 'bg-[#C4887A] text-white' : 'bg-[#F5E6DC]/50 text-[#4A3F4B]'}`}>No</button>
+        </div>
+      </div>
+
+      {/* Sleep Section */}
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-2">😴 Sleep & Recovery</p>
+        <p className="text-[13px] text-[#4A3F4B]/70 mb-4">Sleep in the last 24 hours</p>
+        <div className="flex items-center gap-3">
+          <span className="text-xl">🟥</span>
+          <input
+            type="range" min="1" max="5" value={sleep}
+            onChange={(e) => setSleep(parseInt(e.target.value))}
+            className="flex-1 h-2 rounded-full appearance-none bg-gradient-to-r from-[#C4887A] to-[#8BA888] cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-[#4A3F4B] [&::-webkit-slider-thumb]:shadow-md"
+          />
+          <span className="text-xl">🟩</span>
+        </div>
+        <div className="flex justify-between text-[11px] text-[#9B9299] mt-2">
+          <span>Fragmented</span>
+          <span>Restorative</span>
+        </div>
+      </div>
+
+      {/* Stress Section */}
+      <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+        <p className="text-[15px] font-semibold text-[#4A3F4B] mb-2">🧘 Stress Level</p>
+        <p className="text-[13px] text-[#4A3F4B]/70 mb-4">How&apos;s your nervous system?</p>
+        <div className="flex items-center gap-3">
+          <span className="text-xl">😌</span>
+          <input
+            type="range" min="1" max="5" value={stress}
+            onChange={(e) => setStress(parseInt(e.target.value))}
+            className="flex-1 h-2 rounded-full appearance-none bg-gradient-to-r from-[#8BA888] to-[#C4887A] cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-[#4A3F4B] [&::-webkit-slider-thumb]:shadow-md"
+          />
+          <span className="text-xl">😰</span>
+        </div>
+        <div className="flex justify-between text-[11px] text-[#9B9299] mt-2">
+          <span>Calm</span>
+          <span>Overwhelmed</span>
+        </div>
+      </div>
+
+      {/* Optional Section */}
+      <button
+        onClick={() => setShowOptional(!showOptional)}
+        className="w-full flex items-center justify-between p-4 bg-[#F5E6DC]/30 rounded-[16px] mb-4"
+      >
+        <span className="text-[14px] text-[#9B9299] font-medium">{showOptional ? '▲' : '▼'} Optional</span>
+      </button>
+
+      {showOptional && (
+        <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-4">
+          <div className="mb-4">
+            <p className="text-[13px] text-[#4A3F4B]/70 mb-3">🍼 Pumping sessions</p>
+            <div className="flex items-center justify-center gap-6">
+              <button onClick={() => setPumpingSessions(Math.max(0, pumpingSessions - 1))} className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299]">−</button>
+              <span className="text-[32px] font-bold text-[#4A3F4B] w-12 text-center">{pumpingSessions}</span>
+              <button onClick={() => setPumpingSessions(pumpingSessions + 1)} className="w-11 h-11 rounded-full border-2 border-[#E5E5E5] flex items-center justify-center text-xl text-[#9B9299]">+</button>
+            </div>
+          </div>
+          <div>
+            <p className="text-[13px] text-[#4A3F4B]/70 mb-2">⚖️ Baby&apos;s weight (weekly)</p>
+            <input
+              type="number"
+              step="0.1"
+              placeholder="lbs"
+              value={babyWeight}
+              onChange={(e) => setBabyWeight(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-[#F5E6DC] text-[15px] text-[#4A3F4B]"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Save Button */}
+      <button
+        onClick={handleSave}
+        className="w-full py-4 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold text-[16px]"
+      >
+        Save Check-In ✓
+      </button>
+      <p className="text-center text-[13px] text-[#9B9299] mt-3">
+        This takes care of YOU so you can take care of baby. 💛
+      </p>
     </div>
   );
 }
@@ -1301,11 +2012,16 @@ function DisclaimerScreen({ onBack }: { onBack: () => void }) {
 // ============================================
 export default function Home() {
   const [activeTab, setActiveTab] = useState("home");
+  const [showTracker, setShowTracker] = useState(false);
 
   const renderScreen = () => {
+    if (showTracker) {
+      return <TrackerScreen onBack={() => setShowTracker(false)} onSave={() => setShowTracker(false)} />;
+    }
+
     switch (activeTab) {
       case "home":
-        return <HomeScreen setActiveTab={setActiveTab} />;
+        return <HomeScreen setActiveTab={setActiveTab} setShowTracker={setShowTracker} />;
       case "learn":
         return <LearnScreen />;
       case "symptoms":
@@ -1315,14 +2031,14 @@ export default function Home() {
       case "profile":
         return <ProfileScreen />;
       default:
-        return <HomeScreen setActiveTab={setActiveTab} />;
+        return <HomeScreen setActiveTab={setActiveTab} setShowTracker={setShowTracker} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-[#FDF8F3] max-w-md mx-auto relative">
       {renderScreen()}
-      <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+      {!showTracker && <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />}
     </div>
   );
 }
