@@ -45,6 +45,11 @@ function Navigation({
         <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
       </svg>
     )},
+    { id: "profile", label: "Profile", icon: (active: boolean) => (
+      <svg className={`w-6 h-6 ${active ? 'stroke-[#C4887A]' : 'stroke-[#9B9299]'}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+      </svg>
+    )},
   ];
 
   return (
@@ -53,7 +58,7 @@ function Navigation({
         <button
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
-          className={`flex flex-col items-center gap-1 px-5 py-2 rounded-2xl transition-all duration-200 ${
+          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-2xl transition-all duration-200 ${
             activeTab === tab.id
               ? "bg-[#F5E6DC]/70"
               : "hover:bg-[#F5E6DC]/30"
@@ -61,7 +66,7 @@ function Navigation({
         >
           {tab.icon(activeTab === tab.id)}
           <span
-            className={`text-[11px] font-medium tracking-wide ${
+            className={`text-[10px] font-medium tracking-wide ${
               activeTab === tab.id ? "text-[#C4887A]" : "text-[#9B9299]"
             }`}
           >
@@ -723,7 +728,7 @@ function CalmScreen() {
       return;
     }
 
-    let phaseIndex = 0;
+    let timeoutId: NodeJS.Timeout;
     const phases = [
       { text: "Breathe in...", duration: 4000, scale: 1.3 },
       { text: "Hold...", duration: 7000, scale: 1.3 },
@@ -731,23 +736,6 @@ function CalmScreen() {
       { text: "Hold...", duration: 4000, scale: 1 },
     ];
 
-    const runPhase = () => {
-      if (!breathingActive) return;
-
-      const phase = phases[phaseIndex];
-      setBreathPhase(phase.text);
-      setBreathScale(phase.scale);
-
-      phaseIndex = (phaseIndex + 1) % phases.length;
-    };
-
-    runPhase();
-    const interval = setInterval(() => {
-      runPhase();
-    }, phases.reduce((sum, p, i) => i < phaseIndex ? sum + p.duration : sum, 0) || phases[phaseIndex === 0 ? 3 : phaseIndex - 1].duration);
-
-    // More accurate timing
-    let timeoutId: NodeJS.Timeout;
     const runCycle = (idx: number) => {
       if (!breathingActive) return;
       const phase = phases[idx];
@@ -758,12 +746,10 @@ function CalmScreen() {
       }, phase.duration);
     };
 
-    clearInterval(interval);
     runCycle(0);
 
     return () => {
       clearTimeout(timeoutId);
-      clearInterval(interval);
     };
   }, [breathingActive]);
 
@@ -870,6 +856,447 @@ function CalmScreen() {
 }
 
 // ============================================
+// PROFILE SCREEN
+// ============================================
+function ProfileScreen() {
+  const [currentView, setCurrentView] = useState<'main' | 'edit' | 'disclaimer'>('main');
+
+  // Placeholder user state (will be replaced with Supabase auth in Phase 2)
+  const [isLoggedIn] = useState(false);
+  const [user] = useState({
+    name: "Mama",
+    email: "",
+    initials: "M",
+    isPro: false,
+    memberSince: null as Date | null,
+    nextBilling: null as Date | null,
+  });
+
+  if (currentView === 'edit') {
+    return <EditProfileScreen onBack={() => setCurrentView('main')} />;
+  }
+
+  if (currentView === 'disclaimer') {
+    return <DisclaimerScreen onBack={() => setCurrentView('main')} />;
+  }
+
+  return (
+    <div className="px-5 pt-8 pb-32">
+      <h1 className="text-[24px] font-semibold text-[#4A3F4B] mb-6 tracking-tight">
+        Profile
+      </h1>
+
+      {/* User Header */}
+      <div className="flex flex-col items-center mb-6">
+        {/* Avatar */}
+        <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
+          <span className="text-3xl font-semibold text-white">{user.initials}</span>
+        </div>
+        <h2 className="text-xl font-semibold text-[#4A3F4B]">{user.name}</h2>
+        {user.email && (
+          <p className="text-sm text-[#9B9299]">{user.email}</p>
+        )}
+        {isLoggedIn && (
+          <button
+            onClick={() => setCurrentView('edit')}
+            className="mt-2 text-sm text-[#C4887A] font-medium hover:underline"
+          >
+            Edit Profile
+          </button>
+        )}
+      </div>
+
+      {/* Auth Buttons (if not logged in) */}
+      {!isLoggedIn && (
+        <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-6">
+          <p className="text-center text-[14px] text-[#4A3F4B] mb-4">
+            Create an account to save your progress and sync across devices.
+          </p>
+          <div className="flex flex-col gap-3">
+            <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold">
+              Create Account
+            </button>
+            <button className="w-full py-3 rounded-xl border border-[#F5E6DC] text-[#4A3F4B] font-medium hover:bg-[#F5E6DC]/50 transition-colors">
+              Sign In
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Subscription Card */}
+      {user.isPro ? (
+        <div className="bg-gradient-to-br from-[#E8B4A6]/30 to-[#F5E6DC] rounded-[16px] p-5 mb-6 border border-[#E8B4A6]/50">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">✨</span>
+            <span className="font-semibold text-[#4A3F4B]">Pro Member</span>
+          </div>
+          <p className="text-sm text-[#4A3F4B]/80 mb-4">
+            Thank you for supporting MilkWise!
+          </p>
+          {user.memberSince && (
+            <p className="text-xs text-[#9B9299] mb-1">
+              Member since: {user.memberSince.toLocaleDateString()}
+            </p>
+          )}
+          {user.nextBilling && (
+            <p className="text-xs text-[#9B9299] mb-4">
+              Next billing: {user.nextBilling.toLocaleDateString()}
+            </p>
+          )}
+          <button className="w-full py-2.5 rounded-xl border border-[#C4887A] text-[#C4887A] font-medium text-sm hover:bg-[#C4887A]/10 transition-colors">
+            Manage Subscription
+          </button>
+        </div>
+      ) : (
+        <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mb-6 border border-[#F5E6DC]">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">🌱</span>
+            <span className="font-semibold text-[#4A3F4B]">Free Plan</span>
+          </div>
+          <p className="text-sm text-[#4A3F4B]/80 mb-4">
+            Upgrade to Pro to unlock:
+          </p>
+          <ul className="space-y-2 mb-5">
+            {[
+              "Complete Education Courses",
+              "Smart Tracker & Weekly Insights",
+              "Full Calm Zone Experience",
+              "Nutrition Hub",
+              "Weaning Guide",
+              "Resources Directory",
+            ].map((feature) => (
+              <li key={feature} className="flex items-center gap-2 text-sm text-[#4A3F4B]/80">
+                <svg className="w-4 h-4 text-[#8BA888]" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+          <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold mb-2">
+            Upgrade to Pro — $8.99/mo
+          </button>
+          <p className="text-center text-xs text-[#9B9299]">
+            or $69.99/year (save 35%)
+          </p>
+        </div>
+      )}
+
+      {/* Settings Menu */}
+      <div className="space-y-6">
+        {/* Account Section */}
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
+            Account
+          </p>
+          <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
+            <SettingsItem label="Edit Profile" onClick={() => setCurrentView('edit')} />
+            <SettingsItem label="Change Email" onClick={() => {}} />
+            <SettingsItem label="Change Password" onClick={() => {}} isLast />
+          </div>
+        </div>
+
+        {/* Preferences Section */}
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
+            Preferences
+          </p>
+          <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
+            <SettingsItem label="Notifications" onClick={() => {}} hasToggle />
+            <SettingsItem label="Daily Affirmation Time" onClick={() => {}} value="9:00 AM" isLast />
+          </div>
+        </div>
+
+        {/* Support Section */}
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
+            Support
+          </p>
+          <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
+            <SettingsItem label="Help & FAQ" onClick={() => {}} />
+            <SettingsItem label="Contact Us" onClick={() => {}} />
+            <SettingsItem label="Report a Problem" onClick={() => {}} isLast />
+          </div>
+        </div>
+
+        {/* Legal Section */}
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
+            Legal
+          </p>
+          <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
+            <SettingsItem label="Terms of Service" onClick={() => {}} />
+            <SettingsItem label="Privacy Policy" onClick={() => {}} />
+            <SettingsItem label="Medical Disclaimer" onClick={() => setCurrentView('disclaimer')} isLast />
+          </div>
+        </div>
+
+        {/* Account Actions */}
+        {isLoggedIn && (
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">
+              Account Actions
+            </p>
+            <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
+              <SettingsItem label="Log Out" onClick={() => {}} textColor="text-[#C4887A]" />
+              <SettingsItem label="Delete Account" onClick={() => {}} textColor="text-red-500" isLast />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* App Info Footer */}
+      <div className="mt-10 text-center">
+        <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
+        <p className="text-xs text-[#9B9299] mt-1">
+          Made with 🤍 for breastfeeding mothers
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SettingsItem({
+  label,
+  onClick,
+  value,
+  hasToggle,
+  isLast,
+  textColor = "text-[#4A3F4B]",
+}: {
+  label: string;
+  onClick: () => void;
+  value?: string;
+  hasToggle?: boolean;
+  isLast?: boolean;
+  textColor?: string;
+}) {
+  const [isOn, setIsOn] = useState(true);
+
+  return (
+    <button
+      onClick={hasToggle ? () => setIsOn(!isOn) : onClick}
+      className={`w-full flex items-center justify-between px-4 py-4 hover:bg-[#F5E6DC]/30 transition-colors ${
+        !isLast ? "border-b border-[#F5E6DC]" : ""
+      }`}
+    >
+      <span className={`text-[15px] ${textColor}`}>{label}</span>
+      <div className="flex items-center gap-2">
+        {value && <span className="text-sm text-[#9B9299]">{value}</span>}
+        {hasToggle ? (
+          <div
+            className={`w-12 h-7 rounded-full p-1 transition-colors ${
+              isOn ? "bg-[#8BA888]" : "bg-[#E5E5E5]"
+            }`}
+          >
+            <div
+              className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
+                isOn ? "translate-x-5" : "translate-x-0"
+              }`}
+            />
+          </div>
+        ) : (
+          <svg className="w-5 h-5 text-[#9B9299]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        )}
+      </div>
+    </button>
+  );
+}
+
+// ============================================
+// EDIT PROFILE SCREEN
+// ============================================
+function EditProfileScreen({ onBack }: { onBack: () => void }) {
+  const [name, setName] = useState("Mama");
+  const [email, setEmail] = useState("");
+  const [babyBirthDate, setBabyBirthDate] = useState("");
+  const [feedingJourney, setFeedingJourney] = useState<string | null>(null);
+
+  const journeyOptions = [
+    { id: "breastfeeding", label: "Breastfeeding" },
+    { id: "pumping", label: "Pumping" },
+    { id: "combo", label: "Combo feeding" },
+    { id: "weaning", label: "Weaning" },
+  ];
+
+  return (
+    <div className="px-5 pt-6 pb-32">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-[#9B9299] hover:text-[#4A3F4B] transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
+          <span className="text-sm font-medium">Back</span>
+        </button>
+        <h1 className="text-lg font-semibold text-[#4A3F4B]">Edit Profile</h1>
+        <div className="w-16" /> {/* Spacer for centering */}
+      </div>
+
+      {/* Avatar */}
+      <div className="flex flex-col items-center mb-8">
+        <div className="w-24 h-24 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
+          <span className="text-4xl font-semibold text-white">M</span>
+        </div>
+        <button className="text-sm text-[#C4887A] font-medium hover:underline">
+          Change Photo
+        </button>
+      </div>
+
+      {/* Form */}
+      <div className="space-y-5">
+        {/* Display Name */}
+        <div>
+          <label className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-2 block">
+            Display Name
+          </label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-[#F5E6DC] bg-white text-[#4A3F4B] text-[15px] focus:outline-none focus:border-[#C4887A] transition-colors"
+            placeholder="Your name"
+          />
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-2 block">
+            Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-[#F5E6DC] bg-white text-[#4A3F4B] text-[15px] focus:outline-none focus:border-[#C4887A] transition-colors"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        {/* Baby's Birth Date */}
+        <div>
+          <label className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-2 block">
+            Baby&apos;s Birth Date <span className="text-[#9B9299] normal-case">(optional)</span>
+          </label>
+          <input
+            type="date"
+            value={babyBirthDate}
+            onChange={(e) => setBabyBirthDate(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-[#F5E6DC] bg-white text-[#4A3F4B] text-[15px] focus:outline-none focus:border-[#C4887A] transition-colors"
+          />
+        </div>
+
+        {/* Feeding Journey */}
+        <div>
+          <label className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 block">
+            Feeding Journey <span className="text-[#9B9299] normal-case">(optional)</span>
+          </label>
+          <div className="space-y-2">
+            {journeyOptions.map((option) => (
+              <button
+                key={option.id}
+                onClick={() => setFeedingJourney(option.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
+                  feedingJourney === option.id
+                    ? "border-[#C4887A] bg-[#F5E6DC]/50"
+                    : "border-[#F5E6DC] bg-white hover:bg-[#F5E6DC]/30"
+                }`}
+              >
+                <div
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                    feedingJourney === option.id
+                      ? "border-[#C4887A]"
+                      : "border-[#9B9299]"
+                  }`}
+                >
+                  {feedingJourney === option.id && (
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#C4887A]" />
+                  )}
+                </div>
+                <span className="text-[15px] text-[#4A3F4B]">{option.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Save Button */}
+      <button className="w-full mt-8 py-3.5 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold text-[15px] hover:opacity-90 transition-opacity">
+        Save Changes
+      </button>
+    </div>
+  );
+}
+
+// ============================================
+// MEDICAL DISCLAIMER SCREEN
+// ============================================
+function DisclaimerScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="px-5 pt-6 pb-32">
+      {/* Header */}
+      <button
+        onClick={onBack}
+        className="flex items-center gap-2 text-[#9B9299] mb-6 hover:text-[#4A3F4B] transition-colors"
+      >
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
+      {/* Content */}
+      <div className="bg-white rounded-[20px] p-6 border border-[#F5E6DC]">
+        <h1 className="text-xl font-semibold text-[#4A3F4B] mb-6">
+          Medical Disclaimer
+        </h1>
+
+        <div className="space-y-4 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
+          <p>
+            MilkWise provides educational information about breastfeeding and lactation.
+            This app is not a substitute for professional medical advice, diagnosis, or treatment.
+          </p>
+
+          <p>
+            Always seek the advice of your physician, lactation consultant (IBCLC), or other
+            qualified health provider with any questions you may have regarding breastfeeding
+            or a medical condition.
+          </p>
+
+          <p>
+            Never disregard professional medical advice or delay in seeking it because of
+            something you have read in this app.
+          </p>
+
+          <p className="font-medium text-[#C4887A]">
+            If you think you may have a medical emergency, call your doctor or emergency
+            services immediately.
+          </p>
+
+          <p>
+            The information provided in this app is for educational purposes only and is
+            not intended to be a substitute for professional medical advice, diagnosis,
+            or treatment.
+          </p>
+        </div>
+
+        <button
+          onClick={onBack}
+          className="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold"
+        >
+          I Understand
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
 // MAIN APP
 // ============================================
 export default function Home() {
@@ -885,6 +1312,8 @@ export default function Home() {
         return <SymptomsScreen />;
       case "calm":
         return <CalmScreen />;
+      case "profile":
+        return <ProfileScreen />;
       default:
         return <HomeScreen setActiveTab={setActiveTab} />;
     }
