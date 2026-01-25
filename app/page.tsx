@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import {
   symptoms,
   searchSymptoms,
@@ -15,6 +16,8 @@ import {
   type Affirmation,
   type Fact,
 } from "../data";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCheckIn } from "@/contexts/CheckInContext";
 
 // ============================================
 // NAVIGATION COMPONENT
@@ -94,14 +97,26 @@ function HomeScreen({
   const [fact, setFact] = useState<Fact | null>(null);
   const [isAffirmationAnimating, setIsAffirmationAnimating] = useState(false);
   const [checkIns, setCheckIns] = useState<string[]>([]);
+  const { user, profile } = useAuth();
+  const { recentCheckIns } = useCheckIn();
+
+  // Get personalized name
+  const userName = profile?.name || 'Mama';
 
   useEffect(() => {
     setAffirmation(getDailyAffirmation());
     setFact(getDailyFact());
-    // Load check-ins from localStorage
-    const saved = localStorage.getItem('weeklyCheckIns');
-    if (saved) setCheckIns(JSON.parse(saved));
-  }, []);
+
+    if (user && recentCheckIns.length > 0) {
+      // Use Supabase check-ins for authenticated users
+      const dates = recentCheckIns.map(c => c.date);
+      setCheckIns(dates);
+    } else if (!user) {
+      // Load check-ins from localStorage for non-authenticated users
+      const saved = localStorage.getItem('weeklyCheckIns');
+      if (saved) setCheckIns(JSON.parse(saved));
+    }
+  }, [user, recentCheckIns]);
 
   const currentHour = new Date().getHours();
   const greeting =
@@ -157,7 +172,7 @@ function HomeScreen({
       {/* Personalized Greeting */}
       <div className="mb-6 animate-fade-in">
         <h1 className="text-[28px] font-semibold text-[#4A3F4B] tracking-tight">
-          {greeting}, Mama <span className="text-2xl">☀️</span>
+          {greeting}, {userName} <span className="text-2xl">☀️</span>
         </h1>
         <p className="text-[14px] text-[#9B9299] mt-1">{dateString}</p>
       </div>
@@ -1075,17 +1090,24 @@ type ProfileView = 'main' | 'edit' | 'disclaimer' | 'help' | 'contact' | 'terms'
 
 function ProfileScreen() {
   const [currentView, setCurrentView] = useState<ProfileView>('main');
+  const router = useRouter();
+  const { user: authUser, profile, signOut, loading: authLoading } = useAuth();
 
-  // Placeholder user state (will be replaced with Supabase auth in Phase 2)
-  const [isLoggedIn] = useState(false);
-  const [user] = useState({
-    name: "Mama",
-    email: "",
-    initials: "M",
-    isPro: false,
-    memberSince: null as Date | null,
+  // Derive user state from auth context
+  const isLoggedIn = !!authUser;
+  const user = {
+    name: profile?.name || "Mama",
+    email: profile?.email || "",
+    initials: profile?.name ? profile.name.charAt(0).toUpperCase() : "M",
+    isPro: profile?.subscription_status === 'pro',
+    memberSince: profile?.created_at ? new Date(profile.created_at) : null,
     nextBilling: null as Date | null,
-  });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/');
+  };
 
   if (currentView === 'edit') return <EditProfileScreen onBack={() => setCurrentView('main')} />;
   if (currentView === 'disclaimer') return <DisclaimerScreen onBack={() => setCurrentView('main')} />;
@@ -1137,16 +1159,22 @@ function ProfileScreen() {
       </button>
 
       {/* Auth Buttons (if not logged in) */}
-      {!isLoggedIn && (
+      {!isLoggedIn && !authLoading && (
         <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] mb-6">
           <p className="text-center text-[14px] text-[#4A3F4B] mb-4">
             Create an account to save your progress and sync across devices.
           </p>
           <div className="flex flex-col gap-3">
-            <button className="w-full py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold">
+            <button
+              onClick={() => router.push('/auth/signup')}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#C4887A] to-[#E8B4A6] text-white font-semibold"
+            >
               Create Account
             </button>
-            <button className="w-full py-3 rounded-xl border border-[#F5E6DC] text-[#4A3F4B] font-medium hover:bg-[#F5E6DC]/50 transition-colors">
+            <button
+              onClick={() => router.push('/auth/login')}
+              className="w-full py-3 rounded-xl border border-[#F5E6DC] text-[#4A3F4B] font-medium hover:bg-[#F5E6DC]/50 transition-colors"
+            >
               Sign In
             </button>
           </div>
@@ -1232,7 +1260,7 @@ function ProfileScreen() {
           <div>
             <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 px-1">Account Actions</p>
             <div className="bg-white rounded-[16px] border border-[#F5E6DC] overflow-hidden">
-              <SettingsItem label="Log Out" onClick={() => {}} textColor="text-[#C4887A]" />
+              <SettingsItem label="Log Out" onClick={handleSignOut} textColor="text-[#C4887A]" />
               <SettingsItem label="Delete Account" onClick={() => {}} textColor="text-red-500" isLast />
             </div>
           </div>
@@ -1779,16 +1807,40 @@ function InsightsScreen({ onBack }: { onBack: () => void }) {
   const [checkIns, setCheckIns] = useState<Record<string, CheckInData>>({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { user } = useAuth();
+  const { allCheckIns, loading: checkInLoading } = useCheckIn();
 
   useEffect(() => {
-    // Load check-ins from localStorage
-    const history = JSON.parse(localStorage.getItem('trackerHistory') || '[]');
-    const checkInMap: Record<string, CheckInData> = {};
-    history.forEach((checkIn: CheckInData) => {
-      checkInMap[checkIn.date] = checkIn;
-    });
-    setCheckIns(checkInMap);
-  }, []);
+    if (user && allCheckIns.length > 0) {
+      // Convert Supabase check-ins to local format
+      const checkInMap: Record<string, CheckInData> = {};
+      allCheckIns.forEach((checkIn) => {
+        checkInMap[checkIn.date] = {
+          date: checkIn.date,
+          feeds: { count: checkIn.feeds_count || 0, lastBreast: checkIn.feeds_last_breast },
+          babyOutput: { wetDiapers: checkIn.wet_diapers || 0, dirtyDiapers: checkIn.dirty_diapers || 0 },
+          momNourishment: {
+            ateProtein: checkIn.ate_protein,
+            ate3Plus: checkIn.ate_3_plus_times,
+            feelingSick: checkIn.feeling_sick
+          },
+          hydration: checkIn.hydration,
+          sleep: checkIn.sleep || 3,
+          stress: checkIn.stress || 3,
+          completedAt: checkIn.created_at
+        };
+      });
+      setCheckIns(checkInMap);
+    } else if (!user) {
+      // Load check-ins from localStorage for non-authenticated users
+      const history = JSON.parse(localStorage.getItem('trackerHistory') || '[]');
+      const checkInMap: Record<string, CheckInData> = {};
+      history.forEach((checkIn: CheckInData) => {
+        checkInMap[checkIn.date] = checkIn;
+      });
+      setCheckIns(checkInMap);
+    }
+  }, [user, allCheckIns]);
 
   // Calculate day score
   const calculateDayScore = (checkIn: CheckInData): number => {
@@ -2307,34 +2359,58 @@ function TrackerScreen({ onBack, onSave }: { onBack: () => void; onSave: () => v
   const [pumpingSessions, setPumpingSessions] = useState(0);
   const [babyWeight, setBabyWeight] = useState('');
   const [saved, setSaved] = useState(false);
+  const { user } = useAuth();
+  const { saveCheckIn, refreshCheckIns } = useCheckIn();
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'short', month: 'short', day: 'numeric'
   });
 
-  const handleSave = () => {
-    const checkIn = {
-      date: new Date().toISOString().split('T')[0],
-      feeds: { count: feeds, lastBreast },
-      babyOutput: { wetDiapers, dirtyDiapers },
-      momNourishment: { ateProtein, ate3Plus, feelingSick },
-      hydration,
-      sleep,
-      stress,
-      optional: { pumpingSessions, babyWeight: babyWeight ? parseFloat(babyWeight) : undefined },
-      completedAt: new Date().toISOString()
+  const handleSave = async () => {
+    const checkInData = {
+      feeds_count: feeds,
+      feeds_last_breast: lastBreast as 'Left' | 'Right' | 'Both' | null,
+      wet_diapers: wetDiapers,
+      dirty_diapers: dirtyDiapers,
+      ate_protein: ateProtein,
+      ate_3_plus_times: ate3Plus,
+      feeling_sick: feelingSick,
+      hydration: hydration,
+      sleep: sleep,
+      stress: stress,
+      pumping_sessions: pumpingSessions || null,
+      baby_weight: babyWeight ? parseFloat(babyWeight) : null,
     };
 
-    // Save to localStorage
-    const existing = JSON.parse(localStorage.getItem('trackerHistory') || '[]');
-    existing.push(checkIn);
-    localStorage.setItem('trackerHistory', JSON.stringify(existing));
+    if (user) {
+      // Save to Supabase
+      const { error } = await saveCheckIn(checkInData);
+      if (error) {
+        console.error('Error saving check-in:', error);
+      }
+    } else {
+      // Save to localStorage as fallback for non-authenticated users
+      const localCheckIn = {
+        date: new Date().toISOString().split('T')[0],
+        feeds: { count: feeds, lastBreast },
+        babyOutput: { wetDiapers, dirtyDiapers },
+        momNourishment: { ateProtein, ate3Plus, feelingSick },
+        hydration,
+        sleep,
+        stress,
+        optional: { pumpingSessions, babyWeight: babyWeight ? parseFloat(babyWeight) : undefined },
+        completedAt: new Date().toISOString()
+      };
 
-    // Update weekly check-ins
-    const weeklyCheckIns = JSON.parse(localStorage.getItem('weeklyCheckIns') || '[]');
-    if (!weeklyCheckIns.includes(checkIn.date)) {
-      weeklyCheckIns.push(checkIn.date);
-      localStorage.setItem('weeklyCheckIns', JSON.stringify(weeklyCheckIns));
+      const existing = JSON.parse(localStorage.getItem('trackerHistory') || '[]');
+      existing.push(localCheckIn);
+      localStorage.setItem('trackerHistory', JSON.stringify(existing));
+
+      const weeklyCheckIns = JSON.parse(localStorage.getItem('weeklyCheckIns') || '[]');
+      if (!weeklyCheckIns.includes(localCheckIn.date)) {
+        weeklyCheckIns.push(localCheckIn.date);
+        localStorage.setItem('weeklyCheckIns', JSON.stringify(weeklyCheckIns));
+      }
     }
 
     setSaved(true);
