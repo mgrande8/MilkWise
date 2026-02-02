@@ -288,7 +288,7 @@ function HomeScreen({
       </div>
 
       {/* Main branded illustration */}
-      <div className="flex justify-center -mb-12">
+      <div className="flex justify-center -mb-16">
         <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[320px] mix-blend-multiply" />
       </div>
     </div>
@@ -1377,7 +1377,7 @@ function ProfileScreen() {
       </div>
 
       {/* Feminine body illustration */}
-      <div className="flex justify-center -mb-12">
+      <div className="flex justify-center -mt-4 -mb-12">
         <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[280px] mix-blend-multiply opacity-80" />
       </div>
       <div className="text-center">
