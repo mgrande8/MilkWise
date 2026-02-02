@@ -131,39 +131,48 @@ export function NursingMother({ className = "", size = 120, color = "#4A3F4B" }:
 // ─── DIVIDERS ────────────────────────────────────────────────────
 
 export function BranchDivider({ className = "" }: { className?: string }) {
+  const c = "#4A3F4B";
   return (
     <div className={`flex items-center justify-center py-5 ${className}`} aria-hidden="true">
-      <svg width="280" height="36" viewBox="0 0 280 36" fill="none">
-        {/* Main horizontal vine */}
-        <path d="M30 18C50 18 60 14 80 16C100 18 110 18 140 18C170 18 180 18 200 16C220 14 230 18 250 18" stroke="#4A3F4B" strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
-        {/* Left magnolia */}
-        <path d="M60 16C56 10 60 6 64 10C60 14 56 14 60 16Z" stroke="#4A3F4B" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-        <path d="M64 10C68 6 72 8 68 14C64 12 62 14 64 10Z" stroke="#4A3F4B" strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
-        <circle cx="63" cy="12" r="1.5" fill="#C4887A" opacity="0.4" />
-        {/* Left leaf pair */}
-        <path d="M85 16C82 10 86 7 90 12" stroke="#4A3F4B" strokeWidth="1.1" strokeLinecap="round" opacity="0.35" />
-        <path d="M90 12C92 16 88 18 85 16" stroke="#4A3F4B" strokeWidth="1.1" strokeLinecap="round" opacity="0.35" />
-        <path d="M92 17C88 22 84 24 86 18" stroke="#4A3F4B" strokeWidth="1" strokeLinecap="round" opacity="0.3" />
-        {/* Small inner leaf */}
-        <path d="M108 17C106 12 110 10 112 14" stroke="#8BA888" strokeWidth="1" strokeLinecap="round" opacity="0.35" />
-        <path d="M112 14C113 18 109 19 108 17" stroke="#8BA888" strokeWidth="1" strokeLinecap="round" opacity="0.35" />
-        {/* Center flower */}
-        <path d="M140 18C137 12 140 6 143 12C140 14 137 14 140 18Z" stroke="#C4887A" strokeWidth="1.2" strokeLinecap="round" opacity="0.45" />
-        <path d="M140 18C146 16 150 12 146 18C144 20 142 20 140 18Z" stroke="#C4887A" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-        <path d="M140 18C143 24 140 28 137 22C138 20 140 18 140 18Z" stroke="#C4887A" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-        <path d="M140 18C134 16 130 12 136 18C138 20 140 18 140 18Z" stroke="#C4887A" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-        <circle cx="140" cy="17" r="2" fill="#C4887A" opacity="0.35" />
-        {/* Right inner leaf */}
-        <path d="M168 17C170 12 166 10 164 14" stroke="#8BA888" strokeWidth="1" strokeLinecap="round" opacity="0.35" />
-        <path d="M164 14C163 18 167 19 168 17" stroke="#8BA888" strokeWidth="1" strokeLinecap="round" opacity="0.35" />
-        {/* Right leaf pair */}
-        <path d="M195 16C198 10 194 7 190 12" stroke="#4A3F4B" strokeWidth="1.1" strokeLinecap="round" opacity="0.35" />
-        <path d="M190 12C188 16 192 18 195 16" stroke="#4A3F4B" strokeWidth="1.1" strokeLinecap="round" opacity="0.35" />
-        <path d="M188 17C192 22 196 24 194 18" stroke="#4A3F4B" strokeWidth="1" strokeLinecap="round" opacity="0.3" />
-        {/* Right magnolia */}
-        <path d="M220 16C224 10 220 6 216 10C220 14 224 14 220 16Z" stroke="#4A3F4B" strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
-        <path d="M216 10C212 6 208 8 212 14C216 12 218 14 216 10Z" stroke="#4A3F4B" strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
-        <circle cx="217" cy="12" r="1.5" fill="#C4887A" opacity="0.4" />
+      <svg width="280" height="30" viewBox="0 0 280 30" fill="none">
+        {/* Left stem - gentle arc from center to left */}
+        <path d="M140 24C125 20 95 13 60 11C42 10 28 11 18 13" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.25" />
+        {/* Right stem - mirror */}
+        <path d="M140 24C155 20 185 13 220 11C238 10 252 11 262 13" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.25" />
+
+        {/* Left upper leaves */}
+        <path d="M125 18C121 12 114 10 114 14C116 18 121 20 125 18Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.35" />
+        <path d="M108 14C104 8 97 6 97 10C99 14 104 16 108 14Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.33" />
+        <path d="M91 12C87 6 80 4 80 8C82 12 87 14 91 12Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.32" />
+        <path d="M74 11C70 5 63 3 63 7C65 11 70 13 74 11Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.3" />
+        <path d="M57 11C53 5 47 4 47 8C49 12 54 13 57 11Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.28" />
+        <path d="M42 12C38 6 33 5 33 9C35 13 39 14 42 12Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.25" />
+        <path d="M28 13C25 8 20 7 20 10C22 14 26 15 28 13Z" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.22" />
+
+        {/* Left lower leaves */}
+        <path d="M120 22C116 27 110 28 111 24C113 21 117 21 120 22Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.3" />
+        <path d="M103 18C99 23 93 23 94 19C96 17 100 17 103 18Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.28" />
+        <path d="M86 15C82 20 77 20 78 16C80 14 84 14 86 15Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.26" />
+        <path d="M69 14C65 18 60 18 61 14C63 12 67 12 69 14Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.24" />
+        <path d="M53 14C49 18 44 18 45 14C47 12 51 13 53 14Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.22" />
+        <path d="M38 15C34 19 30 18 31 15C33 13 36 14 38 15Z" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.2" />
+
+        {/* Right upper leaves - mirror */}
+        <path d="M155 18C159 12 166 10 166 14C164 18 159 20 155 18Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.35" />
+        <path d="M172 14C176 8 183 6 183 10C181 14 176 16 172 14Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.33" />
+        <path d="M189 12C193 6 200 4 200 8C198 12 193 14 189 12Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.32" />
+        <path d="M206 11C210 5 217 3 217 7C215 11 210 13 206 11Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.3" />
+        <path d="M223 11C227 5 233 4 233 8C231 12 226 13 223 11Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.28" />
+        <path d="M238 12C242 6 247 5 247 9C245 13 241 14 238 12Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.25" />
+        <path d="M252 13C255 8 260 7 260 10C258 14 254 15 252 13Z" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.22" />
+
+        {/* Right lower leaves - mirror */}
+        <path d="M160 22C164 27 170 28 169 24C167 21 163 21 160 22Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.3" />
+        <path d="M177 18C181 23 187 23 186 19C184 17 180 17 177 18Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.28" />
+        <path d="M194 15C198 20 203 20 202 16C200 14 196 14 194 15Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.26" />
+        <path d="M211 14C215 18 220 18 219 14C217 12 213 12 211 14Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.24" />
+        <path d="M227 14C231 18 236 18 235 14C233 12 229 13 227 14Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.22" />
+        <path d="M242 15C246 19 250 18 249 15C247 13 244 14 242 15Z" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.2" />
       </svg>
     </div>
   );
@@ -801,6 +810,297 @@ export function ProfileHeroArt({ className = "" }: { className?: string }) {
       <ellipse cx="97" cy="88" rx="10" ry="7" stroke={c} strokeWidth="1.2" opacity="0.4" />
       <circle cx="91" cy="84" r="4.5" stroke={c} strokeWidth="1.1" opacity="0.38" />
       <path d="M100 86C102 84 103 85 102 87" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.28" />
+    </svg>
+  );
+}
+
+// ============================================
+// NEW BRANDED ILLUSTRATIONS
+// ============================================
+
+/**
+ * Image 2 — Baby Bottle outline
+ * Simple, elegant baby bottle silhouette for Search page background
+ */
+export function BabyBottle({ className = "", size = 200, color = "#4A3F4B" }: { className?: string; size?: number; color?: string }) {
+  const c = color;
+  return (
+    <svg className={className} width={size} height={size * 1.6} viewBox="0 0 120 192" fill="none" aria-hidden="true">
+      {/* Nipple top */}
+      <path d="M48 8C48 4 54 0 60 0C66 0 72 4 72 8" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.4" />
+      <path d="M48 8C48 14 50 18 52 20" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.38" />
+      <path d="M72 8C72 14 70 18 68 20" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.38" />
+      {/* Nipple ring */}
+      <ellipse cx="60" cy="22" rx="16" ry="4" stroke={c} strokeWidth="1.2" opacity="0.35" />
+      {/* Collar / cap */}
+      <path d="M44 26L44 34" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
+      <path d="M76 26L76 34" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
+      <path d="M44 34C44 34 42 34 40 36" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
+      <path d="M76 34C76 34 78 34 80 36" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
+      {/* Bottle body — rounded rectangle */}
+      <path d="M36 42C36 38 38 36 40 36L80 36C82 36 84 38 84 42L84 152C84 164 76 172 60 172C44 172 36 164 36 152Z" stroke={c} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      {/* Measurement lines */}
+      <path d="M40 60L52 60" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+      <path d="M40 80L48 80" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.18" />
+      <path d="M40 100L52 100" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+      <path d="M40 120L48 120" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.18" />
+      <path d="M40 140L52 140" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+      {/* Milk level — gentle wave */}
+      <path d="M38 110C44 106 52 114 60 110C68 106 76 114 82 110L82 152C82 162 74 170 60 170C46 170 38 162 38 152Z" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.15" />
+      {/* Gentle heart on bottle */}
+      <path d="M56 85C56 82 58 80 60 82C62 80 64 82 64 85C64 88 60 92 60 92C60 92 56 88 56 85Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.2" />
+      {/* Bottom curve highlight */}
+      <path d="M44 160C48 166 54 170 60 170C66 170 72 166 76 160" stroke={c} strokeWidth="0.6" strokeLinecap="round" opacity="0.15" />
+    </svg>
+  );
+}
+
+/**
+ * Image 3 — Lavender Sprig
+ * Delicate lavender stems with clustered buds for Calm tab
+ */
+export function LavenderSprig({ className = "", size = 100, color = "#4A3F4B", flip = false }: { className?: string; size?: number; color?: string; flip?: boolean }) {
+  const c = color;
+  return (
+    <svg className={className} width={size} height={size * 1.4} viewBox="0 0 100 140" fill="none" aria-hidden="true" style={flip ? { transform: 'scaleY(-1)' } : undefined}>
+      {/* Left stem */}
+      <path d="M30 138C32 120 34 95 36 70C37 55 35 40 34 28" stroke={c} strokeWidth="1" strokeLinecap="round" opacity="0.3" />
+      {/* Left buds — paired ovals along stem */}
+      <ellipse cx="32" cy="32" rx="3" ry="5" stroke={c} strokeWidth="0.9" opacity="0.3" transform="rotate(-10 32 32)" />
+      <ellipse cx="37" cy="30" rx="2.5" ry="4.5" stroke={c} strokeWidth="0.9" opacity="0.28" transform="rotate(10 37 30)" />
+      <ellipse cx="31" cy="42" rx="2.5" ry="4" stroke={c} strokeWidth="0.8" opacity="0.25" transform="rotate(-8 31 42)" />
+      <ellipse cx="36" cy="40" rx="2.5" ry="4" stroke={c} strokeWidth="0.8" opacity="0.25" transform="rotate(8 36 40)" />
+      <ellipse cx="32" cy="52" rx="2" ry="3.5" stroke={c} strokeWidth="0.8" opacity="0.22" transform="rotate(-5 32 52)" />
+      <ellipse cx="36" cy="50" rx="2" ry="3.5" stroke={c} strokeWidth="0.8" opacity="0.22" transform="rotate(5 36 50)" />
+      <ellipse cx="33" cy="60" rx="2" ry="3" stroke={c} strokeWidth="0.7" opacity="0.2" />
+      {/* Left leaf */}
+      <path d="M30 90C22 85 18 78 22 74C28 78 32 84 30 90Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+      <path d="M26 82L30 90" stroke={c} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+
+      {/* Center stem */}
+      <path d="M50 138C50 118 50 90 50 60C50 45 50 32 50 20" stroke={c} strokeWidth="1.1" strokeLinecap="round" opacity="0.32" />
+      {/* Center buds — larger cluster */}
+      <ellipse cx="47" cy="24" rx="3" ry="5.5" stroke={c} strokeWidth="0.9" opacity="0.32" transform="rotate(-8 47 24)" />
+      <ellipse cx="53" cy="22" rx="3" ry="5.5" stroke={c} strokeWidth="0.9" opacity="0.3" transform="rotate(8 53 22)" />
+      <ellipse cx="46" cy="34" rx="3" ry="5" stroke={c} strokeWidth="0.9" opacity="0.28" transform="rotate(-6 46 34)" />
+      <ellipse cx="54" cy="32" rx="3" ry="5" stroke={c} strokeWidth="0.9" opacity="0.28" transform="rotate(6 54 32)" />
+      <ellipse cx="47" cy="44" rx="2.5" ry="4.5" stroke={c} strokeWidth="0.8" opacity="0.25" transform="rotate(-5 47 44)" />
+      <ellipse cx="53" cy="42" rx="2.5" ry="4.5" stroke={c} strokeWidth="0.8" opacity="0.25" transform="rotate(5 53 42)" />
+      <ellipse cx="48" cy="54" rx="2" ry="3.5" stroke={c} strokeWidth="0.8" opacity="0.22" />
+      <ellipse cx="52" cy="52" rx="2" ry="3.5" stroke={c} strokeWidth="0.8" opacity="0.22" />
+      <ellipse cx="50" cy="16" rx="2.5" ry="4" stroke={c} strokeWidth="0.8" opacity="0.28" />
+      {/* Center leaves */}
+      <path d="M50 80C42 74 38 66 42 62C48 66 52 74 50 80Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+      <path d="M50 80C58 74 62 66 58 62C52 66 48 74 50 80Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+
+      {/* Right stem */}
+      <path d="M70 138C68 120 66 95 64 70C63 55 65 40 66 28" stroke={c} strokeWidth="1" strokeLinecap="round" opacity="0.3" />
+      {/* Right buds */}
+      <ellipse cx="68" cy="32" rx="3" ry="5" stroke={c} strokeWidth="0.9" opacity="0.3" transform="rotate(10 68 32)" />
+      <ellipse cx="63" cy="30" rx="2.5" ry="4.5" stroke={c} strokeWidth="0.9" opacity="0.28" transform="rotate(-10 63 30)" />
+      <ellipse cx="69" cy="42" rx="2.5" ry="4" stroke={c} strokeWidth="0.8" opacity="0.25" transform="rotate(8 69 42)" />
+      <ellipse cx="64" cy="40" rx="2.5" ry="4" stroke={c} strokeWidth="0.8" opacity="0.25" transform="rotate(-8 64 40)" />
+      <ellipse cx="68" cy="52" rx="2" ry="3.5" stroke={c} strokeWidth="0.8" opacity="0.22" transform="rotate(5 68 52)" />
+      <ellipse cx="64" cy="50" rx="2" ry="3.5" stroke={c} strokeWidth="0.8" opacity="0.22" transform="rotate(-5 64 50)" />
+      <ellipse cx="67" cy="60" rx="2" ry="3" stroke={c} strokeWidth="0.7" opacity="0.2" />
+      {/* Right leaf */}
+      <path d="M70 90C78 85 82 78 78 74C72 78 68 84 70 90Z" stroke={c} strokeWidth="0.8" strokeLinecap="round" opacity="0.2" />
+      <path d="M74 82L70 90" stroke={c} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+    </svg>
+  );
+}
+
+/**
+ * Image 4 — Feminine Form
+ * Abstract female torso silhouette for Profile tab
+ */
+export function FeminineForm({ className = "", size = 160, color = "#4A3F4B" }: { className?: string; size?: number; color?: string }) {
+  const c = color;
+  return (
+    <svg className={className} width={size} height={size * 1.5} viewBox="0 0 120 180" fill="none" aria-hidden="true">
+      {/* Neck */}
+      <path d="M52 12C52 6 56 2 60 2C64 2 68 6 68 12" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
+      <path d="M52 12L50 24" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
+      <path d="M68 12L70 24" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
+      {/* Shoulders */}
+      <path d="M50 24C42 26 30 30 22 38" stroke={c} strokeWidth="1.3" strokeLinecap="round" opacity="0.32" />
+      <path d="M70 24C78 26 90 30 98 38" stroke={c} strokeWidth="1.3" strokeLinecap="round" opacity="0.32" />
+      {/* Left arm hint */}
+      <path d="M22 38C18 44 16 52 16 60" stroke={c} strokeWidth="1.1" strokeLinecap="round" opacity="0.25" />
+      {/* Right arm hint */}
+      <path d="M98 38C102 44 104 52 104 60" stroke={c} strokeWidth="1.1" strokeLinecap="round" opacity="0.25" />
+      {/* Left side torso */}
+      <path d="M26 42C28 54 30 68 32 80C34 92 30 106 28 118C26 130 28 142 34 152" stroke={c} strokeWidth="1.3" strokeLinecap="round" opacity="0.3" />
+      {/* Right side torso */}
+      <path d="M94 42C92 54 90 68 88 80C86 92 90 106 92 118C94 130 92 142 86 152" stroke={c} strokeWidth="1.3" strokeLinecap="round" opacity="0.3" />
+      {/* Waist curve */}
+      <path d="M32 80C40 78 50 76 60 76C70 76 80 78 88 80" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.15" />
+      {/* Hip curve */}
+      <path d="M28 118C40 122 50 124 60 124C70 124 80 122 92 118" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.15" />
+      {/* Bottom / skirt flow */}
+      <path d="M34 152C40 158 48 164 60 166C72 164 80 158 86 152" stroke={c} strokeWidth="1.1" strokeLinecap="round" opacity="0.25" />
+      {/* Inner center line — subtle spine */}
+      <path d="M60 24C60 40 60 60 60 80" stroke={c} strokeWidth="0.5" strokeLinecap="round" opacity="0.1" strokeDasharray="3 4" />
+      {/* Collarbone detail */}
+      <path d="M42 30C48 32 52 32 60 32C68 32 72 32 78 30" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.18" />
+      {/* Small flower at hip */}
+      <path d="M60 140C58 136 60 132 62 136C64 132 66 136 64 140C66 142 64 146 62 142C60 146 58 142 56 140C54 138 56 136 60 140Z" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.2" />
+      <circle cx="60" cy="140" r="1.5" stroke={c} strokeWidth="0.6" opacity="0.18" />
+    </svg>
+  );
+}
+
+/**
+ * Image 5 — Nursing Mother with Flowers
+ * Main hero illustration: mother nursing baby surrounded by large botanical flowers
+ */
+export function NursingMotherFloral({ className = "", size = 240, color = "#4A3F4B" }: { className?: string; size?: number; color?: string }) {
+  const c = color;
+  const t = "#C4887A"; // terracotta for flowers
+  const s = "#8BA888"; // sage for leaves
+  return (
+    <svg className={className} width={size} height={size * 0.85} viewBox="0 0 280 238" fill="none" aria-hidden="true">
+      {/* ---- MOTHER ---- */}
+      {/* Hair — flowing with texture */}
+      <path d="M120 52C118 44 122 34 128 30C134 26 142 26 148 30" stroke={c} strokeWidth="1.6" strokeLinecap="round" opacity="0.45" />
+      <path d="M122 50C120 42 124 34 130 30C136 26 144 28 150 32" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
+      <path d="M124 48C124 40 128 34 134 30C140 28 146 30 152 36" stroke={c} strokeWidth="0.9" strokeLinecap="round" opacity="0.28" />
+      {/* Messy bun */}
+      <path d="M148 30C154 24 162 24 164 30C166 36 162 40 156 38C152 36 148 34 148 30Z" stroke={c} strokeWidth="1.3" strokeLinecap="round" opacity="0.4" />
+      <path d="M150 28C154 24 160 26 162 30" stroke={c} strokeWidth="0.6" strokeLinecap="round" opacity="0.2" />
+      <path d="M154 36C156 32 160 34 158 38" stroke={c} strokeWidth="0.6" strokeLinecap="round" opacity="0.18" />
+      {/* Face profile */}
+      <path d="M120 52C118 56 118 62 120 66C121 68 120 70 119 72" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.45" />
+      {/* Nose, lips, chin */}
+      <path d="M119 72C120 74 120 76 122 78" stroke={c} strokeWidth="1.3" strokeLinecap="round" opacity="0.4" />
+      {/* Jawline */}
+      <path d="M152 36C150 46 146 54 144 62C142 66 142 70 142 74" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.38" />
+      {/* Shoulders and body */}
+      <path d="M122 78C118 82 112 90 108 100C104 110 108 120 114 126" stroke={c} strokeWidth="1.4" strokeLinecap="round" opacity="0.38" />
+      <path d="M142 74C146 78 152 86 156 96C160 106 156 118 150 126" stroke={c} strokeWidth="1.4" strokeLinecap="round" opacity="0.38" />
+      {/* Arms cradling */}
+      <path d="M112 90C116 96 120 102 126 106" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.32" />
+      <path d="M152 86C148 92 144 98 138 102" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.32" />
+      {/* Baby — small rounded body */}
+      <ellipse cx="132" cy="108" rx="14" ry="10" stroke={c} strokeWidth="1.3" opacity="0.38" />
+      {/* Baby head */}
+      <circle cx="122" cy="100" r="7" stroke={c} strokeWidth="1.2" opacity="0.35" />
+      {/* Baby tiny hand */}
+      <path d="M140 104C142 102 143 103 142 106" stroke={c} strokeWidth="0.7" strokeLinecap="round" opacity="0.25" />
+      {/* Lap / sitting */}
+      <path d="M114 126C118 134 124 140 132 142C140 140 146 134 150 126" stroke={c} strokeWidth="1.2" strokeLinecap="round" opacity="0.3" />
+
+      {/* ---- LEFT FLOWERS ---- */}
+      {/* Large magnolia left */}
+      <path d="M42 80C34 68 36 52 44 48C50 58 48 72 46 80Z" stroke={t} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      <path d="M46 80C56 74 64 72 66 78C60 86 52 86 46 80Z" stroke={t} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" opacity="0.32" />
+      <path d="M46 84C48 92 50 100 46 104C40 98 40 88 46 84Z" stroke={t} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.3" />
+      <path d="M38 82C30 80 24 78 24 72C32 70 38 74 38 82Z" stroke={t} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.3" />
+      {/* Petal fold lines */}
+      <path d="M44 66C46 72 46 76 46 80" stroke={t} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+      <path d="M56 76C52 78 48 80 46 80" stroke={t} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+      {/* Stamen center */}
+      <circle cx="44" cy="80" r="3.5" stroke={t} strokeWidth="0.9" opacity="0.3" />
+      <circle cx="42" cy="78" r="1" fill={t} opacity="0.25" />
+      <circle cx="46" cy="78" r="1" fill={t} opacity="0.25" />
+      <circle cx="44" cy="76" r="1" fill={t} opacity="0.22" />
+      <circle cx="44" cy="82" r="0.8" fill={t} opacity="0.2" />
+
+      {/* Second flower — upper left */}
+      <path d="M62 38C56 28 58 16 64 14C68 22 66 34 64 38Z" stroke={t} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" opacity="0.28" />
+      <path d="M64 38C72 34 78 34 78 38C74 44 68 42 64 38Z" stroke={t} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" />
+      <path d="M58 40C54 38 50 38 50 34C56 32 60 36 58 40Z" stroke={t} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" opacity="0.24" />
+      <circle cx="64" cy="38" r="2.5" stroke={t} strokeWidth="0.7" opacity="0.22" />
+      <circle cx="62" cy="36" r="0.8" fill={t} opacity="0.18" />
+      <circle cx="66" cy="36" r="0.8" fill={t} opacity="0.18" />
+
+      {/* ---- RIGHT FLOWERS ---- */}
+      {/* Large magnolia right */}
+      <path d="M228 90C236 78 234 62 226 58C220 68 222 82 224 90Z" stroke={t} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      <path d="M224 90C214 84 206 82 204 88C210 96 218 96 224 90Z" stroke={t} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" opacity="0.32" />
+      <path d="M224 94C222 102 220 110 224 114C230 108 230 98 224 94Z" stroke={t} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.3" />
+      <path d="M232 92C240 90 246 88 246 82C238 80 232 84 232 92Z" stroke={t} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" opacity="0.3" />
+      <path d="M226 72C224 80 224 86 224 90" stroke={t} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+      <circle cx="226" cy="90" r="3.5" stroke={t} strokeWidth="0.9" opacity="0.3" />
+      <circle cx="224" cy="88" r="1" fill={t} opacity="0.25" />
+      <circle cx="228" cy="88" r="1" fill={t} opacity="0.25" />
+      <circle cx="226" cy="86" r="1" fill={t} opacity="0.22" />
+
+      {/* Second flower — upper right */}
+      <path d="M208 48C214 38 212 26 206 24C202 32 204 44 206 48Z" stroke={t} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" opacity="0.28" />
+      <path d="M206 48C198 44 192 44 192 48C196 54 202 52 206 48Z" stroke={t} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" opacity="0.25" />
+      <path d="M212 50C216 48 220 48 220 44C214 42 210 46 212 50Z" stroke={t} strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" opacity="0.24" />
+      <circle cx="206" cy="48" r="2.5" stroke={t} strokeWidth="0.7" opacity="0.22" />
+      <circle cx="204" cy="46" r="0.8" fill={t} opacity="0.18" />
+      <circle cx="208" cy="46" r="0.8" fill={t} opacity="0.18" />
+
+      {/* ---- LEAVES ---- */}
+      {/* Left leaf cluster */}
+      <path d="M30 110C20 104 14 94 18 88C26 92 32 102 30 110Z" stroke={s} strokeWidth="1" strokeLinecap="round" opacity="0.25" />
+      <path d="M24 99L30 110" stroke={s} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+      <path d="M36 120C26 118 18 112 20 106C28 106 36 112 36 120Z" stroke={s} strokeWidth="1" strokeLinecap="round" opacity="0.22" />
+      <path d="M28 113L36 120" stroke={s} strokeWidth="0.5" strokeLinecap="round" opacity="0.12" />
+
+      {/* Right leaf cluster */}
+      <path d="M240 118C250 112 256 102 252 96C244 100 238 110 240 118Z" stroke={s} strokeWidth="1" strokeLinecap="round" opacity="0.25" />
+      <path d="M246 107L240 118" stroke={s} strokeWidth="0.5" strokeLinecap="round" opacity="0.15" />
+      <path d="M234 128C244 126 252 120 250 114C242 114 234 120 234 128Z" stroke={s} strokeWidth="1" strokeLinecap="round" opacity="0.22" />
+      <path d="M242 121L234 128" stroke={s} strokeWidth="0.5" strokeLinecap="round" opacity="0.12" />
+
+      {/* Bottom leaf sprigs */}
+      <path d="M80 170C72 162 66 150 70 144C78 150 82 162 80 170Z" stroke={s} strokeWidth="0.9" strokeLinecap="round" opacity="0.2" />
+      <path d="M75 157L80 170" stroke={s} strokeWidth="0.4" strokeLinecap="round" opacity="0.12" />
+      <path d="M190 174C198 166 204 154 200 148C192 154 188 166 190 174Z" stroke={s} strokeWidth="0.9" strokeLinecap="round" opacity="0.2" />
+      <path d="M195 161L190 174" stroke={s} strokeWidth="0.4" strokeLinecap="round" opacity="0.12" />
+
+      {/* Connecting vine curves */}
+      <path d="M50 110C60 120 80 132 100 138" stroke={s} strokeWidth="0.7" strokeLinecap="round" opacity="0.15" />
+      <path d="M220 118C210 128 190 138 170 142" stroke={s} strokeWidth="0.7" strokeLinecap="round" opacity="0.15" />
+    </svg>
+  );
+}
+
+/**
+ * Image 6 — Cosmos Flower
+ * Open cosmos-style flower with radiating petals and stamen center
+ * Used as accent throughout the app
+ */
+export function CosmosFlower({ className = "", size = 40, color = "#C4887A" }: { className?: string; size?: number; color?: string }) {
+  const c = color;
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 50 50" fill="none" aria-hidden="true">
+      {/* 8 petals radiating from center */}
+      {/* Top petal */}
+      <path d="M25 6C23 12 22 18 25 22C28 18 27 12 25 6Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      {/* Top-right petal */}
+      <path d="M38 10C34 14 30 18 28 22C32 22 36 18 38 10Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.32" />
+      {/* Right petal */}
+      <path d="M44 25C38 23 32 22 28 25C32 28 38 27 44 25Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      {/* Bottom-right petal */}
+      <path d="M38 40C34 36 30 32 28 28C32 28 36 32 38 40Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.32" />
+      {/* Bottom petal */}
+      <path d="M25 44C23 38 22 32 25 28C28 32 27 38 25 44Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      {/* Bottom-left petal */}
+      <path d="M12 40C16 36 20 32 22 28C18 28 14 32 12 40Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.32" />
+      {/* Left petal */}
+      <path d="M6 25C12 23 18 22 22 25C18 28 12 27 6 25Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.35" />
+      {/* Top-left petal */}
+      <path d="M12 10C16 14 20 18 22 22C18 22 14 18 12 10Z" stroke={c} strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" opacity="0.32" />
+      {/* Center — stamen dots */}
+      <circle cx="25" cy="25" r="4" stroke={c} strokeWidth="0.8" opacity="0.3" />
+      <circle cx="25" cy="23" r="1" fill={c} opacity="0.3" />
+      <circle cx="23" cy="25" r="1" fill={c} opacity="0.28" />
+      <circle cx="27" cy="25" r="1" fill={c} opacity="0.28" />
+      <circle cx="25" cy="27" r="1" fill={c} opacity="0.3" />
+      <circle cx="24" cy="24" r="0.6" fill={c} opacity="0.2" />
+      <circle cx="26" cy="24" r="0.6" fill={c} opacity="0.2" />
+      <circle cx="26" cy="26" r="0.6" fill={c} opacity="0.2" />
+      <circle cx="24" cy="26" r="0.6" fill={c} opacity="0.2" />
+      {/* Petal vein lines */}
+      <path d="M25 18L25 22" stroke={c} strokeWidth="0.4" strokeLinecap="round" opacity="0.12" />
+      <path d="M32 25L28 25" stroke={c} strokeWidth="0.4" strokeLinecap="round" opacity="0.12" />
+      <path d="M25 32L25 28" stroke={c} strokeWidth="0.4" strokeLinecap="round" opacity="0.12" />
+      <path d="M18 25L22 25" stroke={c} strokeWidth="0.4" strokeLinecap="round" opacity="0.12" />
     </svg>
   );
 }

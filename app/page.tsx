@@ -18,7 +18,7 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, HomeHeroArt, LearnHeroArt, SearchHeroArt, CalmHeroArt, ProfileHeroArt } from "./decorative";
+import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, BabyBottle, LavenderSprig, FeminineForm, NursingMotherFloral, CosmosFlower } from "./decorative";
 import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
@@ -192,6 +192,9 @@ function HomeScreen({
       >
         <FloralCorner position="top-right" />
         <FloralCorner position="bottom-left" />
+        <div className="absolute bottom-3 right-14 opacity-[0.15] pointer-events-none">
+          <CosmosFlower size={28} color="#C4887A" />
+        </div>
         <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-3">
           💛 Today&apos;s Affirmation
         </p>
@@ -215,6 +218,9 @@ function HomeScreen({
         onClick={handleNewFact}
         className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
       >
+        <div className="absolute top-3 right-4 opacity-[0.15] pointer-events-none">
+          <CosmosFlower size={30} color="#ffffff" />
+        </div>
         <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
           💡 Did You Know?
         </p>
@@ -287,9 +293,9 @@ function HomeScreen({
         </p>
       </div>
 
-      {/* Branded illustration */}
-      <div className="flex justify-center mt-8 mb-2 opacity-[0.2]">
-        <MotherAndBaby size={180} />
+      {/* Main branded illustration — Nursing Mother with Flowers */}
+      <div className="flex justify-center mt-8 mb-2 opacity-[0.22]">
+        <NursingMotherFloral size={260} />
       </div>
     </div>
   );
@@ -320,9 +326,14 @@ function LearnScreen() {
     <div className="px-5 pt-8 pb-32 relative overflow-hidden">
       <div className="absolute top-4 -right-16 w-56 h-56 rounded-full bg-[#8BA888] opacity-[0.05] blur-3xl pointer-events-none" />
       <div className="absolute bottom-60 -left-16 w-48 h-48 rounded-full bg-[#C4887A] opacity-[0.05] blur-3xl pointer-events-none" />
-      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
-        Education Hub
-      </h1>
+      <div className="relative">
+        <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
+          Education Hub
+        </h1>
+        <div className="absolute -top-1 right-0 opacity-[0.18] pointer-events-none">
+          <CosmosFlower size={36} color="#8BA888" />
+        </div>
+      </div>
       <p className="text-sm text-[#9B9299] mb-6 leading-relaxed">
         Science-backed knowledge to empower your journey
       </p>
@@ -545,6 +556,10 @@ function SymptomsScreen() {
     <div className="px-5 pt-8 pb-32 relative overflow-hidden">
       <div className="absolute top-4 -left-16 w-52 h-52 rounded-full bg-[#C4887A] opacity-[0.06] blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-12 w-44 h-44 rounded-full bg-[#8BA888] opacity-[0.04] blur-3xl pointer-events-none" />
+      {/* Baby Bottle — large background illustration */}
+      <div className="absolute top-20 right-[-30px] opacity-[0.08] pointer-events-none">
+        <BabyBottle size={220} />
+      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
       </h1>
@@ -625,9 +640,14 @@ function SymptomsScreen() {
       </div>
 
       {/* Browse by Category */}
-      <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold mb-3">
-        Browse by Category
-      </p>
+      <div className="flex items-center gap-2 mb-3">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold">
+          Browse by Category
+        </p>
+        <div className="opacity-[0.2]">
+          <CosmosFlower size={18} color="#8BA888" />
+        </div>
+      </div>
       <div className="grid grid-cols-2 gap-3">
         {[
           { id: "physical", label: "Physical", count: symptoms.filter(s => s.category === "physical").length, color: "#E8B4A6" },
@@ -949,6 +969,10 @@ function CalmScreen() {
       <audio ref={audioRef} />
       <div className="absolute top-8 -right-20 w-60 h-60 rounded-full bg-[#8BA888] opacity-[0.06] blur-3xl pointer-events-none" />
       <div className="absolute top-80 -left-16 w-48 h-48 rounded-full bg-[#C4887A] opacity-[0.04] blur-3xl pointer-events-none" />
+      {/* Lavender sprig — top accent */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 opacity-[0.12] pointer-events-none">
+        <LavenderSprig size={80} />
+      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
@@ -1040,9 +1064,14 @@ function CalmScreen() {
       </div>
 
       {/* Soothing Sounds */}
-      <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold mb-3">
-        Calming Sounds
-      </p>
+      <div className="flex items-center gap-2 mb-3">
+        <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold">
+          Calming Sounds
+        </p>
+        <div className="opacity-[0.2]">
+          <CosmosFlower size={18} color="#C4887A" />
+        </div>
+      </div>
       <div className="grid grid-cols-2 gap-3 mb-4">
         {sounds.map((sound) => (
           <button
@@ -1170,6 +1199,11 @@ function CalmScreen() {
           &quot;Rest is not a reward. It&apos;s a requirement.&quot;
         </p>
       </div>
+
+      {/* Lavender sprig — bottom accent */}
+      <div className="flex justify-center mt-6 mb-2 opacity-[0.14] pointer-events-none">
+        <LavenderSprig size={90} flip />
+      </div>
     </div>
   );
 }
@@ -1218,7 +1252,13 @@ function ProfileScreen() {
       </h1>
 
       {/* User Header */}
-      <div className="flex flex-col items-center mb-6">
+      <div className="flex flex-col items-center mb-6 relative">
+        <div className="absolute -top-2 -right-2 opacity-[0.15] pointer-events-none">
+          <CosmosFlower size={32} color="#C4887A" />
+        </div>
+        <div className="absolute bottom-8 -left-2 opacity-[0.12] pointer-events-none">
+          <CosmosFlower size={24} color="#8BA888" />
+        </div>
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
         </div>
@@ -1360,9 +1400,9 @@ function ProfileScreen() {
         )}
       </div>
 
-      {/* Branded signature illustration */}
-      <div className="flex justify-center mt-10 mb-4 opacity-[0.18]">
-        <MotherAndBaby size={200} />
+      {/* Feminine form — signature illustration */}
+      <div className="flex justify-center mt-10 mb-4 opacity-[0.15]">
+        <FeminineForm size={140} />
       </div>
       <div className="text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
