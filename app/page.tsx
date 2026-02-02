@@ -190,8 +190,8 @@ function HomeScreen({
         onClick={handleNewAffirmation}
         className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-0 relative overflow-hidden shadow-warm text-left transition-transform active:scale-[0.98]"
       >
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-4 -right-4 w-[60px] mix-blend-multiply opacity-80 pointer-events-none" />
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -bottom-4 -left-4 w-[50px] mix-blend-multiply opacity-60 pointer-events-none rotate-180" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-10 -right-10 w-[140px] mix-blend-multiply opacity-80 pointer-events-none" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -bottom-10 -left-10 w-[120px] mix-blend-multiply opacity-60 pointer-events-none rotate-180" />
         <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-3">
           💛 Today&apos;s Affirmation
         </p>
@@ -208,7 +208,7 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center -my-5"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-8"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Did You Know Card - Sage background */}
       <button
@@ -231,7 +231,7 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center -my-5"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-8"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Daily Check-In Card */}
       <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-0 border-2 border-[#8BA888]/30 shadow-organic">
@@ -257,7 +257,7 @@ function HomeScreen({
         </div>
       </div>
 
-      <div className="flex justify-center -my-5"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-8"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Weekly Progress Tracker */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4 shadow-warm">
@@ -324,7 +324,7 @@ function LearnScreen() {
         <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
           Education Hub
         </h1>
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-4 -right-1 w-[56px] mix-blend-multiply opacity-65 pointer-events-none" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-10 -right-6 w-[140px] mix-blend-multiply opacity-65 pointer-events-none" />
       </div>
       <p className="text-sm text-[#9B9299] mb-6 leading-relaxed">
         Science-backed knowledge to empower your journey
@@ -632,7 +632,7 @@ function SymptomsScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold">
           Browse by Category
         </p>
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[44px] mix-blend-multiply opacity-75" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[110px] mix-blend-multiply opacity-75" />
       </div>
       <div className="grid grid-cols-2 gap-3">
         {[
@@ -1050,7 +1050,7 @@ function CalmScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold">
           Calming Sounds
         </p>
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[44px] mix-blend-multiply opacity-75" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[110px] mix-blend-multiply opacity-75" />
       </div>
       <div className="grid grid-cols-2 gap-3 mb-4">
         {sounds.map((sound) => (
@@ -1233,8 +1233,8 @@ function ProfileScreen() {
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6 relative">
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-5 -right-5 w-[65px] mix-blend-multiply opacity-75 pointer-events-none" />
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute bottom-4 -left-5 w-[55px] mix-blend-multiply opacity-60 pointer-events-none rotate-45" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-10 -right-10 w-[150px] mix-blend-multiply opacity-75 pointer-events-none" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute bottom-0 -left-10 w-[130px] mix-blend-multiply opacity-60 pointer-events-none rotate-45" />
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
         </div>
@@ -1378,7 +1378,7 @@ function ProfileScreen() {
 
       {/* Feminine body illustration */}
       <div className="flex justify-center mt-2 mb-1">
-        <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[200px] mix-blend-multiply opacity-80" />
+        <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[280px] mix-blend-multiply opacity-80" />
       </div>
       <div className="text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
