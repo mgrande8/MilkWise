@@ -18,7 +18,7 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, BabyBottle, LavenderSprig, FeminineForm, NursingMotherFloral, CosmosFlower } from "./decorative";
+import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, LavenderSprig, CosmosFlower } from "./decorative";
 import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
@@ -293,9 +293,9 @@ function HomeScreen({
         </p>
       </div>
 
-      {/* Main branded illustration — Nursing Mother with Flowers */}
+      {/* Main branded illustration */}
       <div className="flex justify-center mt-8 mb-2">
-        <NursingMotherFloral size={280} />
+        <img src="/nursing-mother.jpg" alt="" aria-hidden="true" className="w-[280px] opacity-90" />
       </div>
     </div>
   );
@@ -556,10 +556,6 @@ function SymptomsScreen() {
     <div className="px-5 pt-8 pb-32 relative overflow-hidden">
       <div className="absolute top-4 -left-16 w-52 h-52 rounded-full bg-[#C4887A] opacity-[0.06] blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-12 w-44 h-44 rounded-full bg-[#8BA888] opacity-[0.04] blur-3xl pointer-events-none" />
-      {/* Baby Bottle — large background illustration */}
-      <div className="absolute top-20 right-[-30px] opacity-[0.18] pointer-events-none">
-        <BabyBottle size={240} />
-      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
       </h1>
@@ -969,10 +965,6 @@ function CalmScreen() {
       <audio ref={audioRef} />
       <div className="absolute top-8 -right-20 w-60 h-60 rounded-full bg-[#8BA888] opacity-[0.06] blur-3xl pointer-events-none" />
       <div className="absolute top-80 -left-16 w-48 h-48 rounded-full bg-[#C4887A] opacity-[0.04] blur-3xl pointer-events-none" />
-      {/* Lavender sprig — top accent */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 opacity-[0.5] pointer-events-none">
-        <LavenderSprig size={90} />
-      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
@@ -1400,11 +1392,7 @@ function ProfileScreen() {
         )}
       </div>
 
-      {/* Feminine form — signature illustration */}
-      <div className="flex justify-center mt-10 mb-4">
-        <FeminineForm size={150} />
-      </div>
-      <div className="text-center">
+      <div className="text-center mt-10">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
         <p className="text-xs text-[#9B9299] mt-1">Made with 🤍 for breastfeeding mothers</p>
       </div>
