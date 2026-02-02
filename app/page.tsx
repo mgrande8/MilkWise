@@ -852,7 +852,7 @@ function CalmScreen() {
     { id: 'rain', name: "Rain", icon: "🌧️", file: "/sounds/rain.mp3" },
     { id: 'ocean', name: "Ocean", icon: "🌊", file: "/sounds/ocean.mp3" },
     { id: 'forest', name: "Forest", icon: "🌲", file: "/sounds/forest.mp3" },
-    { id: 'whitenoise', name: "White Noise", icon: "☁️", file: "/sounds/whitenoise.mp3" },
+    { id: 'brownnoise', name: "Brown Noise", icon: "☁️", file: "/sounds/brownnoise.mp3" },
   ];
 
   const boosters = getDailyBoosters(8);
