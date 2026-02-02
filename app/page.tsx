@@ -171,8 +171,11 @@ function HomeScreen({
   const completedCount = weekDays.filter(d => d.isCompleted).length;
 
   return (
-    <div className="px-5 pt-8 pb-32 relative">
-      <HomeHeaderIllustration />
+    <div className="px-5 pt-8 pb-32 relative overflow-hidden">
+      {/* Soft branded background shapes */}
+      <div className="absolute top-8 -right-20 w-72 h-72 rounded-full bg-[#C4887A] opacity-[0.06] blur-3xl pointer-events-none" />
+      <div className="absolute top-72 -left-24 w-56 h-56 rounded-full bg-[#8BA888] opacity-[0.05] blur-3xl pointer-events-none" />
+      <div className="absolute bottom-40 -right-10 w-44 h-44 rounded-full bg-[#F5E6DC] opacity-[0.15] blur-2xl pointer-events-none" />
 
       {/* Personalized Greeting */}
       <div className="mb-6 animate-fade-in relative z-10">
@@ -284,9 +287,9 @@ function HomeScreen({
         </p>
       </div>
 
-      {/* Hero illustration */}
-      <div className="flex justify-center mt-6 mb-2">
-        <HomeHeroArt className="opacity-[0.45]" />
+      {/* Branded illustration */}
+      <div className="flex justify-center mt-8 mb-2 opacity-[0.2]">
+        <MotherAndBaby size={180} />
       </div>
     </div>
   );
@@ -314,11 +317,9 @@ function LearnScreen() {
   }
 
   return (
-    <div className="px-5 pt-8 pb-32 relative">
-      {/* Hero illustration */}
-      <div className="flex justify-center mb-4">
-        <LearnHeroArt className="opacity-[0.4]" />
-      </div>
+    <div className="px-5 pt-8 pb-32 relative overflow-hidden">
+      <div className="absolute top-4 -right-16 w-56 h-56 rounded-full bg-[#8BA888] opacity-[0.05] blur-3xl pointer-events-none" />
+      <div className="absolute bottom-60 -left-16 w-48 h-48 rounded-full bg-[#C4887A] opacity-[0.05] blur-3xl pointer-events-none" />
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Education Hub
       </h1>
@@ -541,11 +542,9 @@ function SymptomsScreen() {
   }
 
   return (
-    <div className="px-5 pt-8 pb-32 relative">
-      {/* Hero illustration */}
-      <div className="flex justify-center mb-4">
-        <SearchHeroArt className="opacity-[0.4]" />
-      </div>
+    <div className="px-5 pt-8 pb-32 relative overflow-hidden">
+      <div className="absolute top-4 -left-16 w-52 h-52 rounded-full bg-[#C4887A] opacity-[0.06] blur-3xl pointer-events-none" />
+      <div className="absolute bottom-40 -right-12 w-44 h-44 rounded-full bg-[#8BA888] opacity-[0.04] blur-3xl pointer-events-none" />
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
       </h1>
@@ -665,8 +664,8 @@ function SymptomDetail({
 }) {
   return (
     <div className="px-5 pt-6 pb-32 relative">
-      <div className="absolute top-4 right-4 opacity-[0.1] pointer-events-none">
-        <MagnoliaFlower size={70} color="#C4887A" />
+      <div className="absolute top-4 right-4 opacity-[0.22] pointer-events-none">
+        <MagnoliaFlower size={80} color="#C4887A" />
       </div>
       {/* Back button */}
       <button
@@ -946,13 +945,10 @@ function CalmScreen() {
   const totalCount = shuffledBoosters.length;
 
   return (
-    <div className="px-5 pt-8 pb-32">
+    <div className="px-5 pt-8 pb-32 relative overflow-hidden">
       <audio ref={audioRef} />
-
-      {/* Hero illustration */}
-      <div className="flex justify-center mb-2">
-        <CalmHeroArt className="opacity-[0.4]" />
-      </div>
+      <div className="absolute top-8 -right-20 w-60 h-60 rounded-full bg-[#8BA888] opacity-[0.06] blur-3xl pointer-events-none" />
+      <div className="absolute top-80 -left-16 w-48 h-48 rounded-full bg-[#C4887A] opacity-[0.04] blur-3xl pointer-events-none" />
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
@@ -1167,8 +1163,8 @@ function CalmScreen() {
 
       {/* Quote with illustration */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center relative overflow-hidden">
-        <div className="absolute -bottom-2 -right-2 opacity-[0.1] pointer-events-none">
-          <NursingMother size={90} />
+        <div className="absolute -bottom-4 -right-4 opacity-[0.25] pointer-events-none">
+          <NursingMother size={110} />
         </div>
         <p className="font-heading text-[14px] text-[#4A3F4B] italic leading-relaxed relative z-10">
           &quot;Rest is not a reward. It&apos;s a requirement.&quot;
@@ -1214,15 +1210,12 @@ function ProfileScreen() {
   if (currentView === 'insights') return <InsightsScreen onBack={() => setCurrentView('main')} />;
 
   return (
-    <div className="px-5 pt-8 pb-32 relative">
-      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-2 tracking-tight">
+    <div className="px-5 pt-8 pb-32 relative overflow-hidden">
+      <div className="absolute top-4 -right-20 w-60 h-60 rounded-full bg-[#F5E6DC] opacity-[0.2] blur-3xl pointer-events-none" />
+      <div className="absolute bottom-60 -left-16 w-48 h-48 rounded-full bg-[#8BA888] opacity-[0.04] blur-3xl pointer-events-none" />
+      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-4 tracking-tight">
         Profile
       </h1>
-
-      {/* Hero illustration */}
-      <div className="flex justify-center mb-4">
-        <ProfileHeroArt className="opacity-[0.35]" />
-      </div>
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6">
@@ -1367,7 +1360,11 @@ function ProfileScreen() {
         )}
       </div>
 
-      <div className="mt-10 text-center">
+      {/* Branded signature illustration */}
+      <div className="flex justify-center mt-10 mb-4 opacity-[0.18]">
+        <MotherAndBaby size={200} />
+      </div>
+      <div className="text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
         <p className="text-xs text-[#9B9299] mt-1">Made with 🤍 for breastfeeding mothers</p>
       </div>
