@@ -11,11 +11,14 @@ import {
   getRandomAffirmation,
   getDailyFact,
   getRandomFact,
+  getDailyBoosters,
   type Symptom,
   type Course,
   type Affirmation,
   type Fact,
+  type Booster,
 } from "../data";
+import { BranchDivider, FloralCorner, LeafAccent, BlobShape } from "./decorative";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
 
@@ -87,10 +90,9 @@ function Navigation({
 // HOME SCREEN
 // ============================================
 function HomeScreen({
-  setActiveTab,
   setShowTracker,
 }: {
-  setActiveTab: (tab: string) => void;
+  setActiveTab?: (tab: string) => void;
   setShowTracker: (show: boolean) => void;
 }) {
   const [affirmation, setAffirmation] = useState<Affirmation | null>(null);
@@ -171,7 +173,7 @@ function HomeScreen({
     <div className="px-5 pt-8 pb-32">
       {/* Personalized Greeting */}
       <div className="mb-6 animate-fade-in">
-        <h1 className="text-[28px] font-semibold text-[#4A3F4B] tracking-tight">
+        <h1 className="font-heading text-[28px] font-normal text-[#4A3F4B] tracking-tight">
           {greeting}, {userName} <span className="text-2xl">☀️</span>
         </h1>
         <p className="text-[14px] text-[#9B9299] mt-1">{dateString}</p>
@@ -180,12 +182,14 @@ function HomeScreen({
       {/* Today's Affirmation Card */}
       <button
         onClick={handleNewAffirmation}
-        className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-sm text-left transition-transform active:scale-[0.98]"
+        className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-warm text-left transition-transform active:scale-[0.98]"
       >
+        <FloralCorner position="top-right" />
+        <FloralCorner position="bottom-left" />
         <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-3">
           💛 Today&apos;s Affirmation
         </p>
-        <p className={`text-[18px] font-semibold text-[#4A3F4B] leading-relaxed text-center transition-opacity duration-150 ${isAffirmationAnimating ? 'opacity-0' : 'opacity-100'}`}>
+        <p className={`font-heading text-[18px] font-normal text-[#4A3F4B] leading-relaxed text-center transition-opacity duration-150 ${isAffirmationAnimating ? 'opacity-0' : 'opacity-100'}`}>
           &ldquo;{affirmation?.text || "Your body knows exactly what your baby needs."}&rdquo;
         </p>
         {affirmation?.subtext && (
@@ -198,16 +202,18 @@ function HomeScreen({
         </p>
       </button>
 
+      <BranchDivider />
+
       {/* Did You Know Card - Sage background */}
       <button
         onClick={handleNewFact}
-        className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-sm text-left transition-transform active:scale-[0.98]"
+        className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
       >
         <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
           💡 Did You Know?
         </p>
-        <p className="text-[16px] font-semibold text-white leading-relaxed text-center">
-          {fact?.text || "Your milk changes composition throughout the day — morning milk is different from evening milk."}
+        <p className="font-heading text-[16px] font-normal text-white leading-relaxed text-center">
+          {fact?.text || "Your body reads the time of day and adjusts your milk accordingly. You are your baby's personal circadian clock."}
         </p>
         {fact?.source && (
           <p className="text-[11px] text-white/60 text-center mt-3 italic">
@@ -219,12 +225,14 @@ function HomeScreen({
         </p>
       </button>
 
+      <BranchDivider />
+
       {/* Daily Check-In Card */}
-      <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30">
+      <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30 shadow-organic">
         <div className="flex items-start gap-3">
           <div className="text-2xl">📝</div>
           <div className="flex-1">
-            <p className="text-[18px] font-semibold text-[#4A3F4B] mb-1">
+            <p className="font-heading text-[18px] font-normal text-[#4A3F4B] mb-1">
               Daily Check-In
             </p>
             <p className="text-[14px] text-[#4A3F4B]/70 mb-4">
@@ -243,48 +251,11 @@ function HomeScreen({
         </div>
       </div>
 
-      {/* Quick Actions Grid */}
-      <p className="text-[11px] uppercase tracking-[0.15em] text-[#9B9299] font-semibold mb-3 mt-2">
-        Quick Actions
-      </p>
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <button
-          onClick={() => setActiveTab("symptoms")}
-          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
-        >
-          <span className="text-2xl block mb-2">🔍</span>
-          <p className="text-[14px] font-semibold text-[#4A3F4B]">Search</p>
-          <p className="text-[11px] text-[#9B9299]">Symptoms</p>
-        </button>
-        <button
-          onClick={() => setActiveTab("learn")}
-          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
-        >
-          <span className="text-2xl block mb-2">📚</span>
-          <p className="text-[14px] font-semibold text-[#4A3F4B]">Learn</p>
-          <p className="text-[11px] text-[#9B9299]">Courses</p>
-        </button>
-        <button
-          onClick={() => setActiveTab("calm")}
-          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
-        >
-          <span className="text-2xl block mb-2">🍃</span>
-          <p className="text-[14px] font-semibold text-[#4A3F4B]">Calm</p>
-          <p className="text-[11px] text-[#9B9299]">Zone</p>
-        </button>
-        <button
-          onClick={() => setShowTracker(true)}
-          className="bg-white rounded-[16px] p-4 text-center border border-[#E5E5E5] hover:border-[#8BA888] hover:-translate-y-0.5 transition-all"
-        >
-          <span className="text-2xl block mb-2">📊</span>
-          <p className="text-[14px] font-semibold text-[#4A3F4B]">Tracker</p>
-          <p className="text-[11px] text-[#9B9299]">History</p>
-        </button>
-      </div>
+      <BranchDivider />
 
       {/* Weekly Progress Tracker */}
-      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4">
-        <p className="text-[14px] font-semibold text-[#4A3F4B] mb-3">
+      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4 shadow-warm">
+        <p className="font-heading text-[14px] font-normal text-[#4A3F4B] mb-3">
           Your Week So Far
         </p>
         <div className="flex justify-between mb-3">
@@ -336,7 +307,7 @@ function LearnScreen() {
 
   return (
     <div className="px-5 pt-8 pb-32">
-      <h1 className="text-[24px] font-semibold text-[#4A3F4B] mb-1 tracking-tight">
+      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Education Hub
       </h1>
       <p className="text-sm text-[#9B9299] mb-6 leading-relaxed">
@@ -389,8 +360,9 @@ function CourseCard({
   return (
     <button
       onClick={onSelect}
-      className="w-full bg-white rounded-[16px] mb-3 overflow-hidden border border-[#F5E6DC] hover:shadow-md hover:border-[#E8B4A6]/50 transition-all duration-200 text-left"
+      className="w-full bg-white rounded-[16px] mb-3 overflow-hidden border border-[#F5E6DC] hover:shadow-warm hover:border-[#E8B4A6]/50 transition-all duration-200 text-left relative"
     >
+      <LeafAccent className="absolute top-2 right-2 opacity-40" color={course.color || "#8BA888"} />
       <div
         className="px-5 py-4 flex items-center gap-4"
         style={{ backgroundColor: `${course.color}30` }}
@@ -398,7 +370,7 @@ function CourseCard({
         <span className="text-3xl">{course.icon}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <p className="text-[15px] font-semibold text-[#4A3F4B] truncate">
+            <p className="font-heading text-[15px] font-normal text-[#4A3F4B] truncate">
               {course.title}
             </p>
             {course.isPro && (
@@ -468,12 +440,12 @@ function CourseView({
       {/* Course title */}
       <div className="flex items-center gap-3 mb-6">
         <span className="text-2xl">{course.icon}</span>
-        <h1 className="text-lg font-semibold text-[#4A3F4B]">{course.title}</h1>
+        <h1 className="font-heading text-lg font-normal text-[#4A3F4B]">{course.title}</h1>
       </div>
 
       {/* Section content */}
       <div className="bg-white rounded-[20px] p-6 border border-[#F5E6DC] mb-6">
-        <h2 className="text-xl font-semibold text-[#4A3F4B] mb-4">
+        <h2 className="font-heading text-xl font-normal text-[#4A3F4B] mb-4">
           {section.title}
         </h2>
         <div className="prose prose-sm max-w-none">
@@ -558,7 +530,7 @@ function SymptomsScreen() {
 
   return (
     <div className="px-5 pt-8 pb-32">
-      <h1 className="text-[24px] font-semibold text-[#4A3F4B] mb-1 tracking-tight">
+      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
       </h1>
       <p className="text-sm text-[#9B9299] mb-6">
@@ -705,7 +677,7 @@ function SymptomDetail({
               ? "✓ Common during breastfeeding"
               : "⚠ May need attention"}
           </span>
-          <h1 className="text-xl font-semibold text-[#4A3F4B]">
+          <h1 className="font-heading text-xl font-normal text-[#4A3F4B]">
             {symptom.name}
           </h1>
           {symptom.affectsPercent && (
@@ -883,16 +855,7 @@ function CalmScreen() {
     { id: 'whitenoise', name: "White Noise", icon: "☁️", file: "/sounds/whitenoise.mp3" },
   ];
 
-  const boosters = [
-    { id: 'skin-to-skin', title: "Skin-to-Skin Contact", icon: "👶", desc: "Hold baby against your bare chest for 10-20 minutes", duration: "10-20 min", benefit: "Triggers oxytocin release for both you and baby" },
-    { id: 'warm-compress', title: "Warm Compress", icon: "🧣", desc: "Apply a warm towel to your breasts before nursing", duration: "5 min", benefit: "Relaxes tissue and encourages letdown" },
-    { id: 'dim-lighting', title: "Dim the Lights", icon: "🕯️", desc: "Create a calm, dim environment for nursing", duration: "During feeds", benefit: "Reduces stimulation and promotes relaxation" },
-    { id: 'gentle-music', title: "Gentle Music", icon: "🎵", desc: "Play soft, calming music while nursing", duration: "During feeds", benefit: "Lowers cortisol, raises oxytocin" },
-    { id: 'deep-breathing', title: "Deep Breathing", icon: "🌬️", desc: "Take 5 slow, deep breaths before latching", duration: "1 min", benefit: "Activates parasympathetic nervous system" },
-    { id: 'smell-baby', title: "Smell Your Baby", icon: "👃", desc: "Inhale your baby's scent from the top of their head", duration: "A few breaths", benefit: "Powerful oxytocin trigger hardwired in your brain" },
-    { id: 'gaze-at-baby', title: "Gaze at Baby", icon: "👁️", desc: "Make eye contact with your baby while nursing", duration: "During feeds", benefit: "Mutual gaze releases oxytocin for both of you" },
-    { id: 'warm-drink', title: "Drink Something Warm", icon: "☕", desc: "Sip warm water, tea, or broth while nursing", duration: "During feeds", benefit: "Warmth promotes relaxation and letdown" },
-  ];
+  const boosters = getDailyBoosters(8);
 
   const playSound = (sound: typeof sounds[0]) => {
     if (activeSound === sound.id && isPlaying) {
@@ -936,7 +899,7 @@ function CalmScreen() {
     <div className="px-5 pt-8 pb-32">
       <audio ref={audioRef} />
 
-      <h1 className="text-[24px] font-semibold text-[#4A3F4B] mb-1 tracking-tight">
+      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
       <p className="text-sm text-[#9B9299] mb-6">
@@ -944,7 +907,8 @@ function CalmScreen() {
       </p>
 
       {/* Breathing Exercise */}
-      <div className="bg-gradient-to-br from-[#B8D4B5] to-[#8BA888]/50 rounded-[20px] p-8 text-center mb-6">
+      <div className="bg-gradient-to-br from-[#B8D4B5] to-[#8BA888]/50 rounded-[20px] p-8 text-center mb-6 relative overflow-hidden">
+        <BlobShape className="-top-10 -left-10 opacity-50" color="#8BA888" />
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#4A3F4B]/60 font-semibold mb-5">
           4-7-8 Breathing
         </p>
@@ -1120,7 +1084,7 @@ function ProfileScreen() {
 
   return (
     <div className="px-5 pt-8 pb-32">
-      <h1 className="text-[24px] font-semibold text-[#4A3F4B] mb-6 tracking-tight">
+      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-6 tracking-tight">
         Profile
       </h1>
 
@@ -1129,7 +1093,7 @@ function ProfileScreen() {
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
         </div>
-        <h2 className="text-xl font-semibold text-[#4A3F4B]">{user.name}</h2>
+        <h2 className="font-heading text-xl font-normal text-[#4A3F4B]">{user.name}</h2>
         {user.email && <p className="text-sm text-[#9B9299]">{user.email}</p>}
         {isLoggedIn && (
           <button onClick={() => setCurrentView('edit')} className="mt-2 text-sm text-[#C4887A] font-medium hover:underline">
@@ -1353,7 +1317,7 @@ function EditProfileScreen({ onBack }: { onBack: () => void }) {
           </svg>
           <span className="text-sm font-medium">Back</span>
         </button>
-        <h1 className="text-lg font-semibold text-[#4A3F4B]">Edit Profile</h1>
+        <h1 className="font-heading text-lg font-normal text-[#4A3F4B]">Edit Profile</h1>
         <div className="w-16" /> {/* Spacer for centering */}
       </div>
 
@@ -1466,7 +1430,7 @@ function DisclaimerScreen({ onBack }: { onBack: () => void }) {
       </button>
 
       <div className="bg-white rounded-[20px] p-6 border border-[#F5E6DC]">
-        <h1 className="text-xl font-semibold text-[#4A3F4B] mb-4">Medical Disclaimer</h1>
+        <h1 className="font-heading text-xl font-normal text-[#4A3F4B] mb-4">Medical Disclaimer</h1>
 
         <div className="bg-[#C4887A]/10 rounded-xl p-4 mb-6">
           <p className="text-[15px] font-semibold text-[#C4887A]">⚠️ Important Notice</p>
@@ -1530,7 +1494,7 @@ function HelpFAQScreen({ onBack }: { onBack: () => void }) {
         <span className="text-sm font-medium">Back</span>
       </button>
 
-      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-6">Help & FAQ</h1>
+      <h1 className="font-heading text-xl font-normal text-[#4A3F4B] mb-6">Help & FAQ</h1>
 
       <div className="space-y-3 mb-8">
         {faqs.map((faq, i) => (
@@ -1575,7 +1539,7 @@ function ContactScreen({ onBack }: { onBack: () => void }) {
         <span className="text-sm font-medium">Back</span>
       </button>
 
-      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-2">Contact Us</h1>
+      <h1 className="font-heading text-xl font-normal text-[#4A3F4B] mb-2">Contact Us</h1>
       <p className="text-[14px] text-[#9B9299] mb-6">Have a question, suggestion, or just want to share your story? We&apos;d love to hear from you.</p>
 
       <div className="space-y-4">
@@ -1619,7 +1583,7 @@ function TermsScreen({ onBack }: { onBack: () => void }) {
         <span className="text-sm font-medium">Back</span>
       </button>
 
-      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-2">Terms of Service</h1>
+      <h1 className="font-heading text-xl font-normal text-[#4A3F4B] mb-2">Terms of Service</h1>
       <p className="text-[12px] text-[#9B9299] mb-6">Last updated: January 2025</p>
 
       <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] space-y-5 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
@@ -1673,7 +1637,7 @@ function PrivacyScreen({ onBack }: { onBack: () => void }) {
         <span className="text-sm font-medium">Back</span>
       </button>
 
-      <h1 className="text-xl font-semibold text-[#4A3F4B] mb-2">Privacy Policy</h1>
+      <h1 className="font-heading text-xl font-normal text-[#4A3F4B] mb-2">Privacy Policy</h1>
       <p className="text-[12px] text-[#9B9299] mb-6">Last updated: January 2025</p>
 
       <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC] space-y-5 text-[14px] text-[#4A3F4B]/85 leading-relaxed">
@@ -1750,7 +1714,7 @@ function AffirmationTimeScreen({ onBack }: { onBack: () => void }) {
       </button>
 
       <div className="bg-white rounded-[16px] p-5 border border-[#F5E6DC]">
-        <h1 className="text-[18px] font-semibold text-[#4A3F4B] mb-1">Daily Affirmation</h1>
+        <h1 className="font-heading text-[18px] font-normal text-[#4A3F4B] mb-1">Daily Affirmation</h1>
         <p className="text-[14px] text-[#9B9299] mb-5">Start your day with encouragement</p>
 
         <div className="flex items-center justify-between py-4 border-b border-[#F5E6DC]">
@@ -2063,7 +2027,7 @@ function InsightsScreen({ onBack }: { onBack: () => void }) {
           </svg>
           <span className="text-sm font-medium">Back</span>
         </button>
-        <h1 className="text-lg font-semibold text-[#4A3F4B]">My Insights</h1>
+        <h1 className="font-heading text-lg font-normal text-[#4A3F4B]">My Insights</h1>
         <div className="w-16" />
       </div>
 
@@ -2448,7 +2412,7 @@ function TrackerScreen({ onBack, onSave }: { onBack: () => void; onSave: () => v
           </svg>
           <span className="text-sm font-medium">Back</span>
         </button>
-        <h1 className="text-lg font-semibold text-[#4A3F4B]">Daily Check-In</h1>
+        <h1 className="font-heading text-lg font-normal text-[#4A3F4B]">Daily Check-In</h1>
         <div className="w-16" />
       </div>
 

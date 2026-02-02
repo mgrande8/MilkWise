@@ -9,73 +9,73 @@ export const facts: Fact[] = [
   // MILK COMPOSITION
   {
     id: 1,
-    text: "Your milk changes composition throughout the day — morning milk has more cortisol to energize baby, while evening milk contains more melatonin to promote sleep.",
+    text: "Your body reads the time of day and adjusts your milk accordingly — energizing cortisol in the morning, sleep-promoting melatonin at night. You are your baby's personal circadian clock.",
     source: "Italianer et al., Nutrients, 2020",
     category: 'milk-composition'
   },
   {
     id: 2,
-    text: "Breast milk contains over 200 different sugar molecules (oligosaccharides) that feed beneficial gut bacteria, not the baby directly.",
+    text: "Your body creates over 200 unique sugar molecules in your milk — a complexity no laboratory has ever replicated. What you make is irreplaceable.",
     source: "Bode, Glycobiology, 2012",
     category: 'milk-composition'
   },
   {
     id: 3,
-    text: "Your milk's fat content increases as baby feeds — the 'hindmilk' at the end of a feed has 2-3 times more fat than the 'foremilk' at the start.",
+    text: "As your baby feeds, your milk gets richer — the fat content doubles and even triples by the end of a session. Your body paces the perfect meal every single time.",
     source: "Kent et al., Pediatrics, 2006",
     category: 'milk-composition'
   },
   {
     id: 4,
-    text: "Breast milk is a living fluid containing up to 1 million white blood cells per milliliter — more than blood itself.",
+    text: "Your milk is alive. Each milliliter carries up to one million white blood cells — more than blood itself. You are delivering a living shield to your baby with every feed.",
     source: "Hassiotou et al., Clinical & Translational Immunology, 2013",
     category: 'milk-composition'
   },
   {
     id: 5,
-    text: "When your baby is sick, your body detects pathogens through saliva backwash during nursing and creates targeted antibodies within hours.",
+    text: "When your baby gets sick, their saliva signals your body through the breast, and you create custom antibodies within hours. Your body listens, adapts, and protects — automatically.",
     source: "Riskin et al., Pediatric Research, 2012",
     category: 'milk-composition'
   },
   {
     id: 6,
-    text: "Colostrum, your first milk, is so nutrient-dense that babies only need 1-2 teaspoons per feeding in the first days.",
+    text: "Your very first milk — colostrum — is so perfectly concentrated that your newborn only needs a teaspoon or two per feeding. Small in volume, extraordinary in power.",
     source: "WHO/UNICEF, 2009",
     category: 'milk-composition'
   },
   {
     id: 7,
-    text: "Your milk contains stem cells that can cross into baby's bloodstream and develop into functional cells in their organs.",
+    text: "Your milk contains stem cells that can cross into your baby's body and become functional cells in their organs. You are literally helping build your baby from the inside out.",
     source: "Hassiotou et al., Stem Cells, 2012",
     category: 'milk-composition'
   },
   {
     id: 8,
-    text: "Breast milk contains cannabinoids (endocannabinoids) that stimulate baby's appetite and suckling reflex.",
+    text: "Your body produces natural cannabinoids in your milk that gently stimulate your baby's hunger and suckling instinct. Nature built the perfect appetite system right into you.",
     source: "Fride et al., European Journal of Pharmacology, 2001",
     category: 'milk-composition'
   },
   {
     id: 9,
-    text: "Breast milk is 87% water — staying hydrated is one of the most important things you can do to support milk production.",
+    text: "Your milk is 87% water — every sip you take helps fuel this incredible process. Staying hydrated is one of the most powerful things you can do for yourself and your baby.",
     source: "Neville et al., Handbook of Milk Composition, 1995",
     category: 'milk-composition'
   },
   {
     id: 10,
-    text: "Breast milk contains more than 1,000 different proteins — and scientists are still discovering new ones.",
+    text: "Your body produces over 1,000 unique proteins in your milk — and researchers are still discovering new ones. Science can study what you make, but it cannot fully recreate it.",
     source: "Lonnerdal, American Journal of Clinical Nutrition, 2016",
     category: 'milk-composition'
   },
   {
     id: 11,
-    text: "The bacteria in breast milk help establish baby's gut microbiome — there are 700+ species of bacteria in human milk.",
+    text: "You deliver over 700 species of beneficial bacteria in your milk, seeding your baby's gut with the microbiome they'll carry for life. You are their first ecosystem.",
     source: "Hunt et al., PLoS ONE, 2011",
     category: 'milk-composition'
   },
   {
     id: 12,
-    text: "Breast milk adjusts to your local environment — if you're exposed to pathogens in your area, your milk develops antibodies to protect baby.",
+    text: "Your body scans the environment around you and builds antibodies against local threats, then delivers them straight to your baby. You are a walking, breathing immune system for two.",
     source: "Brandtzaeg, Mucosal Immunology, 2010",
     category: 'milk-composition'
   },
@@ -83,67 +83,67 @@ export const facts: Fact[] = [
   // HORMONES & PHYSIOLOGY
   {
     id: 13,
-    text: "Oxytocin, the 'love hormone' released during breastfeeding, helps your uterus contract back to pre-pregnancy size up to 6 weeks faster.",
+    text: "Every time you nurse, your body releases oxytocin — the love hormone — which helps your uterus heal up to six weeks faster. Feeding your baby is healing you at the same time.",
     source: "Uvnäs-Moberg, Psychoneuroendocrinology, 1998",
     category: 'hormones'
   },
   {
     id: 14,
-    text: "Prolactin, the milk-making hormone, peaks during night feeds — which is why nighttime nursing is crucial for establishing supply.",
+    text: "Your milk-making hormone, prolactin, peaks during the quiet of night. Those midnight feeds aren't just nourishing your baby — they're building your long-term supply. Every one counts.",
     source: "Cregan et al., British Journal of Nutrition, 2002",
     category: 'hormones'
   },
   {
     id: 15,
-    text: "Stress hormones like cortisol and adrenaline can temporarily block the oxytocin reflex that releases milk (letdown).",
+    text: "Stress can temporarily pause your letdown reflex — that's your body's way of protecting you. A few deep breaths can bring it back. Trust your body; it's waiting for the green light.",
     source: "Newton & Newton, Journal of Pediatrics, 1948",
     category: 'hormones'
   },
   {
     id: 16,
-    text: "Your breasts can produce milk independently — if baby nurses more on one side, that breast will produce more milk.",
+    text: "Each of your breasts responds independently to your baby's needs. If your baby nurses more on one side, that breast rises to the occasion and produces more. Your body is always paying attention.",
     source: "Daly et al., Experimental Physiology, 1996",
     category: 'hormones'
   },
   {
     id: 17,
-    text: "Skin-to-skin contact triggers 20+ hormones that support breastfeeding, bonding, and stress reduction in both mom and baby.",
+    text: "When you hold your baby skin-to-skin, over 20 hormones activate at once — supporting your milk, deepening your bond, and calming you both. Your touch is medicine.",
     source: "Bigelow et al., Early Human Development, 2012",
     category: 'hormones'
   },
   {
     id: 18,
-    text: "The hormone prolactin has a calming, anti-anxiety effect — which is why many mothers feel relaxed or sleepy while nursing.",
+    text: "Prolactin doesn't just make milk — it wraps you in calm. That drowsy, peaceful feeling while nursing? That's your body thanking you for nurturing your baby.",
     source: "Groër, Biological Research for Nursing, 2005",
     category: 'hormones'
   },
   {
     id: 19,
-    text: "Your nipples have Montgomery glands that secrete an oily substance with a scent similar to amniotic fluid, helping baby find the breast.",
+    text: "Your body secretes a scent from tiny glands on your nipples that smells like the amniotic fluid your baby already knows. You are their compass — they will always find their way to you.",
     source: "Doucet et al., PLoS ONE, 2009",
     category: 'hormones'
   },
   {
     id: 20,
-    text: "Night feeds are especially important because prolactin levels are highest between 2-5 AM, helping establish long-term supply.",
+    text: "Between 2 and 5 AM, your prolactin surges to its highest levels. Those tired night feeds are your body's most productive building hours. You are laying the foundation while the world sleeps.",
     source: "Cregan et al., British Journal of Nutrition, 2002",
     category: 'hormones'
   },
   {
     id: 21,
-    text: "D-MER (Dysphoric Milk Ejection Reflex) affects 9-14% of breastfeeding mothers — it's caused by a sudden dopamine drop, not psychology.",
+    text: "If you feel a wave of sadness at letdown, you may be experiencing D-MER — a real, hormonal response caused by a dopamine drop, not your emotions. It's not your fault, and it can get better.",
     source: "Heise & Wiessinger, International Breastfeeding Journal, 2011",
     category: 'hormones'
   },
   {
     id: 22,
-    text: "Breastfeeding releases the same oxytocin as an orgasm or falling in love — your body rewards you for nurturing your baby.",
+    text: "Breastfeeding floods your body with the same oxytocin as falling in love. Your biology literally rewards you for this act of nurturing. You deserve to feel that warmth.",
     source: "Uvnäs-Moberg, The Oxytocin Factor, 2003",
     category: 'hormones'
   },
   {
     id: 23,
-    text: "Post-weaning depression is a real phenomenon caused by sudden drops in prolactin and oxytocin — gradual weaning helps prevent it.",
+    text: "Post-weaning sadness is real and hormonal — caused by the sudden drop in prolactin and oxytocin. Gradual weaning can soften the transition. Be gentle with yourself through every stage.",
     source: "Gallup et al., Evolutionary Psychology, 2010",
     category: 'hormones'
   },
@@ -151,31 +151,31 @@ export const facts: Fact[] = [
   // SUPPLY & DEMAND
   {
     id: 24,
-    text: "Breast milk production works on supply and demand — the more milk removed, the more your body makes. Frequency matters more than duration.",
+    text: "Your body follows your baby's lead — the more milk that's removed, the more you produce. Frequency matters more than duration. Every feed is a message to your body: 'Make more.'",
     source: "Kent, Journal of Midwifery & Women's Health, 2007",
     category: 'supply'
   },
   {
     id: 25,
-    text: "Your breasts are never truly 'empty' — they continuously produce milk, like a river, not a reservoir.",
+    text: "Your breasts are never truly empty — they produce milk continuously, like a flowing river. There is always something there for your baby. Trust the flow.",
     source: "Daly & Hartmann, Experimental Physiology, 1995",
     category: 'supply'
   },
   {
     id: 26,
-    text: "Most mothers produce 25-35 ounces of milk per day, regardless of breast size. Storage capacity varies, but daily production is similar.",
+    text: "Most mothers produce 25 to 35 ounces of milk every day, regardless of breast size. Your body was made for this — size has nothing to do with your power.",
     source: "Kent et al., Pediatrics, 2006",
     category: 'supply'
   },
   {
     id: 27,
-    text: "Perceived low milk supply is the #1 reason mothers stop breastfeeding, yet true insufficient supply affects only 1-5% of women.",
+    text: "Worrying about low supply is the number one reason mothers stop — yet true insufficient supply affects only 1 to 5 percent of women. The odds are deeply in your favor.",
     source: "Neifert, Pediatric Clinics of North America, 2001",
     category: 'supply'
   },
   {
     id: 28,
-    text: "Cluster feeding — when baby feeds frequently in short bursts — is normal and signals your body to increase supply for growth spurts.",
+    text: "When your baby cluster feeds — nursing in frequent, hungry bursts — they're sending your body a growth signal. It feels intense, but it means your system is working exactly as designed.",
     source: "Kent et al., Pediatrics, 2006",
     category: 'supply'
   },
@@ -183,37 +183,37 @@ export const facts: Fact[] = [
   // BABY BENEFITS
   {
     id: 29,
-    text: "Breastfed babies have a 36% lower risk of SIDS (Sudden Infant Death Syndrome), with longer breastfeeding duration providing more protection.",
+    text: "Your milk reduces your baby's risk of SIDS by 36 percent. With every feed, you are wrapping your child in an invisible layer of protection that science can measure but never fully explain.",
     source: "Thompson et al., Pediatrics, 2017",
     category: 'baby-benefits'
   },
   {
     id: 30,
-    text: "Each month of breastfeeding reduces a child's risk of obesity by 4%.",
+    text: "Each month you breastfeed lowers your child's risk of obesity by 4 percent. You are shaping their health trajectory one quiet feeding at a time.",
     source: "Harder et al., American Journal of Epidemiology, 2005",
     category: 'baby-benefits'
   },
   {
     id: 31,
-    text: "Breastfed children score 3-7 points higher on IQ tests on average, with the effect stronger in premature infants.",
+    text: "Studies show breastfed children score 3 to 7 points higher on IQ tests. Your milk nourishes more than their body — it fuels the brain they'll think with for a lifetime.",
     source: "Horta et al., Acta Paediatrica, 2015",
     category: 'baby-benefits'
   },
   {
     id: 32,
-    text: "Breast milk provides protection against ear infections, reducing otitis media by 50% in the first year.",
+    text: "Your milk cuts your baby's risk of ear infections in half during the first year. That's your antibodies standing guard, day and night, without you lifting a finger.",
     source: "Bowatte et al., Acta Paediatrica, 2015",
     category: 'baby-benefits'
   },
   {
     id: 33,
-    text: "The antibodies in breast milk coat baby's digestive tract, providing a protective barrier against infections for up to 6 months after weaning.",
+    text: "The antibodies in your milk coat your baby's entire digestive tract like armor, and they keep protecting for up to six months after weaning. Your gift keeps giving long after the last feed.",
     source: "Hanson, Annals of Allergy, Asthma & Immunology, 1998",
     category: 'baby-benefits'
   },
   {
     id: 34,
-    text: "The act of breastfeeding stimulates baby's jaw development, reducing the risk of orthodontic problems later in childhood.",
+    text: "The physical act of nursing shapes your baby's jaw and palate, reducing the chance of orthodontic issues later. You're building their smile while you feed them.",
     source: "Peres et al., Lancet, 2015",
     category: 'baby-benefits'
   },
@@ -221,37 +221,37 @@ export const facts: Fact[] = [
   // MOTHER BENEFITS
   {
     id: 35,
-    text: "Breastfeeding reduces your risk of breast cancer by 4.3% for every 12 months of nursing — the effect is cumulative across children.",
+    text: "Every 12 months of breastfeeding reduces your breast cancer risk by 4.3 percent — and the effect builds across children. Your body remembers every feed and rewards you for it.",
     source: "Collaborative Group on Hormonal Factors in Breast Cancer, Lancet, 2002",
     category: 'mother-benefits'
   },
   {
     id: 36,
-    text: "Women who breastfeed have a 25% lower risk of developing ovarian cancer.",
+    text: "Women who breastfeed have a 25 percent lower risk of ovarian cancer. While you nourish your baby, your body is quietly protecting your future self.",
     source: "Luan et al., American Journal of Obstetrics and Gynecology, 2013",
     category: 'mother-benefits'
   },
   {
     id: 37,
-    text: "Breastfeeding burns 300-500 extra calories per day — equivalent to running 3-5 miles.",
+    text: "Your body burns 300 to 500 extra calories a day while making milk — the equivalent of a long run, accomplished from the comfort of your nursing chair. Your body is working hard, even when you're still.",
     source: "Dewey, American Journal of Clinical Nutrition, 1997",
     category: 'mother-benefits'
   },
   {
     id: 38,
-    text: "Mothers who breastfeed have lower rates of postpartum depression, with oxytocin release providing mood-stabilizing effects.",
+    text: "Breastfeeding releases oxytocin that steadies your mood and lowers the risk of postpartum depression. Every feed is a small act of healing for your mind as well as your baby's body.",
     source: "Figueiredo et al., Journal of Affective Disorders, 2014",
     category: 'mother-benefits'
   },
   {
     id: 39,
-    text: "Breastfeeding for 12+ months reduces your lifetime risk of Type 2 diabetes by up to 50%.",
+    text: "Breastfeeding for 12 or more months can cut your risk of Type 2 diabetes by up to 50 percent. This journey is an investment in your own health that pays dividends for decades.",
     source: "Stuebe et al., JAMA Internal Medicine, 2005",
     category: 'mother-benefits'
   },
   {
     id: 40,
-    text: "Each year of breastfeeding reduces a mother's risk of cardiovascular disease by 9%.",
+    text: "Each year of breastfeeding reduces your risk of heart disease by 9 percent. You are strengthening your own heart every time you feed your baby. That is love made visible in data.",
     source: "Peters et al., Journal of the American Heart Association, 2017",
     category: 'mother-benefits'
   },
@@ -259,43 +259,43 @@ export const facts: Fact[] = [
   // INTERESTING SCIENCE
   {
     id: 41,
-    text: "Breast milk flavor changes based on what you eat — introducing baby to the tastes of your family's diet before solid foods begin.",
+    text: "The flavors of your meals travel into your milk, giving your baby a preview of your family's cuisine before they ever taste solid food. You are their very first chef.",
     source: "Mennella et al., Pediatrics, 2001",
     category: 'science'
   },
   {
     id: 42,
-    text: "Breastfed babies can recognize their mother's milk from another mother's milk by smell alone.",
+    text: "Your baby can distinguish your milk from any other mother's by scent alone. Among all the mothers in the world, your baby knows yours. That bond is chemical, primal, and unbreakable.",
     source: "Marlier & Schaal, Child Development, 2005",
     category: 'science'
   },
   {
     id: 43,
-    text: "The let-down reflex can be triggered by hearing any baby cry, seeing a photo of your baby, or even thinking about nursing.",
+    text: "Your let-down reflex can be triggered by hearing a baby cry, seeing a photo of your little one, or simply thinking about nursing. Your body is always ready, always connected.",
     source: "McNeilly et al., British Medical Journal, 1983",
     category: 'science'
   },
   {
     id: 44,
-    text: "Your breast milk contains pain-relieving compounds (beta-endorphins) that help comfort baby during discomfort or illness.",
+    text: "Your milk contains natural pain-relieving compounds called beta-endorphins that comfort your baby during illness or teething. You carry your own pharmacy, and the prescription is always perfect.",
     source: "Zanardo et al., Pediatric Research, 2001",
     category: 'science'
   },
   {
     id: 45,
-    text: "Newborns can see clearly at about 8-12 inches — exactly the distance to your face while nursing.",
+    text: "Newborns can see clearly at exactly 8 to 12 inches — the precise distance to your face while nursing. Nature designed this moment so your baby can gaze at the person who matters most.",
     source: "Slater et al., Developmental Science, 1998",
     category: 'science'
   },
   {
     id: 46,
-    text: "Your breasts can detect a one-degree change in your baby's body temperature and adjust accordingly.",
+    text: "Your breasts can detect a single degree of change in your baby's temperature and adjust accordingly. Your body is a thermostat, a pharmacy, and a shield — all in one.",
     source: "Ludington-Hoe et al., Neonatal Network, 2006",
     category: 'science'
   },
   {
     id: 47,
-    text: "Looking at photos or videos of your baby while pumping can increase milk output by triggering oxytocin release.",
+    text: "Looking at photos or videos of your baby while pumping can measurably increase your output by triggering oxytocin. Even when you're apart, your love has a physical effect.",
     source: "Keith et al., Breastfeeding Medicine, 2012",
     category: 'science'
   },
@@ -303,25 +303,25 @@ export const facts: Fact[] = [
   // NUTRITION
   {
     id: 48,
-    text: "You need about 500 extra calories per day while breastfeeding — that's more than during pregnancy (which only requires 300 extra).",
+    text: "Your body needs about 500 extra calories a day while breastfeeding — more than during pregnancy itself. Feeding yourself well is not indulgence; it is fuel for something extraordinary.",
     source: "Institute of Medicine, Dietary Reference Intakes, 2005",
     category: 'nutrition'
   },
   {
     id: 49,
-    text: "Galactagogues (foods believed to boost supply) like oats and fenugreek have limited scientific evidence — frequent nursing is what truly increases supply.",
+    text: "While oats and fenugreek get all the credit, the most powerful galactagogue is already inside you: frequent nursing. Your baby at the breast is the best supply-builder science has ever found.",
     source: "Mortel & Mehta, Breastfeeding Medicine, 2013",
     category: 'nutrition'
   },
   {
     id: 50,
-    text: "Alcohol passes into breast milk at about the same concentration as your blood — waiting 2 hours per drink allows it to metabolize.",
+    text: "Alcohol clears from your milk at the same rate as your blood — about two hours per drink. You don't need to pump and dump; you just need to wait. Knowledge replaces guilt.",
     source: "Ho et al., British Journal of Clinical Pharmacology, 2001",
     category: 'nutrition'
   },
   {
     id: 51,
-    text: "Caffeine in breast milk peaks 1-2 hours after you drink it, but most babies tolerate moderate caffeine intake (200-300mg/day) without issues.",
+    text: "Most babies tolerate moderate caffeine in your milk with no issues — 200 to 300 mg a day is considered safe. Go ahead and enjoy that cup of coffee. You've earned it.",
     source: "Berlin et al., Pediatric Research, 1984",
     category: 'nutrition'
   },
@@ -329,13 +329,13 @@ export const facts: Fact[] = [
   // PUMPING & STORAGE
   {
     id: 52,
-    text: "Freshly expressed breast milk can safely stay at room temperature for up to 4 hours, in the refrigerator for 4 days, and frozen for 6-12 months.",
+    text: "Your expressed milk stays safe at room temperature for 4 hours, refrigerated for 4 days, and frozen for up to 12 months. The liquid gold you make today can nourish your baby months from now.",
     source: "CDC Breastfeeding Guidelines, 2022",
     category: 'pumping'
   },
   {
     id: 53,
-    text: "Hand expression can be as effective as pumping — and some mothers find they get more milk with hands than machines.",
+    text: "Your own hands can be as effective as any pump — some mothers get even more milk with hand expression. Your body responds to your own touch in ways machines cannot replicate.",
     source: "Morton et al., Journal of Perinatology, 2009",
     category: 'pumping'
   },
@@ -343,13 +343,13 @@ export const facts: Fact[] = [
   // GLOBAL PERSPECTIVE
   {
     id: 54,
-    text: "The World Health Organization recommends breastfeeding for at least 2 years — the global average weaning age is 2-4 years.",
+    text: "The global average weaning age is 2 to 4 years, and the WHO recommends breastfeeding for at least two. Wherever you are on this timeline, you are part of an ancient, worldwide tradition.",
     source: "WHO Infant and Young Child Feeding Guidelines, 2021",
     category: 'global'
   },
   {
     id: 55,
-    text: "If 90% of families breastfed exclusively for 6 months, the US would save $13 billion annually in healthcare costs.",
+    text: "If most families breastfed exclusively for six months, the US alone would save $13 billion in healthcare costs each year. What you do at home ripples outward in ways you may never see — but the world feels it.",
     source: "Bartick & Reinhold, Pediatrics, 2010",
     category: 'global'
   }

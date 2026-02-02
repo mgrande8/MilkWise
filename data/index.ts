@@ -3,6 +3,7 @@ export * from './symptoms';
 export * from './affirmations';
 export * from './facts';
 export * from './courses';
+export * from './boosters';
 
 // Color palette for the app
 export const colors = {
