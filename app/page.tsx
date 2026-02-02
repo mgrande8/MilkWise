@@ -18,7 +18,7 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, LavenderSprig, CosmosFlower } from "./decorative";
+import { LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, LavenderSprig } from "./decorative";
 import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
@@ -190,11 +190,8 @@ function HomeScreen({
         onClick={handleNewAffirmation}
         className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-warm text-left transition-transform active:scale-[0.98]"
       >
-        <FloralCorner position="top-right" />
-        <FloralCorner position="bottom-left" />
-        <div className="absolute bottom-3 right-14 opacity-[0.4] pointer-events-none">
-          <CosmosFlower size={32} color="#C4887A" />
-        </div>
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-2 -right-2 w-[44px] mix-blend-multiply opacity-80 pointer-events-none" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -bottom-2 -left-2 w-[36px] mix-blend-multiply opacity-60 pointer-events-none rotate-180" />
         <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-3">
           💛 Today&apos;s Affirmation
         </p>
@@ -211,16 +208,14 @@ function HomeScreen({
         </p>
       </button>
 
-      <BranchDivider />
+      <div className="flex justify-center py-3"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" /></div>
 
       {/* Did You Know Card - Sage background */}
       <button
         onClick={handleNewFact}
         className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
       >
-        <div className="absolute top-3 right-4 opacity-[0.4] pointer-events-none">
-          <CosmosFlower size={34} color="#ffffff" />
-        </div>
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute top-2 right-3 w-[38px] mix-blend-multiply opacity-30 pointer-events-none invert" />
         <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
           💡 Did You Know?
         </p>
@@ -237,7 +232,7 @@ function HomeScreen({
         </p>
       </button>
 
-      <BranchDivider />
+      <div className="flex justify-center py-3"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" /></div>
 
       {/* Daily Check-In Card */}
       <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30 shadow-organic">
@@ -263,7 +258,7 @@ function HomeScreen({
         </div>
       </div>
 
-      <BranchDivider />
+      <div className="flex justify-center py-3"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" /></div>
 
       {/* Weekly Progress Tracker */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4 shadow-warm">
@@ -295,7 +290,7 @@ function HomeScreen({
 
       {/* Main branded illustration */}
       <div className="flex justify-center mt-8 mb-2">
-        <img src="/nursing-mother.jpg" alt="" aria-hidden="true" className="w-[280px] mix-blend-multiply" />
+        <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[280px] mix-blend-multiply" />
       </div>
     </div>
   );
@@ -330,9 +325,7 @@ function LearnScreen() {
         <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
           Education Hub
         </h1>
-        <div className="absolute -top-1 right-0 opacity-[0.5] pointer-events-none">
-          <CosmosFlower size={40} color="#8BA888" />
-        </div>
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-2 right-0 w-[40px] mix-blend-multiply opacity-60 pointer-events-none" />
       </div>
       <p className="text-sm text-[#9B9299] mb-6 leading-relaxed">
         Science-backed knowledge to empower your journey
@@ -640,9 +633,7 @@ function SymptomsScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold">
           Browse by Category
         </p>
-        <div className="opacity-[0.55]">
-          <CosmosFlower size={22} color="#8BA888" />
-        </div>
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[20px] mix-blend-multiply opacity-60" />
       </div>
       <div className="grid grid-cols-2 gap-3">
         {[
@@ -1060,9 +1051,7 @@ function CalmScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold">
           Calming Sounds
         </p>
-        <div className="opacity-[0.55]">
-          <CosmosFlower size={22} color="#C4887A" />
-        </div>
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[20px] mix-blend-multiply opacity-60" />
       </div>
       <div className="grid grid-cols-2 gap-3 mb-4">
         {sounds.map((sound) => (
@@ -1245,12 +1234,8 @@ function ProfileScreen() {
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6 relative">
-        <div className="absolute -top-2 -right-2 opacity-[0.45] pointer-events-none">
-          <CosmosFlower size={36} color="#C4887A" />
-        </div>
-        <div className="absolute bottom-8 -left-2 opacity-[0.4] pointer-events-none">
-          <CosmosFlower size={28} color="#8BA888" />
-        </div>
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-2 -right-2 w-[38px] mix-blend-multiply opacity-70 pointer-events-none" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute bottom-8 -left-2 w-[28px] mix-blend-multiply opacity-50 pointer-events-none rotate-45" />
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
         </div>
@@ -1392,7 +1377,11 @@ function ProfileScreen() {
         )}
       </div>
 
-      <div className="text-center mt-10">
+      {/* Feminine body illustration */}
+      <div className="flex justify-center mt-10 mb-4">
+        <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[160px] mix-blend-multiply opacity-80" />
+      </div>
+      <div className="text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
         <p className="text-xs text-[#9B9299] mt-1">Made with 🤍 for breastfeeding mothers</p>
       </div>
