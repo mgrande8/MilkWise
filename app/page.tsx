@@ -188,7 +188,7 @@ function HomeScreen({
       {/* Today's Affirmation Card */}
       <button
         onClick={handleNewAffirmation}
-        className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-warm text-left transition-transform active:scale-[0.98]"
+        className="w-full bg-gradient-to-br from-[#F5E6DC] to-[#FDF8F3] rounded-[20px] p-6 mb-0 relative overflow-hidden shadow-warm text-left transition-transform active:scale-[0.98]"
       >
         <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-2 -right-2 w-[44px] mix-blend-multiply opacity-80 pointer-events-none" />
         <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -bottom-2 -left-2 w-[36px] mix-blend-multiply opacity-60 pointer-events-none rotate-180" />
@@ -208,12 +208,12 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center py-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Did You Know Card - Sage background */}
       <button
         onClick={handleNewFact}
-        className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
+        className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-0 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
       >
         <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
           💡 Did You Know?
@@ -231,10 +231,10 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center py-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Daily Check-In Card */}
-      <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30 shadow-organic">
+      <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-0 border-2 border-[#8BA888]/30 shadow-organic">
         <div className="flex items-start gap-3">
           <div className="text-2xl">📝</div>
           <div className="flex-1">
@@ -257,7 +257,7 @@ function HomeScreen({
         </div>
       </div>
 
-      <div className="flex justify-center py-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Weekly Progress Tracker */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4 shadow-warm">
