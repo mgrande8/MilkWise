@@ -192,8 +192,8 @@ function HomeScreen({
       >
         <FloralCorner position="top-right" />
         <FloralCorner position="bottom-left" />
-        <div className="absolute bottom-3 right-14 opacity-[0.15] pointer-events-none">
-          <CosmosFlower size={28} color="#C4887A" />
+        <div className="absolute bottom-3 right-14 opacity-[0.4] pointer-events-none">
+          <CosmosFlower size={32} color="#C4887A" />
         </div>
         <p className="text-[12px] uppercase tracking-[0.12em] text-[#C4887A] font-semibold mb-3">
           💛 Today&apos;s Affirmation
@@ -218,8 +218,8 @@ function HomeScreen({
         onClick={handleNewFact}
         className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
       >
-        <div className="absolute top-3 right-4 opacity-[0.15] pointer-events-none">
-          <CosmosFlower size={30} color="#ffffff" />
+        <div className="absolute top-3 right-4 opacity-[0.4] pointer-events-none">
+          <CosmosFlower size={34} color="#ffffff" />
         </div>
         <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
           💡 Did You Know?
@@ -294,8 +294,8 @@ function HomeScreen({
       </div>
 
       {/* Main branded illustration — Nursing Mother with Flowers */}
-      <div className="flex justify-center mt-8 mb-2 opacity-[0.22]">
-        <NursingMotherFloral size={260} />
+      <div className="flex justify-center mt-8 mb-2">
+        <NursingMotherFloral size={280} />
       </div>
     </div>
   );
@@ -330,8 +330,8 @@ function LearnScreen() {
         <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
           Education Hub
         </h1>
-        <div className="absolute -top-1 right-0 opacity-[0.18] pointer-events-none">
-          <CosmosFlower size={36} color="#8BA888" />
+        <div className="absolute -top-1 right-0 opacity-[0.5] pointer-events-none">
+          <CosmosFlower size={40} color="#8BA888" />
         </div>
       </div>
       <p className="text-sm text-[#9B9299] mb-6 leading-relaxed">
@@ -557,8 +557,8 @@ function SymptomsScreen() {
       <div className="absolute top-4 -left-16 w-52 h-52 rounded-full bg-[#C4887A] opacity-[0.06] blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-12 w-44 h-44 rounded-full bg-[#8BA888] opacity-[0.04] blur-3xl pointer-events-none" />
       {/* Baby Bottle — large background illustration */}
-      <div className="absolute top-20 right-[-30px] opacity-[0.08] pointer-events-none">
-        <BabyBottle size={220} />
+      <div className="absolute top-20 right-[-30px] opacity-[0.18] pointer-events-none">
+        <BabyBottle size={240} />
       </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
@@ -644,8 +644,8 @@ function SymptomsScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold">
           Browse by Category
         </p>
-        <div className="opacity-[0.2]">
-          <CosmosFlower size={18} color="#8BA888" />
+        <div className="opacity-[0.55]">
+          <CosmosFlower size={22} color="#8BA888" />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -970,8 +970,8 @@ function CalmScreen() {
       <div className="absolute top-8 -right-20 w-60 h-60 rounded-full bg-[#8BA888] opacity-[0.06] blur-3xl pointer-events-none" />
       <div className="absolute top-80 -left-16 w-48 h-48 rounded-full bg-[#C4887A] opacity-[0.04] blur-3xl pointer-events-none" />
       {/* Lavender sprig — top accent */}
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 opacity-[0.12] pointer-events-none">
-        <LavenderSprig size={80} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 opacity-[0.5] pointer-events-none">
+        <LavenderSprig size={90} />
       </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
@@ -1068,8 +1068,8 @@ function CalmScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold">
           Calming Sounds
         </p>
-        <div className="opacity-[0.2]">
-          <CosmosFlower size={18} color="#C4887A" />
+        <div className="opacity-[0.55]">
+          <CosmosFlower size={22} color="#C4887A" />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3 mb-4">
@@ -1201,8 +1201,8 @@ function CalmScreen() {
       </div>
 
       {/* Lavender sprig — bottom accent */}
-      <div className="flex justify-center mt-6 mb-2 opacity-[0.14] pointer-events-none">
-        <LavenderSprig size={90} flip />
+      <div className="flex justify-center mt-6 mb-2 opacity-[0.5] pointer-events-none">
+        <LavenderSprig size={100} flip />
       </div>
     </div>
   );
@@ -1253,11 +1253,11 @@ function ProfileScreen() {
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6 relative">
-        <div className="absolute -top-2 -right-2 opacity-[0.15] pointer-events-none">
-          <CosmosFlower size={32} color="#C4887A" />
+        <div className="absolute -top-2 -right-2 opacity-[0.45] pointer-events-none">
+          <CosmosFlower size={36} color="#C4887A" />
         </div>
-        <div className="absolute bottom-8 -left-2 opacity-[0.12] pointer-events-none">
-          <CosmosFlower size={24} color="#8BA888" />
+        <div className="absolute bottom-8 -left-2 opacity-[0.4] pointer-events-none">
+          <CosmosFlower size={28} color="#8BA888" />
         </div>
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
@@ -1401,8 +1401,8 @@ function ProfileScreen() {
       </div>
 
       {/* Feminine form — signature illustration */}
-      <div className="flex justify-center mt-10 mb-4 opacity-[0.15]">
-        <FeminineForm size={140} />
+      <div className="flex justify-center mt-10 mb-4">
+        <FeminineForm size={150} />
       </div>
       <div className="text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
