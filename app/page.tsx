@@ -18,7 +18,8 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { BranchDivider, FloralCorner, LeafAccent, BlobShape } from "./decorative";
+import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration } from "./decorative";
+import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
 
@@ -170,9 +171,11 @@ function HomeScreen({
   const completedCount = weekDays.filter(d => d.isCompleted).length;
 
   return (
-    <div className="px-5 pt-8 pb-32">
+    <div className="px-5 pt-8 pb-32 relative">
+      <HomeHeaderIllustration />
+
       {/* Personalized Greeting */}
-      <div className="mb-6 animate-fade-in">
+      <div className="mb-6 animate-fade-in relative z-10">
         <h1 className="font-heading text-[28px] font-normal text-[#4A3F4B] tracking-tight">
           {greeting}, {userName} <span className="text-2xl">☀️</span>
         </h1>
@@ -280,6 +283,11 @@ function HomeScreen({
           {completedCount} check-in{completedCount !== 1 ? 's' : ''} this week 🌱
         </p>
       </div>
+
+      {/* Decorative illustration */}
+      <div className="flex justify-center mt-6 opacity-60">
+        <MotherAndBaby size={120} />
+      </div>
     </div>
   );
 }
@@ -306,7 +314,10 @@ function LearnScreen() {
   }
 
   return (
-    <div className="px-5 pt-8 pb-32">
+    <div className="px-5 pt-8 pb-32 relative">
+      <div className="absolute top-4 right-4 opacity-[0.15] pointer-events-none">
+        <LeafSprig size={70} />
+      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Education Hub
       </h1>
@@ -457,9 +468,9 @@ function CourseView({
                 __html: paragraph
                   .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#4A3F4B]">$1</strong>')
                   .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                  .replace(/^- (.*)/gm, '<span class="block ml-4 relative before:content-[\'•\'] before:absolute before:-left-3 before:text-[#C4887A]">$1</span>')
-                  .replace(/^✓ (.*)/gm, '<span class="block ml-4 relative before:content-[\'✓\'] before:absolute before:-left-4 before:text-[#8BA888] before:font-bold">$1</span>')
-                  .replace(/^✗ (.*)/gm, '<span class="block ml-4 relative before:content-[\'✗\'] before:absolute before:-left-4 before:text-[#C4887A] before:font-bold">$1</span>'),
+                  .replace(/^- (.*)/gm, '<span class="block pl-6 my-2 relative"><span class="absolute left-0 top-[2px] w-4 h-4 rounded-full bg-[#C4887A]/15 text-[#C4887A] text-[10px] font-bold leading-4 text-center">&#8226;</span>$1</span>')
+                  .replace(/^✓ (.*)/gm, '<span class="block pl-6 my-2 relative"><span class="absolute left-0 top-0 text-[#8BA888] font-bold text-sm">✓</span>$1</span>')
+                  .replace(/^✗ (.*)/gm, '<span class="block pl-6 my-2 relative"><span class="absolute left-0 top-0 text-[#C4887A] font-bold text-sm">✗</span>$1</span>'),
               }}
             />
           ))}
@@ -529,7 +540,10 @@ function SymptomsScreen() {
   }
 
   return (
-    <div className="px-5 pt-8 pb-32">
+    <div className="px-5 pt-8 pb-32 relative">
+      <div className="absolute top-6 right-4 opacity-[0.12] pointer-events-none">
+        <HeartFloral size={60} />
+      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
       </h1>
@@ -648,7 +662,10 @@ function SymptomDetail({
   onBack: () => void;
 }) {
   return (
-    <div className="px-5 pt-6 pb-32">
+    <div className="px-5 pt-6 pb-32 relative">
+      <div className="absolute top-4 right-4 opacity-[0.1] pointer-events-none">
+        <MagnoliaFlower size={70} color="#C4887A" />
+      </div>
       {/* Back button */}
       <button
         onClick={onBack}
@@ -785,15 +802,41 @@ function SymptomDetail({
 // ============================================
 // CALM SCREEN
 // ============================================
+const breathingExercises = [
+  { id: '478', name: '4-7-8 Breathing', desc: 'Calming sleep technique', phases: [
+    { text: "Breathe in...", duration: 4000, scale: 1.3 },
+    { text: "Hold...", duration: 7000, scale: 1.3 },
+    { text: "Breathe out...", duration: 8000, scale: 1 },
+  ]},
+  { id: 'box', name: 'Box Breathing', desc: 'Balanced & grounding', phases: [
+    { text: "Breathe in...", duration: 4000, scale: 1.3 },
+    { text: "Hold...", duration: 4000, scale: 1.3 },
+    { text: "Breathe out...", duration: 4000, scale: 1 },
+    { text: "Hold...", duration: 4000, scale: 1 },
+  ]},
+  { id: 'calming', name: 'Calming Breath', desc: 'Long exhale for peace', phases: [
+    { text: "Breathe in...", duration: 4000, scale: 1.3 },
+    { text: "Breathe out slowly...", duration: 8000, scale: 1 },
+  ]},
+  { id: 'energizing', name: 'Energizing Breath', desc: 'Quick refresh', phases: [
+    { text: "Breathe in...", duration: 3000, scale: 1.3 },
+    { text: "Breathe out...", duration: 3000, scale: 1 },
+  ]},
+];
+
 function CalmScreen() {
   const [breathingActive, setBreathingActive] = useState(false);
   const [breathPhase, setBreathPhase] = useState("Ready");
   const [breathScale, setBreathScale] = useState(1);
+  const [selectedExercise, setSelectedExercise] = useState('478');
   const [activeSound, setActiveSound] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.7);
   const [completedBoosters, setCompletedBoosters] = useState<string[]>([]);
+  const [shuffledBoosters, setShuffledBoosters] = useState<Booster[]>(() => getDailyBoosters(8));
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const currentExercise = breathingExercises.find(e => e.id === selectedExercise) || breathingExercises[0];
 
   useEffect(() => {
     // Load completed boosters from localStorage
@@ -814,21 +857,16 @@ function CalmScreen() {
       return;
     }
 
+    const exercise = breathingExercises.find(e => e.id === selectedExercise) || breathingExercises[0];
     let timeoutId: NodeJS.Timeout;
-    const phases = [
-      { text: "Breathe in...", duration: 4000, scale: 1.3 },
-      { text: "Hold...", duration: 7000, scale: 1.3 },
-      { text: "Breathe out...", duration: 8000, scale: 1 },
-      { text: "Hold...", duration: 4000, scale: 1 },
-    ];
 
     const runCycle = (idx: number) => {
       if (!breathingActive) return;
-      const phase = phases[idx];
+      const phase = exercise.phases[idx];
       setBreathPhase(phase.text);
       setBreathScale(phase.scale);
       timeoutId = setTimeout(() => {
-        runCycle((idx + 1) % phases.length);
+        runCycle((idx + 1) % exercise.phases.length);
       }, phase.duration);
     };
 
@@ -837,7 +875,7 @@ function CalmScreen() {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [breathingActive]);
+  }, [breathingActive, selectedExercise]);
 
   // Cleanup audio on unmount
   useEffect(() => {
@@ -855,7 +893,17 @@ function CalmScreen() {
     { id: 'brownnoise', name: "Brown Noise", icon: "☁️", file: "/sounds/brownnoise.mp3" },
   ];
 
-  const boosters = getDailyBoosters(8);
+  const handleShuffleBoosters = () => {
+    const all = [...allBoostersPool];
+    for (let i = all.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [all[i], all[j]] = [all[j], all[i]];
+    }
+    setShuffledBoosters(all.slice(0, 8));
+    setCompletedBoosters([]);
+    const today = new Date().toISOString().split('T')[0];
+    localStorage.setItem('todayBoosters', JSON.stringify({ date: today, completed: [] }));
+  };
 
   const playSound = (sound: typeof sounds[0]) => {
     if (activeSound === sound.id && isPlaying) {
@@ -893,12 +941,13 @@ function CalmScreen() {
   };
 
   const completedCount = completedBoosters.length;
-  const totalCount = boosters.length;
+  const totalCount = shuffledBoosters.length;
 
   return (
     <div className="px-5 pt-8 pb-32">
       <audio ref={audioRef} />
 
+      <CalmHeaderIllustration className="mb-2 opacity-60" />
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
@@ -909,9 +958,33 @@ function CalmScreen() {
       {/* Breathing Exercise */}
       <div className="bg-gradient-to-br from-[#B8D4B5] to-[#8BA888]/50 rounded-[20px] p-8 text-center mb-6 relative overflow-hidden">
         <BlobShape className="-top-10 -left-10 opacity-50" color="#8BA888" />
-        <p className="text-[11px] uppercase tracking-[0.15em] text-[#4A3F4B]/60 font-semibold mb-5">
-          4-7-8 Breathing
+        <div className="absolute top-3 right-3 opacity-30">
+          <BreathingFlower size={36} />
+        </div>
+        <p className="font-heading text-[16px] font-normal text-[#4A3F4B]/80 mb-1">
+          {currentExercise.name}
         </p>
+        <p className="text-[12px] text-[#4A3F4B]/50 mb-4">{currentExercise.desc}</p>
+
+        {/* Exercise selector pills */}
+        {!breathingActive && (
+          <div className="flex flex-wrap justify-center gap-2 mb-5">
+            {breathingExercises.map((ex) => (
+              <button
+                key={ex.id}
+                onClick={() => setSelectedExercise(ex.id)}
+                className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-all ${
+                  selectedExercise === ex.id
+                    ? 'bg-white text-[#8BA888] shadow-md'
+                    : 'bg-white/30 text-[#4A3F4B]/60 hover:bg-white/50'
+                }`}
+              >
+                {ex.name}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div
           className="w-32 h-32 rounded-full bg-white/40 backdrop-blur-sm flex items-center justify-center mx-auto mb-6 transition-transform duration-1000 ease-in-out"
           style={{ transform: `scale(${breathScale})` }}
@@ -976,6 +1049,8 @@ function CalmScreen() {
         </div>
       )}
 
+      <FloralDividerSmall />
+
       {/* Oxytocin Boosters */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-3">
@@ -996,7 +1071,7 @@ function CalmScreen() {
       </div>
 
       <div className="space-y-3 mb-4">
-        {boosters.map((booster) => (
+        {shuffledBoosters.map((booster) => (
           <button
             key={booster.id}
             onClick={() => toggleBooster(booster.id)}
@@ -1026,6 +1101,17 @@ function CalmScreen() {
         ))}
       </div>
 
+      {/* Shuffle button */}
+      <button
+        onClick={handleShuffleBoosters}
+        className="w-full flex items-center justify-center gap-2 py-3 mt-1 mb-2 text-[13px] text-[#C4887A] font-medium hover:text-[#b37a6d] transition-colors"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.992 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182M21.015 4.356v4.992" />
+        </svg>
+        Shuffle Boosters
+      </button>
+
       {completedCount > 0 && (
         <div className="bg-[#8BA888] rounded-[12px] p-4 text-center text-white font-medium">
           {completedCount >= 5
@@ -1037,9 +1123,12 @@ function CalmScreen() {
         </div>
       )}
 
-      {/* Quote */}
-      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center">
-        <p className="text-[14px] text-[#4A3F4B] italic leading-relaxed">
+      {/* Quote with illustration */}
+      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center relative overflow-hidden">
+        <div className="absolute -bottom-2 -right-2 opacity-[0.1] pointer-events-none">
+          <NursingMother size={90} />
+        </div>
+        <p className="font-heading text-[14px] text-[#4A3F4B] italic leading-relaxed relative z-10">
           &quot;Rest is not a reward. It&apos;s a requirement.&quot;
         </p>
       </div>
@@ -1083,7 +1172,10 @@ function ProfileScreen() {
   if (currentView === 'insights') return <InsightsScreen onBack={() => setCurrentView('main')} />;
 
   return (
-    <div className="px-5 pt-8 pb-32">
+    <div className="px-5 pt-8 pb-32 relative">
+      <div className="absolute top-6 right-4 opacity-[0.12] pointer-events-none">
+        <FloralWreathSmall size={80} />
+      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-6 tracking-tight">
         Profile
       </h1>
