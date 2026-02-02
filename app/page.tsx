@@ -208,14 +208,13 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center py-3"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" /></div>
+      <div className="flex justify-center py-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Did You Know Card - Sage background */}
       <button
         onClick={handleNewFact}
         className="w-full bg-gradient-to-br from-[#8BA888] to-[#7A9A77] rounded-[20px] p-6 mb-4 relative overflow-hidden shadow-organic text-left transition-transform active:scale-[0.98]"
       >
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute top-2 right-3 w-[38px] mix-blend-multiply opacity-30 pointer-events-none invert" />
         <p className="text-[12px] uppercase tracking-[0.12em] text-white/80 font-semibold mb-3">
           💡 Did You Know?
         </p>
@@ -232,7 +231,7 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center py-3"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" /></div>
+      <div className="flex justify-center py-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Daily Check-In Card */}
       <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-4 border-2 border-[#8BA888]/30 shadow-organic">
@@ -258,7 +257,7 @@ function HomeScreen({
         </div>
       </div>
 
-      <div className="flex justify-center py-3"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" /></div>
+      <div className="flex justify-center py-1"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Weekly Progress Tracker */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4 shadow-warm">
@@ -290,7 +289,7 @@ function HomeScreen({
 
       {/* Main branded illustration */}
       <div className="flex justify-center mt-8 mb-2">
-        <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[280px] mix-blend-multiply" />
+        <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[320px] mix-blend-multiply" />
       </div>
     </div>
   );
@@ -633,7 +632,7 @@ function SymptomsScreen() {
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold">
           Browse by Category
         </p>
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[20px] mix-blend-multiply opacity-60" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[32px] mix-blend-multiply opacity-70" />
       </div>
       <div className="grid grid-cols-2 gap-3">
         {[
@@ -1234,8 +1233,8 @@ function ProfileScreen() {
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6 relative">
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-2 -right-2 w-[38px] mix-blend-multiply opacity-70 pointer-events-none" />
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute bottom-8 -left-2 w-[28px] mix-blend-multiply opacity-50 pointer-events-none rotate-45" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute -top-3 -right-3 w-[50px] mix-blend-multiply opacity-70 pointer-events-none" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="absolute bottom-6 -left-3 w-[40px] mix-blend-multiply opacity-55 pointer-events-none rotate-45" />
         <div className="w-20 h-20 rounded-full bg-[#8BA888] flex items-center justify-center mb-3">
           <span className="text-3xl font-semibold text-white">{user.initials}</span>
         </div>
@@ -1378,8 +1377,8 @@ function ProfileScreen() {
       </div>
 
       {/* Feminine body illustration */}
-      <div className="flex justify-center mt-10 mb-4">
-        <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[160px] mix-blend-multiply opacity-80" />
+      <div className="flex justify-center mt-5 mb-2">
+        <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[200px] mix-blend-multiply opacity-80" />
       </div>
       <div className="text-center">
         <p className="text-sm text-[#9B9299]">MilkWise v1.0.0</p>
