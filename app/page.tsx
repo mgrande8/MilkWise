@@ -208,7 +208,7 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center -my-8"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-12"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Did You Know Card - Sage background */}
       <button
@@ -231,7 +231,7 @@ function HomeScreen({
         </p>
       </button>
 
-      <div className="flex justify-center -my-8"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-12"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Daily Check-In Card */}
       <div className="bg-[#8BA888]/10 rounded-[20px] p-5 mb-0 border-2 border-[#8BA888]/30 shadow-organic">
@@ -257,7 +257,7 @@ function HomeScreen({
         </div>
       </div>
 
-      <div className="flex justify-center -my-8"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
+      <div className="flex justify-center -my-12"><img src="/laurel-divider.jpg" alt="" aria-hidden="true" className="w-[220px] mix-blend-multiply" /></div>
 
       {/* Weekly Progress Tracker */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-4 shadow-warm">
@@ -288,7 +288,7 @@ function HomeScreen({
       </div>
 
       {/* Main branded illustration */}
-      <div className="flex justify-center mt-8 mb-2">
+      <div className="flex justify-center -mb-12">
         <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[320px] mix-blend-multiply" />
       </div>
     </div>
@@ -1377,7 +1377,7 @@ function ProfileScreen() {
       </div>
 
       {/* Feminine body illustration */}
-      <div className="flex justify-center mt-2 mb-1">
+      <div className="flex justify-center -mb-12">
         <img src="/feminine-body.jpg" alt="" aria-hidden="true" className="w-[280px] mix-blend-multiply opacity-80" />
       </div>
       <div className="text-center">
