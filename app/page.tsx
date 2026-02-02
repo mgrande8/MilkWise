@@ -288,7 +288,7 @@ function HomeScreen({
       </div>
 
       {/* Main branded illustration */}
-      <div className="flex justify-center -mb-16">
+      <div className="flex justify-center -mb-20">
         <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[320px] mix-blend-multiply" />
       </div>
     </div>
