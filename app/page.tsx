@@ -18,7 +18,7 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration } from "./decorative";
+import { BranchDivider, FloralCorner, LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, HomeHeroArt, LearnHeroArt, SearchHeroArt, CalmHeroArt, ProfileHeroArt } from "./decorative";
 import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
@@ -284,9 +284,9 @@ function HomeScreen({
         </p>
       </div>
 
-      {/* Decorative illustration */}
-      <div className="flex justify-center mt-6 opacity-60">
-        <MotherAndBaby size={120} />
+      {/* Hero illustration */}
+      <div className="flex justify-center mt-6 mb-2">
+        <HomeHeroArt className="opacity-[0.45]" />
       </div>
     </div>
   );
@@ -315,8 +315,9 @@ function LearnScreen() {
 
   return (
     <div className="px-5 pt-8 pb-32 relative">
-      <div className="absolute top-4 right-4 opacity-[0.15] pointer-events-none">
-        <LeafSprig size={70} />
+      {/* Hero illustration */}
+      <div className="flex justify-center mb-4">
+        <LearnHeroArt className="opacity-[0.4]" />
       </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Education Hub
@@ -541,8 +542,9 @@ function SymptomsScreen() {
 
   return (
     <div className="px-5 pt-8 pb-32 relative">
-      <div className="absolute top-6 right-4 opacity-[0.12] pointer-events-none">
-        <HeartFloral size={60} />
+      {/* Hero illustration */}
+      <div className="flex justify-center mb-4">
+        <SearchHeroArt className="opacity-[0.4]" />
       </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Is This Normal?
@@ -947,7 +949,10 @@ function CalmScreen() {
     <div className="px-5 pt-8 pb-32">
       <audio ref={audioRef} />
 
-      <CalmHeaderIllustration className="mb-2 opacity-60" />
+      {/* Hero illustration */}
+      <div className="flex justify-center mb-2">
+        <CalmHeroArt className="opacity-[0.4]" />
+      </div>
       <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-1 tracking-tight">
         Find Your Calm
       </h1>
@@ -955,50 +960,87 @@ function CalmScreen() {
         Help your body feel safe enough to make milk
       </p>
 
-      {/* Breathing Exercise */}
-      <div className="bg-gradient-to-br from-[#B8D4B5] to-[#8BA888]/50 rounded-[20px] p-8 text-center mb-6 relative overflow-hidden">
-        <BlobShape className="-top-10 -left-10 opacity-50" color="#8BA888" />
-        <div className="absolute top-3 right-3 opacity-30">
-          <BreathingFlower size={36} />
-        </div>
-        <p className="font-heading text-[16px] font-normal text-[#4A3F4B]/80 mb-1">
-          {currentExercise.name}
-        </p>
-        <p className="text-[12px] text-[#4A3F4B]/50 mb-4">{currentExercise.desc}</p>
+      {/* Breathing Exercises */}
+      <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold mb-3">
+        Breathing Exercises
+      </p>
+      <p className="text-[13px] text-[#9B9299] mb-4">
+        Tap any exercise to begin
+      </p>
 
-        {/* Exercise selector pills */}
-        {!breathingActive && (
-          <div className="flex flex-wrap justify-center gap-2 mb-5">
-            {breathingExercises.map((ex) => (
-              <button
-                key={ex.id}
-                onClick={() => setSelectedExercise(ex.id)}
-                className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-all ${
-                  selectedExercise === ex.id
-                    ? 'bg-white text-[#8BA888] shadow-md'
-                    : 'bg-white/30 text-[#4A3F4B]/60 hover:bg-white/50'
-                }`}
-              >
-                {ex.name}
-              </button>
-            ))}
+      {/* Active breathing exercise */}
+      {breathingActive && (
+        <div className="bg-gradient-to-br from-[#B8D4B5] to-[#8BA888]/50 rounded-[20px] p-8 text-center mb-4 relative overflow-hidden">
+          <BlobShape className="-top-10 -left-10 opacity-50" color="#8BA888" />
+          <div className="absolute top-3 right-3 opacity-30">
+            <BreathingFlower size={36} />
           </div>
-        )}
+          <p className="font-heading text-[18px] font-normal text-[#4A3F4B]/80 mb-1">
+            {currentExercise.name}
+          </p>
+          <p className="text-[12px] text-[#4A3F4B]/50 mb-6">{currentExercise.desc}</p>
 
-        <div
-          className="w-32 h-32 rounded-full bg-white/40 backdrop-blur-sm flex items-center justify-center mx-auto mb-6 transition-transform duration-1000 ease-in-out"
-          style={{ transform: `scale(${breathScale})` }}
-        >
-          <span className="text-[15px] font-medium text-[#4A3F4B]">
-            {breathPhase}
-          </span>
+          <div
+            className="w-36 h-36 rounded-full bg-white/40 backdrop-blur-sm flex items-center justify-center mx-auto mb-6 transition-transform duration-1000 ease-in-out"
+            style={{ transform: `scale(${breathScale})` }}
+          >
+            <span className="text-[16px] font-medium text-[#4A3F4B]">
+              {breathPhase}
+            </span>
+          </div>
+          <button
+            onClick={() => setBreathingActive(false)}
+            className="bg-white px-8 py-3 rounded-full text-[15px] font-semibold text-[#C4887A] shadow-lg hover:shadow-xl transition-shadow"
+          >
+            Stop
+          </button>
         </div>
-        <button
-          onClick={() => setBreathingActive(!breathingActive)}
-          className="bg-white px-8 py-3 rounded-full text-[15px] font-semibold text-[#8BA888] shadow-lg hover:shadow-xl transition-shadow"
-        >
-          {breathingActive ? "Stop" : "Start Breathing"}
-        </button>
+      )}
+
+      {/* Exercise cards - tappable to start */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        {breathingExercises.map((ex) => {
+          const isActive = breathingActive && selectedExercise === ex.id;
+          const timingLabel = ex.id === '478' ? '4-7-8' : ex.id === 'box' ? '4-4-4-4' : ex.id === 'calming' ? '4-8' : '3-3';
+          return (
+            <button
+              key={ex.id}
+              onClick={() => {
+                if (isActive) {
+                  setBreathingActive(false);
+                } else {
+                  setSelectedExercise(ex.id);
+                  setBreathingActive(false);
+                  setTimeout(() => setBreathingActive(true), 50);
+                }
+              }}
+              className={`rounded-[16px] p-4 text-left border-2 transition-all relative overflow-hidden ${
+                isActive
+                  ? 'bg-[#8BA888] border-[#8BA888] text-white shadow-organic'
+                  : 'bg-white border-[#E5E5E5] hover:border-[#8BA888] hover:shadow-warm'
+              }`}
+            >
+              {isActive && (
+                <span className="absolute top-2 right-2 text-xs animate-pulse text-white/80">●</span>
+              )}
+              <div className="flex items-center gap-2 mb-2">
+                <BreathingFlower size={20} color={isActive ? "#ffffff" : "#8BA888"} />
+                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                  isActive ? 'bg-white/20 text-white' : 'bg-[#8BA888]/10 text-[#8BA888]'
+                }`}>{timingLabel}</span>
+              </div>
+              <p className={`text-[14px] font-semibold mb-1 ${isActive ? 'text-white' : 'text-[#4A3F4B]'}`}>
+                {ex.name}
+              </p>
+              <p className={`text-[12px] ${isActive ? 'text-white/80' : 'text-[#9B9299]'}`}>
+                {ex.desc}
+              </p>
+              <p className={`text-[11px] mt-2 font-medium ${isActive ? 'text-white/70' : 'text-[#C4887A]'}`}>
+                {isActive ? 'Tap to stop' : 'Tap to begin →'}
+              </p>
+            </button>
+          );
+        })}
       </div>
 
       {/* Soothing Sounds */}
@@ -1173,12 +1215,14 @@ function ProfileScreen() {
 
   return (
     <div className="px-5 pt-8 pb-32 relative">
-      <div className="absolute top-6 right-4 opacity-[0.12] pointer-events-none">
-        <FloralWreathSmall size={80} />
-      </div>
-      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-6 tracking-tight">
+      <h1 className="font-heading text-[24px] font-normal text-[#4A3F4B] mb-2 tracking-tight">
         Profile
       </h1>
+
+      {/* Hero illustration */}
+      <div className="flex justify-center mb-4">
+        <ProfileHeroArt className="opacity-[0.35]" />
+      </div>
 
       {/* User Header */}
       <div className="flex flex-col items-center mb-6">
