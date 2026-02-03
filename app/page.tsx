@@ -628,11 +628,11 @@ function SymptomsScreen() {
       </div>
 
       {/* Browse by Category */}
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center mb-3">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#8BA888] font-semibold">
           Browse by Category
         </p>
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[110px] mix-blend-multiply opacity-75" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[110px] -ml-8 -my-8 mix-blend-multiply opacity-75" />
       </div>
       <div className="grid grid-cols-2 gap-3">
         {[
