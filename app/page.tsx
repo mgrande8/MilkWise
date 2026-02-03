@@ -18,7 +18,7 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, LavenderSprig } from "./decorative";
+import { LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration } from "./decorative";
 import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
@@ -1168,19 +1168,16 @@ function CalmScreen() {
         </div>
       )}
 
-      {/* Quote with illustration */}
-      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center relative overflow-hidden">
-        <div className="absolute -bottom-6 -right-6 opacity-[0.20] pointer-events-none">
-          <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" />
-        </div>
-        <p className="font-heading text-[14px] text-[#4A3F4B] italic leading-relaxed relative z-10">
+      {/* Quote */}
+      <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center">
+        <p className="font-heading text-[14px] text-[#4A3F4B] italic leading-relaxed">
           &quot;Rest is not a reward. It&apos;s a requirement.&quot;
         </p>
       </div>
 
-      {/* Lavender sprig — bottom accent */}
-      <div className="flex justify-center mt-6 mb-2 opacity-[0.5] pointer-events-none">
-        <LavenderSprig size={100} flip />
+      {/* Nursing mother — bottom accent */}
+      <div className="flex justify-center -mb-20">
+        <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[320px] mix-blend-multiply" />
       </div>
     </div>
   );
