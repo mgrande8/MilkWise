@@ -18,7 +18,7 @@ import {
   type Fact,
   type Booster,
 } from "../data";
-import { LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, NursingMother, FloralDividerSmall, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, LavenderSprig } from "./decorative";
+import { LeafAccent, BlobShape, HomeHeaderIllustration, MagnoliaFlower, LeafSprig, MotherAndBaby, FloralWreathSmall, HeartFloral, BreathingFlower, CalmHeaderIllustration, LavenderSprig } from "./decorative";
 import { boosters as allBoostersPool } from "../data/boosters";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCheckIn } from "@/contexts/CheckInContext";
@@ -1046,11 +1046,11 @@ function CalmScreen() {
       </div>
 
       {/* Soothing Sounds */}
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center mb-3">
         <p className="text-[11px] uppercase tracking-[0.15em] text-[#C4887A] font-semibold">
           Calming Sounds
         </p>
-        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[110px] mix-blend-multiply opacity-75" />
+        <img src="/flower-accent.jpg" alt="" aria-hidden="true" className="w-[110px] -ml-8 -my-8 mix-blend-multiply opacity-75" />
       </div>
       <div className="grid grid-cols-2 gap-3 mb-4">
         {sounds.map((sound) => (
@@ -1095,8 +1095,6 @@ function CalmScreen() {
           </button>
         </div>
       )}
-
-      <FloralDividerSmall />
 
       {/* Oxytocin Boosters */}
       <div className="mb-4">
@@ -1172,8 +1170,8 @@ function CalmScreen() {
 
       {/* Quote with illustration */}
       <div className="bg-[#F5E6DC]/50 rounded-[16px] p-5 mt-6 text-center relative overflow-hidden">
-        <div className="absolute -bottom-4 -right-4 opacity-[0.25] pointer-events-none">
-          <NursingMother size={110} />
+        <div className="absolute -bottom-6 -right-6 opacity-[0.20] pointer-events-none">
+          <img src="/nursing-mother-2.jpg" alt="" aria-hidden="true" className="w-[180px] mix-blend-multiply" />
         </div>
         <p className="font-heading text-[14px] text-[#4A3F4B] italic leading-relaxed relative z-10">
           &quot;Rest is not a reward. It&apos;s a requirement.&quot;

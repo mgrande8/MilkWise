@@ -1722,6 +1722,153 @@ Whether you breastfed for days, months, or years — your body did something ext
 Take care of yourself in this next chapter, too. You've earned it.`
       }
     ]
+  },
+
+  // COURSE 8: Lifting Yourself Up During Breastfeeding
+  {
+    id: 'postpartum-uplift',
+    title: 'Lifting Yourself Up: Mind, Body & Spirit During Breastfeeding',
+    description: 'Activities, herbs, and research-backed ways to nurture yourself while nurturing your baby',
+    icon: '🌻',
+    readTime: '10 min',
+    isPro: true,
+    color: '#B8D4B5',
+    sections: [
+      {
+        title: 'You Deserve to Feel Good, Too',
+        content: `Breastfeeding is one of the most generous things you can do for another human being. But somewhere along the way, many mothers absorb the message that their own well-being should come last.
+
+This course is here to challenge that. You cannot pour from an empty cup — and science backs this up. Research published in the Journal of Human Lactation shows that maternal well-being is directly linked to breastfeeding success. When you feel supported, rested, and emotionally nourished, your body responds with better milk flow, stronger letdown, and more consistent supply.
+
+So this isn't about indulgence. It's about strategy. Taking care of yourself IS taking care of your baby.`
+      },
+      {
+        title: 'Movement That Heals',
+        content: `Your body just did something extraordinary. Now it needs gentle movement — not punishment, not "bouncing back," but healing motion that supports your recovery and your mood.
+
+**Walking** — A 2019 study in the British Journal of Sports Medicine found that just 10 minutes of brisk walking can significantly improve mood for up to two hours. Walking with your baby in a carrier or stroller gives you fresh air, sunlight, and gentle cardiovascular exercise without strain.
+
+**Postnatal Yoga** — Research from the International Journal of Yoga shows that postnatal yoga reduces cortisol levels and improves sleep quality in new mothers. Gentle poses like cat-cow, child's pose, and supported bridge help release tension from nursing postures.
+
+**Dancing** — Put on music you love and sway with your baby. A study from the University of Oxford found that synchronized movement releases endorphins and strengthens bonding. Your baby feels your heartbeat, hears the music, and feels safe.
+
+**Swimming** — Once cleared by your provider (usually 6 weeks postpartum), swimming is one of the most supportive forms of exercise. The buoyancy takes pressure off healing joints while giving you a full-body endorphin boost.
+
+**Stretching** — Even 5 minutes of neck rolls, chest openers, and hip stretches can counteract the hunched posture of nursing. These micro-movements improve blood flow and reduce the back and shoulder pain that many breastfeeding mothers experience.`
+      },
+      {
+        title: 'Galactagogue Herbs: Nature\'s Milk Supporters',
+        content: `For centuries, cultures around the world have used specific herbs to support lactation. Modern research is beginning to confirm what traditional medicine has long known.
+
+**Fenugreek** — One of the most studied galactagogues. A 2018 systematic review in Phytotherapy Research found that fenugreek significantly increased breast milk production in multiple trials. It works by stimulating sweat glands (mammary glands are modified sweat glands). Typical dose: 1-2 capsules three times daily, or as a tea.
+
+**Fennel** — Contains anethole, a compound with estrogen-like properties that may support milk production. A study in the Journal of Ethnopharmacology showed fennel tea increased breast milk volume and fat content. It also helps with infant colic when compounds pass through breast milk.
+
+**Blessed Thistle** — Often paired with fenugreek. Research suggests it stimulates blood flow to the mammary glands and supports digestive health. Available as capsules or tea.
+
+**Moringa (Malunggay)** — A 2016 randomized controlled trial in the Journal of Medicinal Food found that moringa leaf supplements significantly increased milk volume in breastfeeding mothers. Rich in iron, calcium, and vitamins A and C.
+
+**Shatavari** — An Ayurvedic herb used for millennia to support lactation. A study published in the Iranian Journal of Pharmaceutical Research found it increased prolactin levels in nursing mothers. Available as powder or capsules.
+
+**Brewer's Yeast** — While not technically an herb, it's rich in B vitamins, iron, and chromium. Many mothers report increased supply. It's a key ingredient in "lactation cookies."
+
+**Important:** Always consult your healthcare provider before starting any herbal supplement, especially if you take medications or have health conditions. Start one herb at a time to monitor for reactions.`
+      },
+      {
+        title: 'Foods That Fuel Your Supply',
+        content: `What you eat matters — not because you need a perfect diet, but because your body is working overtime and deserves premium fuel.
+
+**Oats** — A traditional galactagogue in many cultures. Oats contain iron (low iron is linked to reduced supply), saponins that may influence hormones related to milk production, and beta-glucan fiber that supports steady energy.
+
+**Salmon and Fatty Fish** — Rich in omega-3 fatty acids (DHA), which are critical for your baby's brain development and pass directly through breast milk. A 2020 study in Nutrients showed that maternal omega-3 intake improved both milk quality and maternal mood.
+
+**Dark Leafy Greens** — Spinach, kale, and collards are rich in calcium, iron, folate, and phytoestrogens that may support lactation. They also contain tryptophan, a precursor to serotonin.
+
+**Nuts and Seeds** — Almonds, cashews, and sesame seeds are traditional lactation foods in many Asian cultures. They provide healthy fats, protein, and minerals. Flaxseed is particularly rich in lignans, which have mild estrogenic activity.
+
+**Hydration** — You need roughly 128 oz (about 1 gallon) of fluid daily while breastfeeding. Coconut water is excellent — it's naturally rich in electrolytes. Keep a water bottle within arm's reach every time you nurse.
+
+**Bone Broth** — Warm, nourishing, and rich in collagen, glycine, and minerals. Many postpartum traditions around the world center on warm broths for new mothers. The warmth alone supports relaxation and letdown.`
+      },
+      {
+        title: 'The Science of Postpartum Mood',
+        content: `Understanding what's happening in your brain can be incredibly empowering. You're not "just emotional" — your neurochemistry is undergoing one of the most dramatic shifts in human biology.
+
+**The Hormonal Landscape** — After delivery, estrogen and progesterone drop by up to 90% within 48 hours. This is one of the steepest hormone shifts the human body ever experiences. Meanwhile, prolactin and oxytocin rise to support milk production and bonding.
+
+**The Baby Blues vs. PPD** — Up to 80% of new mothers experience the "baby blues" (mood swings, crying, anxiety) in the first two weeks. This is normal and resolves on its own. If symptoms persist beyond two weeks, intensify, or include thoughts of harming yourself or your baby, this may be postpartum depression (PPD) and you should reach out to your provider immediately. PPD affects 1 in 7 mothers and is highly treatable.
+
+**Oxytocin: Your Built-In Antidepressant** — Every time you breastfeed, your body releases oxytocin. Research in Psychoneuroendocrinology shows that breastfeeding mothers have lower cortisol responses to stress. Your nursing sessions are literally rewiring your brain for calm.
+
+**Sleep and Mood** — A landmark study in Sleep Medicine Reviews found that sleep deprivation is the single strongest predictor of postpartum depression. Prioritizing sleep isn't selfish — it's medicine. Even one extra hour per night significantly reduces PPD risk.
+
+**Sunlight and Vitamin D** — Research in the Journal of Affective Disorders links low vitamin D levels with increased risk of postpartum depression. Just 15-20 minutes of morning sunlight helps regulate your circadian rhythm, boost serotonin, and support your vitamin D levels.`
+      },
+      {
+        title: 'Daily Rituals for Resilience',
+        content: `Small, consistent rituals create an anchor of calm in the unpredictable storm of new motherhood. These aren't luxuries — they're research-backed strategies for emotional resilience.
+
+**Morning Sunlight (5-10 min)** — Step outside or sit by a window within the first hour of waking. Morning light resets your circadian clock, boosts cortisol at the right time, and sets you up for better sleep later. A 2021 study from Stanford found this is one of the single most impactful habits for mental health.
+
+**Gratitude Journaling (2 min)** — Write three things you're grateful for each morning. Research from UC Davis shows this practice reduces stress hormones and increases life satisfaction within just two weeks.
+
+**Warm Drinks Before Nursing** — Making yourself a cup of warm tea or broth before each feeding creates a Pavlovian relaxation response. Over time, the warmth alone begins to trigger letdown.
+
+**One Song, One Dance** — Put on a song you love and move. It doesn't matter how. Neuroscience research from McGill University shows that listening to music you enjoy releases dopamine at levels comparable to food or other rewards.
+
+**Evening Body Scan (5 min)** — Before sleep, lie down and mentally scan from head to toes, consciously relaxing each area. A meta-analysis in JAMA Internal Medicine found this practice significantly improves sleep quality.
+
+**Phone a Friend** — Social connection is one of the strongest predictors of postpartum mental health. A 2020 study in Maternal and Child Health Journal found that mothers with strong social support had 60% lower rates of PPD. Even a 5-minute voice call counts.`
+      },
+      {
+        title: 'When to Ask for Help',
+        content: `Asking for help is not failure. It is one of the bravest, most self-aware things a mother can do. Here are signs it's time to reach out:
+
+**Contact your healthcare provider if you experience:**
+• Persistent sadness or emptiness lasting more than two weeks
+• Difficulty bonding with your baby
+• Withdrawing from family and friends
+• Loss of appetite or eating much more than usual
+• Inability to sleep even when baby is sleeping
+• Overwhelming fatigue or loss of energy
+• Intense irritability or anger
+• Fear that you're not a good mother
+• Thoughts of harming yourself or your baby
+
+**Resources available to you:**
+• **Postpartum Support International Helpline:** 1-800-944-4773 (call or text)
+• **Crisis Text Line:** Text HOME to 741741
+• **SAMHSA National Helpline:** 1-800-662-4357
+• **La Leche League International:** llli.org — free breastfeeding support and local groups
+• **Lactation Consultants (IBCLCs):** Ask your provider for a referral
+
+**Therapy options that work:**
+Research strongly supports Cognitive Behavioral Therapy (CBT) and Interpersonal Therapy (IPT) for postpartum mood disorders. Many therapists now offer telehealth sessions, which means you can attend from home while baby naps or nurses.
+
+You are not alone. You are not broken. You are a mother navigating one of life's most profound transitions — and there are people trained and ready to walk alongside you.`
+      },
+      {
+        title: 'A Letter to You',
+        content: `Dear mama,
+
+You woke up today and chose your baby again. You fed them, held them, comforted them — maybe through exhaustion, maybe through pain, maybe through tears. And you did it anyway.
+
+That is not small. That is everything.
+
+The world will tell you to do more, be more, recover faster, look better, feel grateful every second. But here is what's actually true: you are allowed to struggle and still be an extraordinary mother. Those two things can live in the same body, in the same day, in the same breath.
+
+Your milk is not just food. It's immunity, comfort, connection, and love made physical. Every time you nurse, you are giving your baby something no one else on this planet can give them. That is your superpower.
+
+But you matter too. Not just as a mother — as a person. Your joy matters. Your rest matters. Your dreams still matter.
+
+So take the walk. Drink the tea. Call the friend. Ask for the help. Buy the flowers for yourself. Dance in the kitchen. Cry when you need to. Laugh when you can.
+
+You are doing the hardest, most beautiful job in the world. And you are doing it with more grace than you realize.
+
+With love and solidarity,
+MilkWise 🌻`
+      }
+    ]
   }
 ];
 
