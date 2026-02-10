@@ -154,3 +154,96 @@ h1, h2 {
   border: 1.5px solid rgba(139, 168, 136, 0.25);
   border-radius: 20px;
 }
+
+/* Report card staggered entrance */
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card-enter {
+  opacity: 0;
+  animation: cardSlideUp 0.5s ease-out forwards;
+}
+
+/* Ring chart animation */
+@keyframes ringFill {
+  from {
+    stroke-dashoffset: var(--ring-circumference, 283);
+  }
+  to {
+    stroke-dashoffset: var(--ring-offset, 0);
+  }
+}
+
+.animate-ring {
+  animation: ringFill 1.2s ease-out forwards;
+}
+
+/* Bar grow animation */
+@keyframes barGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-bar-grow {
+  transform-origin: left;
+  animation: barGrow 0.8s ease-out forwards;
+}
+
+/* Shimmer loading placeholder */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #F5E6DC 25%, #FFFBF7 50%, #F5E6DC 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Chart bar column grow */
+@keyframes colGrow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.animate-col-grow {
+  transform-origin: bottom;
+  animation: colGrow 0.6s ease-out forwards;
+}
+
+/* Counter number animation */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-count-up {
+  animation: countUp 0.5s ease-out forwards;
+}

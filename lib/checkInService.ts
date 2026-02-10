@@ -115,17 +115,24 @@ export const deleteCheckIn = async (checkInId: string): Promise<{ error: any }> 
 }
 
 // Calculate day score (same logic as before)
-export const calculateDayScore = (checkIn: CheckIn): number => {
+export const calculateDayScore = (checkIn: CheckIn, isWeaning: boolean = false): number => {
   let score = 0
   let maxScore = 0
 
-  // Feeds (0-20 points)
+  // Feeds (0-20 points) — weaning uses lower thresholds
   maxScore += 20
   if (checkIn.feeds_count !== null) {
-    if (checkIn.feeds_count >= 8) score += 20
-    else if (checkIn.feeds_count >= 6) score += 15
-    else if (checkIn.feeds_count >= 4) score += 10
-    else score += 5
+    if (isWeaning) {
+      if (checkIn.feeds_count >= 4) score += 20
+      else if (checkIn.feeds_count >= 3) score += 15
+      else if (checkIn.feeds_count >= 2) score += 10
+      else score += 5
+    } else {
+      if (checkIn.feeds_count >= 8) score += 20
+      else if (checkIn.feeds_count >= 6) score += 15
+      else if (checkIn.feeds_count >= 4) score += 10
+      else score += 5
+    }
   }
 
   // Wet diapers (0-15 points)

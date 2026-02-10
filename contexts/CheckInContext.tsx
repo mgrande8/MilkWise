@@ -16,9 +16,9 @@ interface CheckInContextType {
   recentCheckIns: CheckIn[]
   allCheckIns: CheckIn[]
   loading: boolean
-  saveCheckIn: (data: Partial<CheckIn>) => Promise<{ error: any }>
+  saveCheckIn: (data: Partial<CheckIn>, date?: Date) => Promise<{ error: any }>
   refreshCheckIns: () => Promise<void>
-  getScoreForDate: (date: Date) => number | null
+  getScoreForDate: (date: Date, isWeaning?: boolean) => number | null
 }
 
 const CheckInContext = createContext<CheckInContextType | undefined>(undefined)
@@ -60,24 +60,30 @@ export function CheckInProvider({ children }: { children: ReactNode }) {
     refreshCheckIns()
   }, [refreshCheckIns])
 
-  const saveCheckIn = async (data: Partial<CheckIn>) => {
+  const saveCheckIn = async (data: Partial<CheckIn>, date?: Date) => {
     if (!user) return { error: 'Not logged in' }
 
-    const { data: saved, error } = await saveCheckInToDb(user.id, new Date(), data)
+    const targetDate = date || new Date()
+    const { data: saved, error } = await saveCheckInToDb(user.id, targetDate, data)
 
     if (!error && saved) {
-      setTodayCheckIn(saved)
+      // Update todayCheckIn only if saving for today
+      const todayStr = new Date().toISOString().split('T')[0]
+      const savedStr = targetDate.toISOString().split('T')[0]
+      if (todayStr === savedStr) {
+        setTodayCheckIn(saved)
+      }
       await refreshCheckIns()
     }
 
     return { error }
   }
 
-  const getScoreForDate = (date: Date): number | null => {
+  const getScoreForDate = (date: Date, isWeaning: boolean = false): number | null => {
     const dateStr = date.toISOString().split('T')[0]
     const checkIn = allCheckIns.find(c => c.date === dateStr)
     if (!checkIn) return null
-    return calculateDayScore(checkIn)
+    return calculateDayScore(checkIn, isWeaning)
   }
 
   return (
